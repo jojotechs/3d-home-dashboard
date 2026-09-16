@@ -69,3 +69,5 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 ### Domain docs
 
 单一领域上下文：根目录 `CONTEXT.md` + `docs/adr/`。见 `docs/agents/domain.md`。
+
+- UI architecture correction (2026-09-17): authentication is an app-level concern. Use a standalone login dialog; put account identity and logout in a persistent screen-corner control. Every module entry (map, directory, today/tasks, recommendations) must pass one shared authentication and permission gate: signed-out users see login and resume their intended destination after success, denied users see a separate permission dialog. Keep login/account UI out of feature panels. UI responsibilities must remain decoupled as carefully as code modules. Current living/travel demos require household membership; finance additionally requires the existing finance grant.

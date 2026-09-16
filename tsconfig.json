@@ -5,5 +5,5 @@
     "strict": true, "noEmit": true, "allowJs": true, "checkJs": false,
     "skipLibCheck": true, "types": ["vite/client"]
   },
-  "include": ["src/finance/**/*.ts", "src/finance/**/*.tsx"]
+  "include": ["src/finance/**/*.ts", "src/finance/**/*.tsx", "src/auth/**/*.ts", "src/auth/**/*.tsx"]
 }

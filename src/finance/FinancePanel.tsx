@@ -1,45 +1,16 @@
-import {useEffect, useRef, useState, useSyncExternalStore} from 'react';
-import type {Session, SupabaseClient} from '@supabase/supabase-js';
-import {financeClient, financeError, getFinanceAuth, subscribeFinanceAuth, signOutFinance} from './client';
+import {useEffect, useRef, useState} from 'react';
+import type {SupabaseClient} from '@supabase/supabase-js';
+import {appClient, isAccessError} from '../auth/client';
+import {financeError} from './client';
 import type {BalanceRequest, FinanceSnapshot} from './client';
 import {formatRmb, inputRmb, parseRmb} from './money.mjs';
 import './finance.css';
 
-export function FinancePanel() {
-  const auth = useSyncExternalStore(subscribeFinanceAuth, getFinanceAuth);
-  const session = auth.session;
-  if (!financeClient) return <div className="finance-book"><h2>家庭财务账尚未连接</h2><p>云服务配置完成后，即可登录并保存余额。</p><p className="finance-muted">财务暂以基础街区展示。其他地区仍为本机示例。</p></div>;
-  if (auth.status === 'signingOut') return <div className="finance-book" role="status">正在退出登录…</div>;
-  if (auth.status === 'checking') return <div className="finance-book" role="status">正在确认登录状态…</div>;
-  if (!session) return <Login client={financeClient}/>;
-  return <BalanceBook key={session.user.id} client={financeClient} session={session}/>;
+export function FinancePanel({onAccessDenied}: {onAccessDenied: () => void}) {
+  return appClient ? <BalanceBook client={appClient} onAccessDenied={onAccessDenied}/> : null;
 }
 
-function Login({client}: {client: SupabaseClient}) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState('');
-  return <form className="finance-book finance-login" onSubmit={async event => {
-    event.preventDefault(); if (busy) return;
-    setBusy(true); setError('');
-    try {
-      const result = await client.auth.signInWithPassword({email: email.trim(), password});
-      if (result.error) setError('登录失败，请检查邮箱、密码和网络连接。');
-      else setPassword('');
-    } catch { setError('暂时无法登录，请检查网络后重试。'); }
-    finally { setBusy(false); }
-  }}>
-    <div><span className="eyebrow">家庭共同记录</span><h2>登录家庭财务账</h2><p>使用管理员已开通的账号，查看与保存真实余额。</p></div>
-    <label>邮箱<input type="email" autoComplete="username" value={email} onChange={e => setEmail(e.target.value)} required disabled={busy}/></label>
-    <label>密码<input type="password" autoComplete="current-password" value={password} onChange={e => setPassword(e.target.value)} required disabled={busy}/></label>
-    {error && <p role="alert">{error}</p>}
-    <button className="primary" disabled={busy}>{busy ? '正在登录…' : '登录'}</button>
-    <p className="finance-muted">仅限已开通账号。财务记录保存在云端，其他地区仍为本机示例。</p>
-  </form>;
-}
-
-function BalanceBook({client, session}: {client: SupabaseClient; session: Session}) {
+function BalanceBook({client, onAccessDenied}: {client: SupabaseClient; onAccessDenied: () => void}) {
   const [snapshot, setSnapshot] = useState<FinanceSnapshot | null>(null);
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
@@ -79,8 +50,8 @@ function BalanceBook({client, session}: {client: SupabaseClient; session: Sessio
       } else setNotice('已读取最新记录。你的输入仍保留，请核对下方云端余额后再保存。');
     } catch (failure) {
       if (alive.current && generation === operation.current) {
-        if ((failure as {code?: string})?.code === '42501') setSnapshot(null);
-        setError((failure as {code?: string})?.code === '42501' ? financeError(failure) : '暂时无法读取最新记录，请检查连接后重试。');
+        if (isAccessError(failure)) {setSnapshot(null); onAccessDenied();}
+        setError(isAccessError(failure) ? financeError(failure) : '暂时无法读取最新记录，请检查连接后重试。');
       }
     } finally {
       if (alive.current && generation === operation.current) setLoading(false);
@@ -115,7 +86,7 @@ function BalanceBook({client, session}: {client: SupabaseClient; session: Sessio
       if (alive.current && generation === operation.current) {
         setError(financeError(failure));
         if ((failure as {code?: string})?.code === 'PT409') setConflict(true);
-        if ((failure as {code?: string})?.code === '42501') setSnapshot(null);
+        if (isAccessError(failure)) {setSnapshot(null); onAccessDenied();}
       }
     } finally {
       working.current = false;
@@ -124,7 +95,6 @@ function BalanceBook({client, session}: {client: SupabaseClient; session: Sessio
   }
 
   return <div className="finance-book">
-    <div className="finance-account"><span>{snapshot?.household_name ?? '家庭财务账'}<small>{session.user.email}</small></span><button type="button" className="text-button" onClick={() => {void signOutFinance().catch(() => {});}}>退出登录</button></div>
     {loading && <p role="status">正在读取云端记录…</p>}
     {error && <p className="finance-error" role="alert">{error}</p>}
     {!loading && !snapshot && <button className="primary" onClick={() => void read(false)}>重新读取</button>}
