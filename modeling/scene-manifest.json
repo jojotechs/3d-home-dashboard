@@ -1,0 +1,1529 @@
+{
+  "schema_version": "1.3",
+  "status": "travel_and_mobility_0.5",
+  "coordinate_system": {
+    "units": "meters",
+    "source_up": "Z",
+    "north_axis": "+Y",
+    "source_to_web_y_up": "[x,y,z] -> [x,z,-y]",
+    "district_export_root": "local_zero_apply_world_center_once"
+  },
+  "scene": {
+    "name": "家庭小城",
+    "seed": 20260915,
+    "land_bounds_xy_m": [
+      -161,
+      -160,
+      315,
+      140
+    ],
+    "ground_z_m": 0,
+    "water_z_m": -1.2,
+    "asset_status": "airport_island_and_coastal_station_0.5"
+  },
+  "camera": {
+    "position_blender_m": [
+      90,
+      -285,
+      255
+    ],
+    "target_blender_m": [
+      0,
+      0,
+      0
+    ],
+    "vertical_fov_degrees": 40,
+    "orbit_elevation_degrees": [
+      25,
+      70
+    ],
+    "distance_m": [
+      90,
+      480
+    ],
+    "pan_target_bounds_xy_m": [
+      -115,
+      -90,
+      115,
+      90
+    ],
+    "focus_padding_fraction": 0.15,
+    "focus_duration_ms": 450,
+    "collision_check_required": true
+  },
+  "districts": [
+    {
+      "district_id": "finance",
+      "label": "财务市区",
+      "world_center_blender_m": [
+        -76,
+        56,
+        0
+      ],
+      "footprint_xy_m": [
+        60,
+        44
+      ],
+      "max_building_height_m": 60,
+      "theme_color": "#287BEE",
+      "export_file": "district_finance.glb",
+      "root_node": "district_finance",
+      "local_label_anchor_m": [
+        0,
+        0,
+        57
+      ],
+      "local_focus_anchor_m": [
+        0,
+        0,
+        18.0
+      ],
+      "required_nodes": [
+        "static_finance",
+        "dynamic_finance",
+        "anchor_label_finance",
+        "anchor_focus_finance",
+        "hit_finance"
+      ],
+      "architecture_brief": "modeling/finance-design.md",
+      "asset_version": "0.4"
+    },
+    {
+      "district_id": "health",
+      "label": "健康公园",
+      "world_center_blender_m": [
+        38,
+        56,
+        0
+      ],
+      "footprint_xy_m": [
+        136,
+        44
+      ],
+      "max_building_height_m": 9,
+      "theme_color": "#ED7185",
+      "export_file": "district_health.glb",
+      "root_node": "district_health",
+      "local_label_anchor_m": [
+        0,
+        0,
+        12
+      ],
+      "local_focus_anchor_m": [
+        0,
+        0,
+        3.0
+      ],
+      "required_nodes": [
+        "static_health",
+        "dynamic_health",
+        "anchor_label_health",
+        "anchor_focus_health",
+        "hit_health"
+      ]
+    },
+    {
+      "district_id": "home",
+      "label": "中央住宅",
+      "world_center_blender_m": [
+        0,
+        0,
+        0
+      ],
+      "footprint_xy_m": [
+        60,
+        40
+      ],
+      "max_building_height_m": 14,
+      "theme_color": "#18A995",
+      "export_file": "district_home.glb",
+      "root_node": "district_home",
+      "local_label_anchor_m": [
+        0,
+        0,
+        16
+      ],
+      "local_focus_anchor_m": [
+        0,
+        0,
+        4.5
+      ],
+      "required_nodes": [
+        "static_home",
+        "dynamic_home",
+        "anchor_label_home",
+        "anchor_focus_home",
+        "hit_home"
+      ]
+    },
+    {
+      "district_id": "learning",
+      "label": "学习街区",
+      "world_center_blender_m": [
+        76,
+        0,
+        0
+      ],
+      "footprint_xy_m": [
+        60,
+        40
+      ],
+      "max_building_height_m": 22,
+      "theme_color": "#8663D9",
+      "export_file": "district_learning.glb",
+      "root_node": "district_learning",
+      "local_label_anchor_m": [
+        0,
+        0,
+        19
+      ],
+      "local_focus_anchor_m": [
+        0,
+        0,
+        5.333333333333333
+      ],
+      "required_nodes": [
+        "static_learning",
+        "dynamic_learning",
+        "anchor_label_learning",
+        "anchor_focus_learning",
+        "hit_learning"
+      ]
+    },
+    {
+      "district_id": "habits",
+      "label": "习惯农场",
+      "world_center_blender_m": [
+        -76,
+        -24,
+        0
+      ],
+      "footprint_xy_m": [
+        60,
+        92
+      ],
+      "max_building_height_m": 16,
+      "theme_color": "#27835E",
+      "export_file": "district_habits.glb",
+      "root_node": "district_habits",
+      "local_label_anchor_m": [
+        0,
+        0,
+        17
+      ],
+      "local_focus_anchor_m": [
+        0,
+        0,
+        4.666666666666667
+      ],
+      "required_nodes": [
+        "static_habits",
+        "dynamic_habits",
+        "anchor_label_habits",
+        "anchor_focus_habits",
+        "hit_habits"
+      ]
+    },
+    {
+      "district_id": "cars",
+      "label": "双车车厂",
+      "world_center_blender_m": [
+        0,
+        -56,
+        0
+      ],
+      "footprint_xy_m": [
+        60,
+        40
+      ],
+      "max_building_height_m": 9,
+      "theme_color": "#3588E5",
+      "export_file": "district_cars.glb",
+      "root_node": "district_cars",
+      "local_label_anchor_m": [
+        0,
+        0,
+        12
+      ],
+      "local_focus_anchor_m": [
+        0,
+        0,
+        3.0
+      ],
+      "required_nodes": [
+        "static_cars",
+        "dynamic_cars",
+        "anchor_label_cars",
+        "anchor_focus_cars",
+        "hit_cars"
+      ]
+    },
+    {
+      "district_id": "chores",
+      "label": "家务清理",
+      "world_center_blender_m": [
+        76,
+        -56,
+        0
+      ],
+      "footprint_xy_m": [
+        60,
+        40
+      ],
+      "max_building_height_m": 10,
+      "theme_color": "#D7A72C",
+      "export_file": "district_chores.glb",
+      "root_node": "district_chores",
+      "local_label_anchor_m": [
+        0,
+        0,
+        13
+      ],
+      "local_focus_anchor_m": [
+        0,
+        0,
+        3.3333333333333335
+      ],
+      "required_nodes": [
+        "static_chores",
+        "dynamic_chores",
+        "anchor_label_chores",
+        "anchor_focus_chores",
+        "hit_chores"
+      ]
+    },
+    {
+      "district_id": "airport",
+      "label": "海岛机场",
+      "world_center_blender_m": [
+        237,
+        -103,
+        0
+      ],
+      "footprint_xy_m": [
+        152,
+        176
+      ],
+      "max_building_height_m": 22,
+      "theme_color": "#4C96B4",
+      "export_file": "district_airport.glb",
+      "root_node": "district_airport",
+      "local_label_anchor_m": [
+        0,
+        0,
+        24
+      ],
+      "local_focus_anchor_m": [
+        0,
+        0,
+        7.333333333333333
+      ],
+      "required_nodes": [
+        "static_airport",
+        "dynamic_airport",
+        "anchor_label_airport",
+        "anchor_focus_airport",
+        "hit_airport"
+      ]
+    },
+    {
+      "district_id": "rail",
+      "label": "滨海高铁站",
+      "world_center_blender_m": [
+        28,
+        103,
+        0
+      ],
+      "footprint_xy_m": [
+        78,
+        28
+      ],
+      "max_building_height_m": 10,
+      "theme_color": "#578F87",
+      "export_file": "district_rail.glb",
+      "root_node": "district_rail",
+      "local_label_anchor_m": [
+        0,
+        0,
+        12
+      ],
+      "local_focus_anchor_m": [
+        0,
+        0,
+        3.3333333333333335
+      ],
+      "required_nodes": [
+        "static_rail",
+        "dynamic_rail",
+        "anchor_label_rail",
+        "anchor_focus_rail",
+        "hit_rail"
+      ]
+    }
+  ],
+  "roads": [
+    {
+      "id": "outer_loop",
+      "width_m": 6,
+      "centerline_xy_m": [
+        [
+          -114,
+          -86
+        ],
+        [
+          114,
+          -86
+        ],
+        [
+          114,
+          86
+        ],
+        [
+          -114,
+          86
+        ],
+        [
+          -114,
+          -86
+        ]
+      ]
+    },
+    {
+      "id": "west_avenue",
+      "width_m": 6,
+      "centerline_xy_m": [
+        [
+          -38,
+          -86
+        ],
+        [
+          -38,
+          86
+        ]
+      ]
+    },
+    {
+      "id": "east_avenue",
+      "width_m": 6,
+      "centerline_xy_m": [
+        [
+          38,
+          -86
+        ],
+        [
+          38,
+          28
+        ]
+      ]
+    },
+    {
+      "id": "north_cross",
+      "width_m": 6,
+      "centerline_xy_m": [
+        [
+          -114,
+          28
+        ],
+        [
+          114,
+          28
+        ]
+      ]
+    },
+    {
+      "id": "south_cross",
+      "width_m": 6,
+      "centerline_xy_m": [
+        [
+          -38,
+          -28
+        ],
+        [
+          114,
+          -28
+        ]
+      ]
+    },
+    {
+      "id": "bridge",
+      "width_m": 6,
+      "centerline_xy_m": [
+        [
+          114,
+          -28
+        ],
+        [
+          173,
+          -72.25
+        ]
+      ],
+      "kind": "bridge",
+      "connects_to": "airport"
+    }
+  ],
+  "assets": [
+    {
+      "asset_id": "terrain",
+      "district_id": "shared",
+      "lod0_triangle_budget_per_unique_mesh": 18000,
+      "variant_count": 1,
+      "reuse": "single_mesh",
+      "dynamic": false,
+      "notes": "连续地形；海岸不得侵占区块与道路"
+    },
+    {
+      "asset_id": "water",
+      "district_id": "shared",
+      "lod0_triangle_budget_per_unique_mesh": 2000,
+      "variant_count": 1,
+      "reuse": "single_mesh",
+      "dynamic": true,
+      "notes": "轻量波纹；不依赖折射"
+    },
+    {
+      "asset_id": "road_straight",
+      "district_id": "shared",
+      "lod0_triangle_budget_per_unique_mesh": 100,
+      "variant_count": 1,
+      "reuse": "shared_mesh_instances",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "road_corner",
+      "district_id": "shared",
+      "lod0_triangle_budget_per_unique_mesh": 300,
+      "variant_count": 1,
+      "reuse": "shared_mesh_instances",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "road_junction",
+      "district_id": "shared",
+      "lod0_triangle_budget_per_unique_mesh": 300,
+      "variant_count": 1,
+      "reuse": "shared_mesh_instances",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "bridge_segment",
+      "district_id": "shared",
+      "lod0_triangle_budget_per_unique_mesh": 1500,
+      "variant_count": 1,
+      "reuse": "shared_mesh_instances",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "tree",
+      "district_id": "shared",
+      "lod0_triangle_budget_per_unique_mesh": 500,
+      "variant_count": 3,
+      "reuse": "shared_mesh_instances",
+      "dynamic": false,
+      "notes": "阔叶、针叶、开花树"
+    },
+    {
+      "asset_id": "shrub",
+      "district_id": "shared",
+      "lod0_triangle_budget_per_unique_mesh": 200,
+      "variant_count": 2,
+      "reuse": "shared_mesh_instances",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "rock",
+      "district_id": "shared",
+      "lod0_triangle_budget_per_unique_mesh": 200,
+      "variant_count": 3,
+      "reuse": "shared_mesh_instances",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "fence",
+      "district_id": "shared",
+      "lod0_triangle_budget_per_unique_mesh": 150,
+      "variant_count": 2,
+      "reuse": "shared_mesh_instances",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "lamp",
+      "district_id": "shared",
+      "lod0_triangle_budget_per_unique_mesh": 250,
+      "variant_count": 1,
+      "reuse": "shared_mesh_instances",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "bench",
+      "district_id": "shared",
+      "lod0_triangle_budget_per_unique_mesh": 400,
+      "variant_count": 1,
+      "reuse": "shared_mesh_instances",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "resident",
+      "district_id": "shared",
+      "lod0_triangle_budget_per_unique_mesh": 1200,
+      "variant_count": 3,
+      "reuse": "shared_mesh_instances",
+      "dynamic": true,
+      "notes": "简单待机；骨骼可选"
+    },
+    {
+      "asset_id": "tower_base",
+      "district_id": "finance",
+      "lod0_triangle_budget_per_unique_mesh": 3000,
+      "variant_count": 2,
+      "reuse": "shared_mesh_instances",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "tower_floor",
+      "district_id": "finance",
+      "lod0_triangle_budget_per_unique_mesh": 800,
+      "variant_count": 3,
+      "reuse": "shared_mesh_instances",
+      "dynamic": true,
+      "notes": "叠加楼层，门窗不拉伸"
+    },
+    {
+      "asset_id": "tower_roof",
+      "district_id": "finance",
+      "lod0_triangle_budget_per_unique_mesh": 1200,
+      "variant_count": 3,
+      "reuse": "shared_mesh_instances",
+      "dynamic": true,
+      "notes": ""
+    },
+    {
+      "asset_id": "tower_landmark",
+      "district_id": "finance",
+      "lod0_triangle_budget_per_unique_mesh": 8000,
+      "variant_count": 2,
+      "reuse": "shared_mesh_instances",
+      "dynamic": true,
+      "notes": ""
+    },
+    {
+      "asset_id": "barn",
+      "district_id": "habits",
+      "lod0_triangle_budget_per_unique_mesh": 4500,
+      "variant_count": 1,
+      "reuse": "single_mesh",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "greenhouse",
+      "district_id": "habits",
+      "lod0_triangle_budget_per_unique_mesh": 2500,
+      "variant_count": 1,
+      "reuse": "single_mesh",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "windmill",
+      "district_id": "habits",
+      "lod0_triangle_budget_per_unique_mesh": 2500,
+      "variant_count": 1,
+      "reuse": "split_nodes",
+      "dynamic": true,
+      "notes": "叶片绕轴独立旋转"
+    },
+    {
+      "asset_id": "plot_base",
+      "district_id": "habits",
+      "lod0_triangle_budget_per_unique_mesh": 300,
+      "variant_count": 3,
+      "reuse": "shared_mesh_instances",
+      "dynamic": false,
+      "notes": "花圃、菜地、动物围栏"
+    },
+    {
+      "asset_id": "flower_clump",
+      "district_id": "habits",
+      "lod0_triangle_budget_per_unique_mesh": 200,
+      "variant_count": 6,
+      "reuse": "shared_mesh_instances",
+      "dynamic": true,
+      "notes": "两类花，每类幼小/成熟/丰富三档"
+    },
+    {
+      "asset_id": "crop_clump",
+      "district_id": "habits",
+      "lod0_triangle_budget_per_unique_mesh": 250,
+      "variant_count": 6,
+      "reuse": "shared_mesh_instances",
+      "dynamic": true,
+      "notes": "两类菜，每类三档"
+    },
+    {
+      "asset_id": "farm_animal",
+      "district_id": "habits",
+      "lod0_triangle_budget_per_unique_mesh": 800,
+      "variant_count": 6,
+      "reuse": "shared_mesh_instances",
+      "dynamic": true,
+      "notes": "鸡/羊及围栏组合三档"
+    },
+    {
+      "asset_id": "recycling_building",
+      "district_id": "chores",
+      "lod0_triangle_budget_per_unique_mesh": 4500,
+      "variant_count": 1,
+      "reuse": "single_mesh",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "collection_bay",
+      "district_id": "chores",
+      "lod0_triangle_budget_per_unique_mesh": 400,
+      "variant_count": 1,
+      "reuse": "shared_mesh_instances",
+      "dynamic": false,
+      "notes": "无垃圾类别文字"
+    },
+    {
+      "asset_id": "rubbish_group",
+      "district_id": "chores",
+      "lod0_triangle_budget_per_unique_mesh": 900,
+      "variant_count": 3,
+      "reuse": "shared_mesh_instances",
+      "dynamic": true,
+      "notes": "小、中、大独立组"
+    },
+    {
+      "asset_id": "collection_truck",
+      "district_id": "chores",
+      "lod0_triangle_budget_per_unique_mesh": 5000,
+      "variant_count": 1,
+      "reuse": "split_nodes",
+      "dynamic": true,
+      "notes": "车身与轮子原点分开"
+    },
+    {
+      "asset_id": "garage_shell",
+      "district_id": "cars",
+      "lod0_triangle_budget_per_unique_mesh": 6500,
+      "variant_count": 1,
+      "reuse": "single_mesh",
+      "dynamic": false,
+      "notes": "双工位共用固定建筑"
+    },
+    {
+      "asset_id": "household_car",
+      "district_id": "cars",
+      "lod0_triangle_budget_per_unique_mesh": 6000,
+      "variant_count": 2,
+      "reuse": "split_nodes",
+      "dynamic": false,
+      "notes": "car_a/car_b；颜色不作为业务标识"
+    },
+    {
+      "asset_id": "tool_trolley",
+      "district_id": "cars",
+      "lod0_triangle_budget_per_unique_mesh": 800,
+      "variant_count": 1,
+      "reuse": "shared_mesh_instances",
+      "dynamic": true,
+      "notes": ""
+    },
+    {
+      "asset_id": "compressor",
+      "district_id": "cars",
+      "lod0_triangle_budget_per_unique_mesh": 700,
+      "variant_count": 1,
+      "reuse": "shared_mesh_instances",
+      "dynamic": true,
+      "notes": ""
+    },
+    {
+      "asset_id": "parts_crate",
+      "district_id": "cars",
+      "lod0_triangle_budget_per_unique_mesh": 250,
+      "variant_count": 1,
+      "reuse": "shared_mesh_instances",
+      "dynamic": true,
+      "notes": ""
+    },
+    {
+      "asset_id": "work_order",
+      "district_id": "cars",
+      "lod0_triangle_budget_per_unique_mesh": 100,
+      "variant_count": 1,
+      "reuse": "shared_mesh_instances",
+      "dynamic": true,
+      "notes": "行政待办道具"
+    },
+    {
+      "asset_id": "track",
+      "district_id": "health",
+      "lod0_triangle_budget_per_unique_mesh": 1800,
+      "variant_count": 1,
+      "reuse": "single_mesh",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "park_pavilion",
+      "district_id": "health",
+      "lod0_triangle_budget_per_unique_mesh": 3000,
+      "variant_count": 1,
+      "reuse": "single_mesh",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "exercise_station",
+      "district_id": "health",
+      "lod0_triangle_budget_per_unique_mesh": 1500,
+      "variant_count": 1,
+      "reuse": "single_mesh",
+      "dynamic": true,
+      "notes": ""
+    },
+    {
+      "asset_id": "library",
+      "district_id": "learning",
+      "lod0_triangle_budget_per_unique_mesh": 6500,
+      "variant_count": 1,
+      "reuse": "single_mesh",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "outdoor_bookcase",
+      "district_id": "learning",
+      "lod0_triangle_budget_per_unique_mesh": 800,
+      "variant_count": 1,
+      "reuse": "single_mesh",
+      "dynamic": true,
+      "notes": ""
+    },
+    {
+      "asset_id": "reading_pavilion",
+      "district_id": "learning",
+      "lod0_triangle_budget_per_unique_mesh": 1800,
+      "variant_count": 1,
+      "reuse": "single_mesh",
+      "dynamic": true,
+      "notes": ""
+    },
+    {
+      "asset_id": "library_wing",
+      "district_id": "learning",
+      "lod0_triangle_budget_per_unique_mesh": 3000,
+      "variant_count": 1,
+      "reuse": "single_mesh",
+      "dynamic": true,
+      "notes": ""
+    },
+    {
+      "asset_id": "house",
+      "district_id": "home",
+      "lod0_triangle_budget_per_unique_mesh": 3500,
+      "variant_count": 3,
+      "reuse": "shared_mesh_instances",
+      "dynamic": false,
+      "notes": ""
+    },
+    {
+      "asset_id": "noticeboard",
+      "district_id": "home",
+      "lod0_triangle_budget_per_unique_mesh": 800,
+      "variant_count": 1,
+      "reuse": "single_mesh",
+      "dynamic": false,
+      "notes": "内容为网页层，不烘焙文字"
+    },
+    {
+      "asset_id": "daily_pennant",
+      "district_id": "home",
+      "lod0_triangle_budget_per_unique_mesh": 60,
+      "variant_count": 8,
+      "reuse": "shared_mesh_instances",
+      "dynamic": true,
+      "notes": "日进度装饰，不替换房屋"
+    },
+    {
+      "asset_id": "basketball_halfcourt",
+      "district_id": "health",
+      "lod0_triangle_budget_per_unique_mesh": 1600,
+      "variant_count": 1,
+      "reuse": "split_nodes",
+      "dynamic": true,
+      "notes": "半场球场及篮架；Lv2"
+    },
+    {
+      "asset_id": "park_playground",
+      "district_id": "health",
+      "lod0_triangle_budget_per_unique_mesh": 3500,
+      "variant_count": 1,
+      "reuse": "split_nodes",
+      "dynamic": true,
+      "notes": "攀爬塔与滑梯；Lv3"
+    },
+    {
+      "asset_id": "yoga_deck",
+      "district_id": "health",
+      "lod0_triangle_budget_per_unique_mesh": 1800,
+      "variant_count": 1,
+      "reuse": "split_nodes",
+      "dynamic": true,
+      "notes": "木平台、瑜伽垫、遮阳帆；Lv3"
+    },
+    {
+      "asset_id": "park_service_hut",
+      "district_id": "health",
+      "lod0_triangle_budget_per_unique_mesh": 2200,
+      "variant_count": 1,
+      "reuse": "split_nodes",
+      "dynamic": true,
+      "notes": "小服务亭；Lv3"
+    },
+    {
+      "asset_id": "dining_pergola",
+      "district_id": "home",
+      "lod0_triangle_budget_per_unique_mesh": 2200,
+      "variant_count": 1,
+      "reuse": "split_nodes",
+      "dynamic": true,
+      "notes": "聚餐廊架；Lv2"
+    },
+    {
+      "asset_id": "shared_dining_table",
+      "district_id": "home",
+      "lod0_triangle_budget_per_unique_mesh": 1200,
+      "variant_count": 1,
+      "reuse": "split_nodes",
+      "dynamic": true,
+      "notes": "桌椅位于廊架内；共用同一设施槽"
+    },
+    {
+      "asset_id": "barbecue_corner",
+      "district_id": "home",
+      "lod0_triangle_budget_per_unique_mesh": 800,
+      "variant_count": 1,
+      "reuse": "split_nodes",
+      "dynamic": true,
+      "notes": "烧烤角；Lv2"
+    },
+    {
+      "asset_id": "home_gazebo",
+      "district_id": "home",
+      "lod0_triangle_budget_per_unique_mesh": 2500,
+      "variant_count": 1,
+      "reuse": "split_nodes",
+      "dynamic": true,
+      "notes": "独立圆凉亭；Lv3"
+    },
+    {
+      "asset_id": "activity_lawn",
+      "district_id": "home",
+      "lod0_triangle_budget_per_unique_mesh": 1200,
+      "variant_count": 1,
+      "reuse": "split_nodes",
+      "dynamic": true,
+      "notes": "草坪场景组件：投影幕与移动座椅；Lv3"
+    },
+    {
+      "asset_id": "home_kids_corner",
+      "district_id": "home",
+      "lod0_triangle_budget_per_unique_mesh": 1600,
+      "variant_count": 1,
+      "reuse": "split_nodes",
+      "dynamic": true,
+      "notes": "紧凑滑梯与沙坑；Lv3"
+    }
+  ],
+  "state_rules": {
+    "timezone": "Asia/Shanghai",
+    "commit_before_visual_success": true,
+    "habit": {
+      "plots_visible_max": 6,
+      "slots_per_plot": 12,
+      "tiers": 3,
+      "growth_unit_per_day": 1,
+      "lifetime_stage_end_counts": [
+        12,
+        24,
+        36
+      ],
+      "overflow": "retain_counter_and_pulse_no_extra_nodes",
+      "missed_day": "retain_growth",
+      "demo_bindings": {
+        "habit_reading": "plot_daisy",
+        "habit_water": "plot_tomato",
+        "habit_stretch": "plot_chicken"
+      }
+    },
+    "chores": {
+      "visual_slots_max": 6,
+      "overdue_local_days_to_prop_tier": {
+        "0": "small",
+        "1_to_2": "medium",
+        "3_plus": "large"
+      },
+      "only_due_unfinished_instances": true,
+      "overflow": "aggregate_in_last_slot_keep_real_count",
+      "completion_animation_ms": 1800
+    },
+    "cars": {
+      "bay_assignments": {
+        "car_a": "bay_car_a",
+        "car_b": "bay_car_b"
+      },
+      "skins": {
+        "car_a": "blue",
+        "car_b": "coral"
+      },
+      "pending_to_level": {
+        "0": "quiet",
+        "1_to_2": "busy",
+        "3_plus": "packed"
+      },
+      "constant_vehicle_count": 2,
+      "completion_animation_ms": 1200,
+      "hood_open_only_for_applicable_repair_task": true
+    },
+    "finance": {
+      "currency_demo": "CNY",
+      "milestone_demo_values": [
+        100000,
+        300000,
+        600000
+      ],
+      "visual_basis": "highest_valid_achieved_milestone",
+      "current_value_must_remain_truthful": true
+    },
+    "health": {
+      "basis": "distinct_valid_completed_activity_records",
+      "completed_activity_demo_thresholds": [
+        5,
+        15
+      ],
+      "levels": {
+        "1": {
+          "min_count": 0,
+          "add": [
+            "track",
+            "park_pavilion"
+          ]
+        },
+        "2": {
+          "min_count": 5,
+          "add": [
+            "basketball_halfcourt",
+            "exercise_station"
+          ]
+        },
+        "3": {
+          "min_count": 15,
+          "add": [
+            "park_playground",
+            "yoga_deck",
+            "park_service_hut"
+          ]
+        }
+      },
+      "retain_lower_level_facilities": true,
+      "missed_day": "retain_facilities",
+      "medical_score": false
+    },
+    "learning": {
+      "completed_goal_demo_thresholds": [
+        1,
+        3,
+        6
+      ],
+      "unlocks": [
+        "outdoor_bookcase",
+        "reading_pavilion",
+        "library_wing"
+      ]
+    },
+    "home": {
+      "permanent_level_basis": "distinct_valid_family_completion_source_event_ids",
+      "eligible_event_types": [
+        "habit_completed",
+        "chore_completed",
+        "car_task_completed",
+        "health_activity_completed",
+        "learning_goal_completed"
+      ],
+      "excluded_event_types": [
+        "finance_record_updated"
+      ],
+      "completed_event_demo_thresholds": [
+        30,
+        100
+      ],
+      "levels": {
+        "1": {
+          "min_count": 0,
+          "add": [
+            "house",
+            "noticeboard"
+          ]
+        },
+        "2": {
+          "min_count": 30,
+          "add": [
+            "dining_pergola",
+            "shared_dining_table",
+            "barbecue_corner"
+          ]
+        },
+        "3": {
+          "min_count": 100,
+          "add": [
+            "home_gazebo",
+            "activity_lawn",
+            "home_kids_corner"
+          ]
+        }
+      },
+      "retain_lower_level_facilities": true,
+      "cross_district_source_event_deduplication": true,
+      "undo": "remove_source_event_contribution_and_recompute",
+      "daily_atmosphere": {
+        "basis": "today_completion_fraction",
+        "states": [
+          "quiet",
+          "active",
+          "celebrate"
+        ],
+        "no_tasks": "no_schedule",
+        "resets_daily": true,
+        "changes_permanent_level": false
+      },
+      "permanent_buildings": true,
+      "house_count": 3
+    }
+  },
+  "budgets_unverified": {
+    "lod0_expanded_scene_triangles_max": 1000000,
+    "overview_visible_triangles_target": 450000,
+    "draw_calls_target_max": 220,
+    "first_load_mb_target": 20,
+    "full_scene_mb_target": 40,
+    "texture_long_edge_default_max": 2048,
+    "texture_gpu_mb_target": 128,
+    "target_viewport_css": [
+      1440,
+      900
+    ],
+    "dpr_cap": 1.5,
+    "minimum_target_fps": 30,
+    "note": "Actual all-level scene is 876289 triangles; default view has fewer. Full-model draw calls are measured including AO passes separately in browser-city-qa.json."
+  },
+  "demo_state_fixtures": [
+    {
+      "id": "habit_once",
+      "before": {
+        "count": 2
+      },
+      "event": "habit_reading_complete_today",
+      "after": {
+        "count": 3
+      },
+      "assert": "one_slot_change_only"
+    },
+    {
+      "id": "chore_partial",
+      "before": {
+        "pending": [
+          "kitchen",
+          "bathroom",
+          "recycling"
+        ]
+      },
+      "event": "complete_kitchen",
+      "after": {
+        "pending": [
+          "bathroom",
+          "recycling"
+        ]
+      },
+      "assert": "only_kitchen_group_removed"
+    },
+    {
+      "id": "cars_independent",
+      "before": {
+        "car_a_pending": 1,
+        "car_b_pending": 1
+      },
+      "event": "complete_car_a_tire_check",
+      "after": {
+        "car_a_pending": 0,
+        "car_b_pending": 1
+      },
+      "assert": "car_b_nodes_unchanged"
+    },
+    {
+      "id": "health_level_retention",
+      "before": {
+        "valid_activity_count": 14,
+        "level": 2
+      },
+      "event": "complete_distinct_activity",
+      "after": {
+        "valid_activity_count": 15,
+        "level": 3
+      },
+      "assert": "court_and_gym_remain_visible_plus_three_new_facilities"
+    },
+    {
+      "id": "home_midnight_retention",
+      "before": {
+        "valid_family_source_events": 100,
+        "level": 3,
+        "today_completed": 8
+      },
+      "event": "local_midnight",
+      "after": {
+        "valid_family_source_events": 100,
+        "level": 3,
+        "today_completed": 0
+      },
+      "assert": "all_permanent_facilities_unchanged_only_daily_atmosphere_resets"
+    }
+  ],
+  "facility_slots": [
+    {
+      "slot_id": "health_loop",
+      "district_id": "health",
+      "local_center_xy_m": [
+        -42,
+        0
+      ],
+      "footprint_xy_m": [
+        44,
+        34
+      ],
+      "min_level": 1,
+      "asset_ids": [
+        "track",
+        "park_pavilion"
+      ],
+      "retain_after_unlock": true
+    },
+    {
+      "slot_id": "health_court",
+      "district_id": "health",
+      "local_center_xy_m": [
+        -5,
+        10
+      ],
+      "footprint_xy_m": [
+        22,
+        16
+      ],
+      "min_level": 2,
+      "asset_ids": [
+        "basketball_halfcourt"
+      ],
+      "retain_after_unlock": true
+    },
+    {
+      "slot_id": "health_gym",
+      "district_id": "health",
+      "local_center_xy_m": [
+        -8,
+        -9
+      ],
+      "footprint_xy_m": [
+        16,
+        14
+      ],
+      "min_level": 2,
+      "asset_ids": [
+        "exercise_station"
+      ],
+      "retain_after_unlock": true
+    },
+    {
+      "slot_id": "health_play",
+      "district_id": "health",
+      "local_center_xy_m": [
+        24,
+        10
+      ],
+      "footprint_xy_m": [
+        24,
+        16
+      ],
+      "min_level": 3,
+      "asset_ids": [
+        "park_playground"
+      ],
+      "retain_after_unlock": true
+    },
+    {
+      "slot_id": "health_yoga",
+      "district_id": "health",
+      "local_center_xy_m": [
+        23,
+        -10
+      ],
+      "footprint_xy_m": [
+        24,
+        14
+      ],
+      "min_level": 3,
+      "asset_ids": [
+        "yoga_deck"
+      ],
+      "retain_after_unlock": true
+    },
+    {
+      "slot_id": "health_service",
+      "district_id": "health",
+      "local_center_xy_m": [
+        51,
+        -10
+      ],
+      "footprint_xy_m": [
+        12,
+        12
+      ],
+      "min_level": 3,
+      "asset_ids": [
+        "park_service_hut"
+      ],
+      "retain_after_unlock": true
+    },
+    {
+      "slot_id": "home_house_1",
+      "district_id": "home",
+      "local_center_xy_m": [
+        -20,
+        12
+      ],
+      "footprint_xy_m": [
+        12,
+        12
+      ],
+      "min_level": 1,
+      "asset_ids": [
+        "house"
+      ],
+      "retain_after_unlock": true
+    },
+    {
+      "slot_id": "home_house_2",
+      "district_id": "home",
+      "local_center_xy_m": [
+        0,
+        12
+      ],
+      "footprint_xy_m": [
+        12,
+        12
+      ],
+      "min_level": 1,
+      "asset_ids": [
+        "house"
+      ],
+      "retain_after_unlock": true
+    },
+    {
+      "slot_id": "home_house_3",
+      "district_id": "home",
+      "local_center_xy_m": [
+        20,
+        12
+      ],
+      "footprint_xy_m": [
+        12,
+        12
+      ],
+      "min_level": 1,
+      "asset_ids": [
+        "house"
+      ],
+      "retain_after_unlock": true
+    },
+    {
+      "slot_id": "home_board",
+      "district_id": "home",
+      "local_center_xy_m": [
+        -25,
+        -15
+      ],
+      "footprint_xy_m": [
+        4,
+        2
+      ],
+      "min_level": 1,
+      "asset_ids": [
+        "noticeboard"
+      ],
+      "retain_after_unlock": true
+    },
+    {
+      "slot_id": "home_dining",
+      "district_id": "home",
+      "local_center_xy_m": [
+        -17,
+        -4
+      ],
+      "footprint_xy_m": [
+        18,
+        10
+      ],
+      "min_level": 2,
+      "asset_ids": [
+        "dining_pergola",
+        "shared_dining_table"
+      ],
+      "retain_after_unlock": true
+    },
+    {
+      "slot_id": "home_grill",
+      "district_id": "home",
+      "local_center_xy_m": [
+        -4,
+        -4
+      ],
+      "footprint_xy_m": [
+        4,
+        4
+      ],
+      "min_level": 2,
+      "asset_ids": [
+        "barbecue_corner"
+      ],
+      "retain_after_unlock": true
+    },
+    {
+      "slot_id": "home_gazebo",
+      "district_id": "home",
+      "local_center_xy_m": [
+        23,
+        -1
+      ],
+      "footprint_xy_m": [
+        10,
+        10
+      ],
+      "min_level": 3,
+      "asset_ids": [
+        "home_gazebo"
+      ],
+      "retain_after_unlock": true
+    },
+    {
+      "slot_id": "home_activity",
+      "district_id": "home",
+      "local_center_xy_m": [
+        6,
+        -10
+      ],
+      "footprint_xy_m": [
+        14,
+        14
+      ],
+      "min_level": 3,
+      "asset_ids": [
+        "activity_lawn"
+      ],
+      "retain_after_unlock": true
+    },
+    {
+      "slot_id": "home_children",
+      "district_id": "home",
+      "local_center_xy_m": [
+        23,
+        -14
+      ],
+      "footprint_xy_m": [
+        10,
+        8
+      ],
+      "min_level": 3,
+      "asset_ids": [
+        "home_kids_corner"
+      ],
+      "retain_after_unlock": true
+    }
+  ],
+  "facility_slot_policy": {
+    "minimum_clearance_m": 1,
+    "coordinate_space": "district_local_blender_xy",
+    "shared_slot_assets": "intentional_composite_arrangement",
+    "all_level_slots_reserved_from_level_1": true,
+    "vegetation_must_not_occupy_reserved_slots": true,
+    "latest_health_home_reference": "images/08-health-home-levels-v2.png"
+  },
+  "physical_scale": {
+    "unit": "metre",
+    "road_two_way_width_m": 6,
+    "passenger_car_width_including_mirrors_m": 1.938,
+    "passenger_car_length_m": 4.381,
+    "passenger_car_height_m": 1.6214,
+    "adult_height_m": 1.701,
+    "garage_bay_width_m": 7.5,
+    "garage_clear_height_m": 4.4,
+    "home_house_facade_width_m": 8.8,
+    "policy": "Vehicles use road-compatible dimensions; never enlarge a vehicle to fill a district."
+  },
+  "mobility": {
+    "road_car_length_m": 4.381,
+    "road_car_width_m": 1.938,
+    "adult_height_m": 1.7,
+    "road_surface_z_m": 0.82,
+    "right_hand_traffic": true,
+    "airport_access_xy_m": [
+      [
+        173,
+        -72.25
+      ],
+      [
+        179,
+        -74
+      ],
+      [
+        185,
+        -68
+      ],
+      [
+        289,
+        -68
+      ],
+      [
+        295,
+        -74
+      ],
+      [
+        289,
+        -80
+      ],
+      [
+        185,
+        -80
+      ],
+      [
+        179,
+        -74
+      ]
+    ],
+    "rail_tracks_y_m": [
+      107.8,
+      114.2
+    ]
+  }
+}

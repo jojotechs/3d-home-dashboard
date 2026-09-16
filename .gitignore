@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.runtime/
+*.blend1
+.DS_Store
+.env
+.env.*
+!.env.example
+.vercel/
+supabase/.temp/
+supabase/.branches/
+.scratch/
+exports/
+renders/
+__pycache__/
+*.pyc
+*.log
