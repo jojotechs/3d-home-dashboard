@@ -1,0 +1,43 @@
+{
+  "verified_at": "2026-09-16T11:40:36.824Z",
+  "deployment": "https://3d-home-dashboard.vercel.app",
+  "source_commit": "369e6b04d366d963096425529432455bb6c088cd",
+  "supabase_project": "ebffwcnodbusvmsgmnqg",
+  "scenario": "Two independent in-app browser sessions; real Auth and RPC; disposable test household",
+  "entries": 1,
+  "stable_record_id": "76bc53b2-96a8-41f4-ad16-696e2aad3bcb",
+  "net_savings_minor": "345678",
+  "history": [
+    {
+      "version": "1",
+      "net_savings_minor": "123456",
+      "saved_at": "2026-09-16T11:37:45.500177+00:00",
+      "entry_version": "1"
+    },
+    {
+      "version": "2",
+      "net_savings_minor": "234567",
+      "saved_at": "2026-09-16T11:38:10.452476+00:00",
+      "entry_version": "2"
+    },
+    {
+      "version": "3",
+      "net_savings_minor": "456789",
+      "saved_at": "2026-09-16T11:39:09.640067+00:00",
+      "entry_version": "3"
+    },
+    {
+      "version": "4",
+      "net_savings_minor": "345678",
+      "saved_at": "2026-09-16T11:39:55.470843+00:00",
+      "entry_version": "4"
+    }
+  ],
+  "failed_stale_save_added_history": false,
+  "real_household": {
+    "verified_at": "2026-09-16T11:41:15.345Z",
+    "entries": 0,
+    "history": 0,
+    "net_savings_minor": "0"
+  }
+}

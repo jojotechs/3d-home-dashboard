@@ -10,7 +10,7 @@ major_version = 17
 
 [auth]
 enabled = true
-site_url = "http://127.0.0.1:5174"
+site_url = "https://3d-home-dashboard.vercel.app"
 enable_signup = false
 enable_anonymous_sign_ins = false
 
