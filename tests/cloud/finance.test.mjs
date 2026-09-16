@@ -30,7 +30,9 @@ test('hosted finance: login, exact save, retry, isolated read, conflict, authori
   assert.equal(before.household_id, household);
   assert.notEqual((await result(outsider.rpc('get_finances'))).household_id, household);
   const settings = await fetch(`${url}/auth/v1/settings`, {headers:{apikey:key}});
-  assert.equal((await settings.json()).disable_signup, true);
+  const authSettings = await settings.json();
+  assert.equal(authSettings.disable_signup, true);
+  assert.equal(authSettings.external.email, true);
   const entry = before.entries.find(item => item.kind === 'balance');
   const request = {p_household_id: household, p_entry_id: entry?.id ?? randomUUID(),
     p_expected_version: entry?.version ?? '0', p_name: 'T01 云端验收余额',

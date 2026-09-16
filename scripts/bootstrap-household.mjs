@@ -15,8 +15,9 @@ async function main() {
   const name = required('HOUSEHOLD_NAME');
   const adminName = required('ADMIN_NAME');
   const settings = await fetch(`${url}/auth/v1/settings`, {headers: {apikey: publicKey}, signal: AbortSignal.timeout(15000)});
-  if (!settings.ok || (await settings.json()).disable_signup !== true) {
-    throw new Error('Disable public signup in Supabase Auth before initializing a household.');
+  const authSettings = settings.ok ? await settings.json() : null;
+  if (authSettings?.disable_signup !== true || authSettings?.external?.email !== true) {
+    throw new Error('Disable public signup and enable the email provider in Supabase Auth before initializing a household.');
   }
   const client = createClient(url, key, {auth: {persistSession: false, autoRefreshToken: false}});
   let userId = process.env.ADMIN_USER_ID;
