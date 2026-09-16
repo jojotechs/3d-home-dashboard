@@ -1,27 +1,18 @@
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState, useSyncExternalStore} from 'react';
 import type {Session, SupabaseClient} from '@supabase/supabase-js';
-import {financeClient, financeError, AUTH_STORAGE_KEY} from './client';
+import {financeClient, financeError, getFinanceAuth, subscribeFinanceAuth, signOutFinance} from './client';
 import type {BalanceRequest, FinanceSnapshot} from './client';
 import {formatRmb, inputRmb, parseRmb} from './money.mjs';
 import './finance.css';
 
 export function FinancePanel() {
-  const [session, setSession] = useState<Session | null>(null);
-  const [checking, setChecking] = useState(true);
-  useEffect(() => {
-    if (!financeClient) { setChecking(false); return; }
-    // The subscription emits INITIAL_SESSION after loading stored authentication.
-    const {data} = financeClient.auth.onAuthStateChange((_event, value) => {
-      setSession(value);
-      setChecking(false);
-    });
-    return () => data.subscription.unsubscribe();
-  }, []);
-
+  const auth = useSyncExternalStore(subscribeFinanceAuth, getFinanceAuth);
+  const session = auth.session;
   if (!financeClient) return <div className="finance-book"><h2>家庭财务账尚未连接</h2><p>云服务配置完成后，即可登录并保存余额。</p><p className="finance-muted">财务暂以基础街区展示。其他地区仍为本机示例。</p></div>;
-  if (checking) return <div className="finance-book" role="status">正在确认登录状态…</div>;
+  if (auth.status === 'signingOut') return <div className="finance-book" role="status">正在退出登录…</div>;
+  if (auth.status === 'checking') return <div className="finance-book" role="status">正在确认登录状态…</div>;
   if (!session) return <Login client={financeClient}/>;
-  return <BalanceBook key={session.user.id} client={financeClient} session={session} onSignOut={() => setSession(null)}/>;
+  return <BalanceBook key={session.user.id} client={financeClient} session={session}/>;
 }
 
 function Login({client}: {client: SupabaseClient}) {
@@ -48,7 +39,7 @@ function Login({client}: {client: SupabaseClient}) {
   </form>;
 }
 
-function BalanceBook({client, session, onSignOut}: {client: SupabaseClient; session: Session; onSignOut: () => void}) {
+function BalanceBook({client, session}: {client: SupabaseClient; session: Session}) {
   const [snapshot, setSnapshot] = useState<FinanceSnapshot | null>(null);
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
@@ -133,19 +124,7 @@ function BalanceBook({client, session, onSignOut}: {client: SupabaseClient; sess
   }
 
   return <div className="finance-book">
-    <div className="finance-account"><span>{snapshot?.household_name ?? '家庭财务账'}<small>{session.user.email}</small></span><button type="button" className="text-button" onClick={async () => {
-      // Hide the book before any network operation; invalidates in-flight reads/writes.
-      alive.current = false; operation.current++; setSnapshot(null); setName(''); setAmount(''); setRetry(null);
-      try {
-        await Promise.race([client.auth.signOut({scope: 'local'}), new Promise(resolve => setTimeout(resolve, 4000))]);
-      } catch {
-        // Local logout must still complete when the network fails.
-      } finally {
-        // Also clear persisted credentials when the server cannot be reached.
-        window.sessionStorage.removeItem(AUTH_STORAGE_KEY);
-        onSignOut();
-      }
-    }}>退出登录</button></div>
+    <div className="finance-account"><span>{snapshot?.household_name ?? '家庭财务账'}<small>{session.user.email}</small></span><button type="button" className="text-button" onClick={() => {void signOutFinance().catch(() => {});}}>退出登录</button></div>
     {loading && <p role="status">正在读取云端记录…</p>}
     {error && <p className="finance-error" role="alert">{error}</p>}
     {!loading && !snapshot && <button className="primary" onClick={() => void read(false)}>重新读取</button>}

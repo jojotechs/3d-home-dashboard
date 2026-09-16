@@ -1,4 +1,5 @@
 import {createClient} from '@supabase/supabase-js';
+import type {Session} from '@supabase/supabase-js';
 
 const url = import.meta.env.VITE_SUPABASE_URL?.trim();
 const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY?.trim();
@@ -11,14 +12,67 @@ function isPublicKey(value: string): boolean {
   } catch { return false; }
 }
 
-// A stable tab-local key also isolates Supabase's BroadcastChannel between sessions.
-const authSlot = window.sessionStorage.getItem('family-city-auth-slot') ?? crypto.randomUUID();
-window.sessionStorage.setItem('family-city-auth-slot', authSlot);
-export const AUTH_STORAGE_KEY = `family-city-auth-${authSlot}`;
+// The SDK channel is unique to this document, even when a duplicated tab copies
+// sessionStorage. Map SDK storage to a stable tab-local key for refresh persistence.
+export const AUTH_STORAGE_KEY = 'family-city-auth-v1';
+const LOGOUT_PENDING_KEY = 'family-city-logout-pending';
+function clearCredentials() {
+  for (const suffix of ['', '-user', '-code-verifier']) window.sessionStorage.removeItem(AUTH_STORAGE_KEY + suffix);
+}
+// A refresh may destroy a pending logout's finally block. Never restore its session.
+if (window.sessionStorage.getItem(LOGOUT_PENDING_KEY)) {
+  clearCredentials();
+  window.sessionStorage.removeItem(LOGOUT_PENDING_KEY);
+}
+const authChannel = `family-city-auth-${crypto.randomUUID()}`;
+const storedKey = (key: string) => AUTH_STORAGE_KEY + key.slice(authChannel.length);
+const authStorage = {
+  getItem: (key: string) => window.sessionStorage.getItem(storedKey(key)),
+  setItem: (key: string, value: string) => window.sessionStorage.setItem(storedKey(key), value),
+  removeItem: (key: string) => window.sessionStorage.removeItem(storedKey(key)),
+};
 
 export const financeClient = url && /^https:\/\//.test(url) && key && isPublicKey(key)
-  ? createClient(url, key, {auth: {persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, storageKey: AUTH_STORAGE_KEY, storage: window.sessionStorage}})
+  ? createClient(url, key, {global: {fetch: (input, init) => {
+    const signals = [AbortSignal.timeout(15000)];
+    if (init?.signal) signals.push(init.signal);
+    return fetch(input, {...init, signal: AbortSignal.any(signals)});
+  }}, auth: {persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, storageKey: authChannel, storage: authStorage}})
   : null;
+
+type AuthState = {status: 'checking' | 'signedIn' | 'signedOut' | 'signingOut'; session: Session | null};
+let authState: AuthState = {status: financeClient ? 'checking' : 'signedOut', session: null};
+const authListeners = new Set<() => void>();
+function publishAuth(value: AuthState) {
+  authState = value;
+  authListeners.forEach(listener => listener());
+}
+financeClient?.auth.onAuthStateChange((_event, session) => {
+  if (authState.status !== 'signingOut') publishAuth({status: session ? 'signedIn' : 'signedOut', session});
+});
+export const getFinanceAuth = () => authState;
+export function subscribeFinanceAuth(listener: () => void) {
+  authListeners.add(listener);
+  return () => {authListeners.delete(listener);};
+}
+let signingOut: Promise<void> | null = null;
+export function signOutFinance(): Promise<void> {
+  if (signingOut) return signingOut;
+  // This gate outlives panel unmounts: outgoing money disappears immediately and
+  // no new login can race an unfinished SDK logout, including during a remount.
+  window.sessionStorage.setItem(LOGOUT_PENDING_KEY, '1');
+  publishAuth({status: 'signingOut', session: null});
+  signingOut = (async () => {
+    try { await financeClient?.auth.signOut({scope: 'local'}); }
+    finally {
+      clearCredentials();
+      window.sessionStorage.removeItem(LOGOUT_PENDING_KEY);
+      signingOut = null;
+      publishAuth({status: 'signedOut', session: null});
+    }
+  })();
+  return signingOut;
+}
 
 export interface FinanceEntry {
   id: string;
