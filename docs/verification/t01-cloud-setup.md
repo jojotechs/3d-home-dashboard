@@ -2,6 +2,8 @@
 
 对应 [Issue #3](https://github.com/jojotechs/3d-home-dashboard/issues/3)。代码包含首笔余额路径；云项目和实际验收状态见 [验收记录](t01-results.md)，不能仅因构建成功而关闭本票。
 
+2026-09-17 交互更新：认证客户端和账号 UI 已移至 `src/auth/`，所有模块使用统一访问入口，财务面板不再内嵌登录。当前交互与验证见 [全局账号入口](auth-entry-ui.md)。
+
 ## 实现边界
 
 - `src/finance/` 是独立业务入口。现有生活区继续用本机示例；旧 `netWorth`/`highestNetWorth` 不读取、不上传，恢复生活示例不触及云财务。
