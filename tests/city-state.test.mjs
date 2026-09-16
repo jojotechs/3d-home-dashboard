@@ -19,26 +19,29 @@ test('facility levels are additive and preview never alters earned state',()=>{
  assert.equal(derived(s).levels.health,2);
  const a=reduceState(s,{type:'complete',task:'read'});assert.equal(derived(a).levels.home,2);
 });
-test('habit capacity caps visible nodes and finances may be negative',()=>{
+test('habit capacity caps visible nodes',()=>{
  const s={...initialState(),baseGrowth:[99,0,0,0,0,0]};
  assert.equal(visibleForNode({kind:'growth',plot:0,slot:11},s),true);
  assert.equal(visibleForNode({kind:'growth',plot:0,slot:12},s),false);
- const a=reduceState(s,{type:'finance',value:-100});assert.equal(a.netWorth,-100);assert.equal(a.highestNetWorth,s.highestNetWorth);
 });
 test('stored demo state must have valid numeric fields and task IDs',()=>{
  assert.ok(isValidState(initialState()));assert.ok(!isValidState({...initialState(),baseGrowth:['x']}));
  assert.ok(!isValidState({...initialState(),events:[{id:'x',task:'unknown',day:'x'}]}));
 });
-test('finance replaces district stages without losing an earned milestone',()=>{
+test('finance geometry preview stays separate from cumulative home and health facilities',()=>{
  const s=initialState();
  const stages=[1,2,3].map(n=>({kind:'level',district:'finance',minLevel:n,maxLevel:n}));
  for(const n of [1,2,3]){
   assert.deepEqual(stages.map(node=>visibleForNode(node,s,{finance:n})),[1,2,3].map(x=>x===n));
-  assert.equal(derived(s).levels.finance,3);
+  assert.equal(derived(s).levels.finance,undefined);
  }
- const reduced=reduceState(s,{type:'finance',value:1000});
- assert.equal(reduced.netWorth,1000);assert.equal(derived(reduced).levels.finance,3);
- assert.deepEqual(stages.map(node=>visibleForNode(node,reduced)),[false,false,true]);
  // Existing parks still accumulate multiple facilities at the same milestone.
  assert.equal(visibleForNode({kind:'level',district:'health',minLevel:2},s,{health:3}),true);
+});
+
+test('real finance starts at the base geometry and never reads the demo wealth peak',()=>{
+ const legacy={...initialState(),netWorth:328600,highestNetWorth:620000};
+ const stages=[1,2,3].map(n=>({kind:'level',district:'finance',minLevel:n,maxLevel:n}));
+ assert.deepEqual(stages.map(node=>visibleForNode(node,legacy)),[true,false,false]);
+ assert.equal(reduceState(legacy,{type:'finance',value:900000}),legacy);
 });

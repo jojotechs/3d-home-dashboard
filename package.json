@@ -8,7 +8,7 @@
     "build": "vite build && node scripts/prepare-sites-build.mjs",
     "preview": "vite preview",
     "test:sites": "node --test tests/sites-worker.test.mjs",
-    "test": "node --test tests/*-state.test.mjs tests/mobility.test.mjs",
+    "test": "node --test tests/*.test.mjs",
     "model:build": "bash modeling/run-blender.sh modeling/build_city.py",
     "model:verify": "bash modeling/run-blender.sh modeling/verify_models.py",
     "model:home": "bash modeling/run-blender.sh modeling/render_home_study.py",
@@ -19,14 +19,25 @@
     "model:verify-mobility": "bash modeling/run-blender.sh modeling/verify_mobility.py",
     "model:lighting": "bash modeling/run-blender.sh modeling/build_lighting.py",
     "model:verify-lighting": "bash modeling/run-blender.sh modeling/verify_lighting.py",
-    "model:verify-transport": "bash modeling/run-blender.sh modeling/verify_transport.py"
+    "model:verify-transport": "bash modeling/run-blender.sh modeling/verify_transport.py",
+    "typecheck": "tsc --noEmit",
+    "test:finance": "node --test tests/finance-state.test.mjs tests/finance-database.test.mjs",
+    "test:cloud": "node --env-file=.env.cloud-test --test tests/cloud/finance.test.mjs",
+    "cloud:bootstrap": "node --env-file=.env.bootstrap scripts/bootstrap-household.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
+    "@supabase/supabase-js": "^2.116.0",
     "@vitejs/plugin-react": "5.0.4",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "three": "^0.185.1",
     "vite": "6.4.2"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "typescript": "^7.0.2"
   }
 }

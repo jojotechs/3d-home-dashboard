@@ -24,12 +24,11 @@ export const tasks = [
 export const levelDescriptions={
  health:[['基础公园','步道与休息亭'],['运动公园','新增球场与健身区'],['活力公园','游乐区、瑜伽平台与服务亭']],
  home:[['基础花园','三栋住宅与共享花园'],['聚餐庭院','廊架、餐桌与烧烤角'],['家庭活动中心','凉亭、活动草坪与儿童角']],
- finance:[['街角初成','小店、储蓄所与街角花园'],['稳步积累','旧楼翻新，办公与商业混合'],['繁荣街区','地标天际线与成熟金融街']],
  learning:[['安静书房','图书馆与阅读庭院'],['阅读社区','书架与户外阅读亭'],['知识街区','扩建侧翼与学习花园']],
 };
 export function localDay(date=new Date()) {return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(date);}
-export function initialState(day=localDay()){return {version:1,day,events:[],netWorth:328600,highestNetWorth:620000,baseGrowth:[7,9,8,10,5,6],baseHealth:15,baseHome:100,baseLearning:6};}
-export function isValidState(s){return s?.version===1 && typeof s.day==='string' && Number.isFinite(s.netWorth) && Number.isFinite(s.highestNetWorth) && Array.isArray(s.baseGrowth) && s.baseGrowth.length===6 && s.baseGrowth.every(n=>Number.isInteger(n)&&n>=0)&&['baseHealth','baseHome','baseLearning'].every(k=>Number.isFinite(s[k])&&s[k]>=0)&&Array.isArray(s.events)&&s.events.every(e=>typeof e.id==='string' && typeof e.day==='string' && tasks.some(t=>t.id===e.task));}
+export function initialState(day=localDay()){return {version:1,day,events:[],baseGrowth:[7,9,8,10,5,6],baseHealth:15,baseHome:100,baseLearning:6};}
+export function isValidState(s){return s?.version===1 && typeof s.day==='string' && Array.isArray(s.baseGrowth) && s.baseGrowth.length===6 && s.baseGrowth.every(n=>Number.isInteger(n)&&n>=0)&&['baseHealth','baseHome','baseLearning'].every(k=>Number.isFinite(s[k])&&s[k]>=0)&&Array.isArray(s.events)&&s.events.every(e=>typeof e.id==='string' && typeof e.day==='string' && tasks.some(t=>t.id===e.task));}
 export function taskDone(state,task,day=localDay()){return (day===state.day&&task.done)||state.events.some(e=>e.task===task.id&&e.day===day);}
 export function reduceState(state,action){
  if(action.type==='complete'){
@@ -38,10 +37,6 @@ export function reduceState(state,action){
   return {...state,events:[...state.events,{id:`${day}:${task.id}`,task:task.id,day}]};
  }
  if(action.type==='undo')return {...state,events:state.events.filter(e=>e.id!==action.id)};
- if(action.type==='finance'){
-  if(!Number.isFinite(action.value))return state;
-  return {...state,netWorth:action.value,highestNetWorth:Math.max(state.highestNetWorth,action.value)};
- }
  if(action.type==='reset')return initialState();
  return state;
 }
@@ -50,7 +45,7 @@ export function derived(state,day=localDay()){
  const growth=state.baseGrowth.map((v,i)=>v+state.events.filter(e=>tasks.find(t=>t.id===e.task)?.plot===i).length);
  const hp=state.baseHealth+state.events.filter(e=>tasks.find(t=>t.id===e.task)?.district==='health').length;
  const lp=state.baseLearning+state.events.filter(e=>tasks.find(t=>t.id===e.task)?.district==='learning').length;
- return {growth,levels:{health:hp>=15?3:hp>=5?2:1,home:state.baseHome+count>=100?3:state.baseHome+count>=30?2:1,finance:state.highestNetWorth>=600000?3:state.highestNetWorth>=300000?2:1,learning:lp>=6?3:lp>=3?2:1},pending:tasks.filter(t=>!taskDone(state,t,day)),completed:tasks.filter(t=>taskDone(state,t,day)).length};
+ return {growth,levels:{health:hp>=15?3:hp>=5?2:1,home:state.baseHome+count>=100?3:state.baseHome+count>=30?2:1,learning:lp>=6?3:lp>=3?2:1},pending:tasks.filter(t=>!taskDone(state,t,day)),completed:tasks.filter(t=>taskDone(state,t,day)).length};
 }
 export function visibleForNode(data,state,previews={}){
  const d=derived(state);
@@ -63,3 +58,5 @@ export function visibleForNode(data,state,previews={}){
  if(data.kind==='carWork'||data.kind==='carPacked')return d.pending.filter(t=>t.car===data.carId).length>=(data.kind==='carPacked'?3:1);
  return true;
 }
+
+export function demoStateOnly(state){return Object.fromEntries(Object.keys(initialState(state.day)).map(key=>[key,state[key]]));}
