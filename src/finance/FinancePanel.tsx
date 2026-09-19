@@ -48,6 +48,14 @@ export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () =>
     else dialog.current?.close();
   }, [leaving]);
   useEffect(() => {
+    // An exit requested while saving can proceed once confirmation has removed
+    // all pending edits. A failed save keeps the dialog and draft intact.
+    if (leaving && !saving && !loading && !dirty && !retry) {
+      setLeaving(null);
+      leaving();
+    }
+  }, [leaving, saving, loading, dirty, retry]);
+  useEffect(() => {
     const warn = (event: BeforeUnloadEvent) => {
       if (dirty || retry || working.current) {event.preventDefault(); event.returnValue = '';}
     };

@@ -8,6 +8,7 @@ export function createDraft(entries) {
 
 /** @param {import('./client').FinanceDraftRow} row */
 export function rowChanged(row) {
+  if (row.missing) return !row.removed;
   if (row.removed) return !!row.base;
   if (!row.base) return true;
   try {return row.name.trim() !== row.base.name || parseRmb(row.amount) !== row.base.amount_minor;}
