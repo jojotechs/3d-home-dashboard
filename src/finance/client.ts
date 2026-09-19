@@ -21,12 +21,26 @@ export interface FinanceSnapshot {
   saved_at: string | null;
   entries: FinanceEntry[];
 }
-export interface BalanceRequest {
+export interface FinanceChange {
+  id: string;
+  operation: 'upsert' | 'remove';
+  expected_version: string;
+  kind?: 'balance' | 'debt';
+  name?: string;
+  amount_minor?: string;
+}
+export interface FinanceDraftRow {
+  id: string;
+  kind: 'balance' | 'debt';
+  name: string;
+  amount: string;
+  removed: boolean;
+  base: FinanceEntry | null;
+  missing?: boolean;
+}
+export interface FinanceRequest {
   p_household_id: string;
-  p_entry_id: string;
-  p_expected_version: string;
-  p_name: string;
-  p_amount_minor: string;
+  p_changes: FinanceChange[];
   p_request_id: string;
 }
 

@@ -1,53 +1,73 @@
 import {useEffect, useRef, useState} from 'react';
-import type {SupabaseClient} from '@supabase/supabase-js';
+import type {RefObject} from 'react';
 import {appClient, isAccessError} from '../auth/client';
 import {financeError} from './client';
-import type {BalanceRequest, FinanceSnapshot} from './client';
-import {formatRmb, inputRmb, parseRmb} from './money.mjs';
+import type {FinanceDraftRow, FinanceRequest, FinanceSnapshot} from './client';
+import {createDraft, draftChanges, draftTotals, refreshDraft, rowChanged} from './draft.mjs';
+import {formatRmb} from './money.mjs';
+import {FinanceList} from './FinanceList';
 import './finance.css';
 
-export function FinancePanel({onAccessDenied}: {onAccessDenied: () => void}) {
-  return appClient ? <BalanceBook client={appClient} onAccessDenied={onAccessDenied}/> : null;
-}
+type ExitGuard = RefObject<((leave: () => void) => void) | null>;
+const time = (value: string) => new Date(value).toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'});
 
-function BalanceBook({client, onAccessDenied}: {client: SupabaseClient; onAccessDenied: () => void}) {
+export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () => void; exitGuard: ExitGuard}) {
   const [snapshot, setSnapshot] = useState<FinanceSnapshot | null>(null);
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState('');
+  const [rows, setRows] = useState<FinanceDraftRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [conflict, setConflict] = useState(false);
-  const [dirty, setDirty] = useState(false);
-  const [retry, setRetry] = useState<BalanceRequest | null>(null);
-  const [entryId, setEntryId] = useState<string>(() => crypto.randomUUID());
+  const [review, setReview] = useState(false);
+  const [retry, setRetry] = useState<FinanceRequest | null>(null);
+  const [leaving, setLeaving] = useState<(() => void) | null>(null);
+  const dialog = useRef<HTMLDialogElement>(null);
   const alive = useRef(true);
   const operation = useRef(0);
   const working = useRef(false);
-  const entry = snapshot?.entries.find(item => item.kind === 'balance');
+  const dirty = rows.some(rowChanged);
+  let totals = null;
+  try {totals = draftTotals(rows);} catch { /* Partial inputs have no valid draft total. */ }
 
   useEffect(() => {
     alive.current = true;
     void read(false);
-    return () => { alive.current = false; operation.current++; };
+    return () => {alive.current = false; operation.current++;};
   }, []);
 
+  useEffect(() => {
+    exitGuard.current = leave => {
+      if (dirty || retry || working.current) setLeaving(() => leave);
+      else leave();
+    };
+    return () => {exitGuard.current = null;};
+  }, [dirty, retry, exitGuard]);
+  useEffect(() => {
+    if (leaving) dialog.current?.showModal();
+    else dialog.current?.close();
+  }, [leaving]);
+  useEffect(() => {
+    const warn = (event: BeforeUnloadEvent) => {
+      if (dirty || retry || working.current) {event.preventDefault(); event.returnValue = '';}
+    };
+    window.addEventListener('beforeunload', warn);
+    return () => window.removeEventListener('beforeunload', warn);
+  }, [dirty, retry]);
+
   async function read(keepInput: boolean) {
+    if (!appClient) return;
     const generation = ++operation.current;
     setLoading(true); setError('');
     try {
-      const {data, error: failure} = await client.rpc('get_finances');
+      const {data, error: failure} = await appClient.rpc('get_finances');
       if (!alive.current || generation !== operation.current) return;
       if (failure) throw failure;
       const current = data as FinanceSnapshot;
-      const balance = current.entries.find(item => item.kind === 'balance');
       setSnapshot(current);
-      setEntryId(balance?.id ?? crypto.randomUUID());
-      setRetry(null); setConflict(false);
-      if (!keepInput) {
-        setName(balance?.name ?? ''); setAmount(balance ? inputRmb(balance.amount_minor) : ''); setDirty(false);
-      } else setNotice('已读取最新记录。你的输入仍保留，请核对下方云端余额后再保存。');
+      setRows(previous => keepInput ? refreshDraft(previous, current.entries) : createDraft(current.entries));
+      setRetry(null); setConflict(false); setReview(keepInput);
+      if (keepInput) setNotice('已读取最新记录，你的修改仍保留。请核对各项云端值，再确认保存。');
     } catch (failure) {
       if (alive.current && generation === operation.current) {
         if (isAccessError(failure)) {setSnapshot(null); onAccessDenied();}
@@ -59,33 +79,35 @@ function BalanceBook({client, onAccessDenied}: {client: SupabaseClient; onAccess
   }
 
   async function save() {
-    if (!snapshot || working.current || conflict) return;
+    if (!appClient || !snapshot || working.current || conflict) return;
     let request = retry;
     if (!request) {
       try {
-        request = {p_household_id: snapshot.household_id, p_entry_id: entry?.id ?? entryId,
-          p_expected_version: entry?.version ?? '0', p_name: name.trim(),
-          p_amount_minor: parseRmb(amount), p_request_id: crypto.randomUUID()};
-      } catch (failure) { setError((failure as Error).message); return; }
+        const changes = draftChanges(rows);
+        if (!changes.length) {setNotice('没有需要保存的修改。'); return;}
+        request = {p_household_id:snapshot.household_id,p_changes:changes,p_request_id:crypto.randomUUID()};
+      } catch (failure) {setError((failure as Error).message); return;}
     }
     working.current = true;
     setSaving(true); setRetry(request); setError(''); setNotice('');
     const generation = ++operation.current;
     try {
-      const {data, error: failure} = await client.rpc('save_balance', request);
+      const {data, error: failure} = await appClient.rpc('save_finances', request);
       if (!alive.current || generation !== operation.current) return;
       if (failure) throw failure;
       const confirmed = data as FinanceSnapshot;
-      setSnapshot(confirmed);
-      setRetry(null); setDirty(false);
+      setSnapshot(confirmed); setRows(createDraft(confirmed.entries));
+      setRetry(null); setReview(false);
       setNotice('已保存到云端');
-      // A retry can acknowledge an older committed response. Read the latest book
-      // before accepting another edit, without ever resubmitting that old edit.
+      // A retry may acknowledge an older commit. Read the current book before
+      // permitting another edit; never resubmit the already confirmed patch.
       await read(false);
     } catch (failure) {
       if (alive.current && generation === operation.current) {
         setError(financeError(failure));
-        if ((failure as {code?: string})?.code === 'PT409') setConflict(true);
+        const code = (failure as {code?:string})?.code;
+        if (code === 'PT409') setConflict(true);
+        if (code === '22023' || code === '22003') setRetry(null);
         if (isAccessError(failure)) {setSnapshot(null); onAccessDenied();}
       }
     } finally {
@@ -94,26 +116,48 @@ function BalanceBook({client, onAccessDenied}: {client: SupabaseClient; onAccess
     }
   }
 
+  function change(id: string, patch: Partial<FinanceDraftRow>) {
+    setRows(previous => previous.map(row => row.id === id ? {...row,...patch} : row));
+    setNotice(''); setError('');
+  }
+  function add(kind: FinanceDraftRow['kind']) {
+    setRows(previous => [...previous,{id:crypto.randomUUID(),kind,name:'',amount:'',base:null,removed:false}]);
+    setNotice(''); setError('');
+  }
+  function remove(id: string) {
+    setRows(previous => previous.flatMap(row => row.id !== id ? [row] : row.base && !row.missing ? [{...row,removed:true}] : []));
+    setNotice(''); setError('');
+  }
+  const locked = saving || loading || !!retry;
   return <div className="finance-book">
     {loading && <p role="status">正在读取云端记录…</p>}
     {error && <p className="finance-error" role="alert">{error}</p>}
     {!loading && !snapshot && <button className="primary" onClick={() => void read(false)}>重新读取</button>}
     {snapshot && <>
       <div className="finance-summary"><span className="eyebrow">已保存的储蓄净额</span><strong className="net-worth">¥ {formatRmb(snapshot.net_savings_minor)}</strong>
-        <small>{snapshot.saved_at ? `云端更新于 ${new Date(snapshot.saved_at).toLocaleString('zh-CN', {timeZone: 'Asia/Shanghai'})}` : '还没有财务记录，从第一笔余额开始。'}</small>
-        <small>{BigInt(snapshot.net_savings_minor) < 1000000n ? 'Lv.1 · 街角初成' : '余额已保存 · 后续开发接入十级城市成长'}</small>
+        <small>{snapshot.saved_at ? `云端更新于 ${time(snapshot.saved_at)}（北京时间）` : '还没有财务记录，添加余额或负债开始记账。'}</small>
+        <small>{BigInt(snapshot.net_savings_minor) < 1000000n ? 'Lv.1 · 街角初成' : '财务已保存 · 十级城市成长将在后续开放'}</small>
       </div>
-      <form className="finance-entry" onSubmit={event => {event.preventDefault(); void save();}}>
-        <h2>{entry ? '修改余额' : '新增第一笔余额'}</h2>
-        <label>余额名称<input value={name} maxLength={100} required disabled={saving || loading || !!retry} placeholder="例如：工资卡" onChange={e => {setName(e.target.value); setDirty(true); setNotice('');}}/></label>
-        <label>金额（元）<input inputMode="decimal" value={amount} required disabled={saving || loading || !!retry} placeholder="0.00" onChange={e => {setAmount(e.target.value); setDirty(true); setNotice('');}}/></label>
-        {entry && <p className="finance-muted">创建者：{entry.creator_name} · 最近修改：{entry.editor_name}<br/>云端余额：{entry.name} · ¥ {formatRmb(entry.amount_minor)}</p>}
-        <div className="finance-actions"><button className="primary" disabled={saving || loading || conflict || (!dirty && !retry)}>{saving ? '正在保存…' : retry ? '重试保存' : '保存余额'}</button>
+      <form className="finance-editor" onSubmit={event => {event.preventDefault(); void save();}}>
+        <FinanceList kind="balance" rows={rows.filter(row => row.kind === 'balance')} disabled={locked} onChange={change} onAdd={() => add('balance')} onRemove={remove}/>
+        <FinanceList kind="debt" rows={rows.filter(row => row.kind === 'debt')} disabled={locked} onChange={change} onAdd={() => add('debt')} onRemove={remove}/>
+        <div className={`finance-draft-summary ${dirty ? 'is-dirty' : ''}`} aria-label="草稿合计">
+          <div><span>{dirty ? '草稿储蓄净额 · 未保存' : '当前列表合计'}</span><strong>{totals ? `¥ ${formatRmb(totals.net)}` : '待填写有效金额'}</strong></div>
+          <small>{totals ? `余额 ¥ ${formatRmb(totals.balance)} − 负债 ¥ ${formatRmb(totals.debt)}` : '请填写金额，最多保留两位小数。'}</small>
+          {dirty && <small>点击保存后才会更新云端记录。</small>}
+        </div>
+        <div className="finance-actions"><button className="primary" disabled={saving || loading || conflict || (!dirty && !retry)}>{saving ? '正在保存…' : retry ? '重试保存' : review ? '确认并保存修改' : '保存修改'}</button>
           <button type="button" className="text-button" disabled={saving || loading} onClick={() => void read(dirty || !!retry)}>读取最新记录</button></div>
-        {retry && !saving && <p className="finance-muted">为避免重复保存，重试会提交同一笔输入。需继续修改时，先读取最新记录并核对。</p>}
+        {retry && !saving && <p className="finance-muted">输入已保留。重试使用同一次提交，避免重复记账；需要修改时，先读取最新记录并核对。</p>}
       </form>
     </>}
     {notice && <p className="finance-success" role="status">{notice}</p>}
-    <p className="finance-muted">余额仅在云端确认后生效。其他地区仍使用本机示例数据。</p>
+    <p className="finance-muted">储蓄净额为所记录余额减负债，不代表完整家庭净资产。其他地区仍使用本机示例数据。</p>
+    <dialog ref={dialog} className="finance-exit-dialog" aria-labelledby="finance-exit-title" onCancel={event => {event.preventDefault(); event.stopPropagation(); setLeaving(null);}}>
+      <h2 id="finance-exit-title">{saving ? '正在等待云端确认' : '还有未保存的修改'}</h2>
+      <p>{saving ? '请等待保存结果，再离开财务面板。' : retry ? '这次提交尚未确认。放弃不会撤销可能已到达云端的更新，下次打开会重新读取。' : '离开后将丢弃当前草稿，已保存的云端记录不受影响。'}</p>
+      <div className="finance-actions"><button type="button" className="primary" autoFocus onClick={() => setLeaving(null)}>{saving ? '继续等待' : '继续编辑'}</button>
+        {!saving && <button type="button" className="text-button" onClick={() => {const leave = leaving; setLeaving(null); leave?.();}}>放弃并离开</button>}</div>
+    </dialog>
   </div>;
 }
