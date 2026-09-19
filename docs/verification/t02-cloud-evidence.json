@@ -1,5 +1,5 @@
 {
-  "verified_at": "2026-09-19T04:47:38.561Z",
+  "verified_at": "2026-09-19T05:06:08.459Z",
   "household": "e48c920e-ba1c-421e-bab5-a8fc4d5ae3ac",
   "current": {
     "entries": [
@@ -33,23 +33,23 @@
         "id": "edfa3826-6732-463b-93b8-e1f2611ebe13",
         "kind": "balance",
         "name": "家庭工资卡",
-        "version": "5",
+        "version": "7",
         "created_at": "2026-09-19T04:38:42.52537+00:00",
         "created_by": "8613250c-fa60-4d7e-80e3-caf1218923d0",
-        "updated_at": "2026-09-19T04:44:40.861522+00:00",
-        "updated_by": "b7bee408-101c-4744-b984-1de1c4192407",
-        "editor_name": "共同记账成员",
-        "amount_minor": "90201",
+        "updated_at": "2026-09-19T04:51:36.303838+00:00",
+        "updated_by": "8613250c-fa60-4d7e-80e3-caf1218923d0",
+        "editor_name": "列表管理员",
+        "amount_minor": "90203",
         "creator_name": "列表管理员"
       }
     ],
-    "version": "12",
-    "saved_at": "2026-09-19T04:44:40.861522+00:00",
+    "version": "14",
+    "saved_at": "2026-09-19T04:51:36.303838+00:00",
     "household_id": "e48c920e-ba1c-421e-bab5-a8fc4d5ae3ac",
     "household_name": "T02 列表验收家庭",
-    "net_savings_minor": "-79904"
+    "net_savings_minor": "-79902"
   },
-  "history_count": 12,
+  "history_count": 14,
   "removed_fund_history": [
     {
       "version": "9",
