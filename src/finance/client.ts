@@ -61,3 +61,8 @@ export interface FinanceHistoryEntry {
   version: string;
   snapshot: FinanceSnapshot;
 }
+
+export interface FinanceBook {
+  current: FinanceSnapshot;
+  history: FinanceHistoryEntry[];
+}

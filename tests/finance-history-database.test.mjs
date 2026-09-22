@@ -20,3 +20,14 @@ test('history retains the actor name and complete snapshots even after all entri
   assert.deepEqual(history[1].snapshot.entries, []);
   for (const user of [null, randomUUID()]) await assert.rejects(api.rpc(user,'get_finance_history',[household]), {code:'42501'});
 });
+
+test('one authorized book read returns current savings and the same effective history for peak calculation', async t => {
+  const api = await financeDatabase(); t.after(() => api.db.close());
+  const actor=randomUUID(), household=randomUUID(); await api.provision(actor,household);
+  const empty=await api.rpc(actor,'get_finance_book',[household]);
+  assert.equal(empty.current.net_savings_minor,'0'); assert.deepEqual(empty.history,[]);
+  const saved=await api.rpc(actor,'save_finances',[household,JSON.stringify([{id:randomUUID(),operation:'upsert',kind:'balance',name:'银行',amount_minor:'50000000',expected_version:'0'}]),randomUUID()]);
+  const book=await api.rpc(actor,'get_finance_book',[household]);
+  assert.deepEqual(book.current,saved); assert.deepEqual(book.history.at(-1).snapshot,saved);
+  await assert.rejects(api.rpc(randomUUID(),'get_finance_book',[household]),{code:'42501'});
+});

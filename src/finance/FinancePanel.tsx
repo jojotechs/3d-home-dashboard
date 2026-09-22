@@ -2,17 +2,21 @@ import {useEffect, useRef, useState} from 'react';
 import type {RefObject} from 'react';
 import {appClient, isAccessError} from '../auth/client';
 import {financeError} from './client';
-import type {FinanceDraftRow, FinanceRequest, FinanceSnapshot} from './client';
+import type {FinanceBook, FinanceDraftRow, FinanceRequest, FinanceSnapshot} from './client';
 import {createDraft, draftChanges, draftTotals, refreshDraft, rowChanged} from './draft.mjs';
 import {formatRmb} from './money.mjs';
 import {FinanceList} from './FinanceList';
 import {FinanceHistory} from './FinanceHistory';
+import {FinanceGrowth} from './FinanceGrowth';
+import {financeLevel, levelFeedback} from './growth.mjs';
 import './finance.css';
 
 type ExitGuard = RefObject<((leave: () => void) => void) | null>;
 const time = (value: string) => new Date(value).toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'});
 
-export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () => void; exitGuard: ExitGuard}) {
+export function FinancePanel({onAccessDenied, exitGuard, onBookRead}: {onAccessDenied: () => void; exitGuard: ExitGuard; onBookRead: (book: FinanceBook) => void}) {
+  const [book, setBook] = useState<FinanceBook | null>(null);
+  const [feedback, setFeedback] = useState('');
   const [view, setView] = useState<'current' | 'history'>('current');
   const [snapshot, setSnapshot] = useState<FinanceSnapshot | null>(null);
   const [rows, setRows] = useState<FinanceDraftRow[]>([]);
@@ -71,22 +75,25 @@ export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () =>
     return () => window.removeEventListener('beforeunload', warn);
   }, [dirty, retry]);
 
-  async function read(keepInput: boolean) {
+  async function read(keepInput: boolean, beforeLevel?: number) {
     if (!appClient) return;
     const generation = ++operation.current;
     setLoading(true); setError('');
     try {
-      const {data, error: failure} = await appClient.rpc('get_finances');
+      const {data, error: failure} = await appClient.rpc('get_finance_book');
       if (!alive.current || generation !== operation.current) return;
       if (failure) throw failure;
-      const current = data as FinanceSnapshot;
+      const nextBook = data as FinanceBook;
+      const current = nextBook.current;
+      setBook(nextBook); onBookRead(nextBook);
+      if (beforeLevel !== undefined) setFeedback(levelFeedback(beforeLevel,financeLevel(current.net_savings_minor)));
       setSnapshot(current);
       setRows(previous => keepInput ? refreshDraft(previous, current.entries) : createDraft(current.entries));
       setNeedsCurrent(false); setConflict(false); setReview(keepInput);
       if (keepInput) setNotice('已读取最新记录，你的修改仍保留。请核对标记的项目，再确认保存。');
     } catch (failure) {
       if (alive.current && generation === operation.current) {
-        if (isAccessError(failure)) {setSnapshot(null); onAccessDenied();}
+        if (isAccessError(failure)) {setSnapshot(null); setBook(null); onAccessDenied();}
         setError(isAccessError(failure) ? financeError(failure) : '暂时无法读取最新记录，请检查连接后重试。');
       }
     } finally {
@@ -117,14 +124,14 @@ export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () =>
       setNotice('已保存到云端');
       // A retry may acknowledge an older commit. Read the current book before
       // permitting another edit; never resubmit the already confirmed patch.
-      await read(false);
+      await read(false, financeLevel(snapshot.net_savings_minor));
     } catch (failure) {
       if (alive.current && generation === operation.current) {
         setError(financeError(failure));
         const code = (failure as {code?:string})?.code;
         if (code === 'PT409') {setRetry(null); setConflict(true);}
         if (code === '22023' || code === '22003') setRetry(null);
-        if (isAccessError(failure)) {setSnapshot(null); onAccessDenied();}
+        if (isAccessError(failure)) {setSnapshot(null); setBook(null); onAccessDenied();}
       }
     } finally {
       working.current = false;
@@ -156,8 +163,9 @@ export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () =>
     {snapshot && <>
       <div className="finance-summary"><span className="eyebrow">{needsCurrent ? '上次已确认的储蓄净额' : '已保存的储蓄净额'}</span><strong className="net-worth">¥ {formatRmb(snapshot.net_savings_minor)}</strong>
         <small>{snapshot.saved_at ? `云端更新于 ${time(snapshot.saved_at)}（北京时间）` : '还没有财务记录，添加余额或负债开始记账。'}</small>
-        <small>{BigInt(snapshot.net_savings_minor) < 1000000n ? 'Lv.1 · 街角初成' : '财务已保存 · 十级城市成长将在后续开放'}</small>
       </div>
+      {book && !needsCurrent && <FinanceGrowth book={book}/>}
+      {feedback && !needsCurrent && <p className="finance-success" role="status">{feedback}</p>}
       <nav className="finance-tabs" aria-label="财务视图"><button aria-pressed={view === 'current'} onClick={() => setView('current')}>当前账本{dirty ? ' · 有草稿' : ''}</button><button aria-pressed={view === 'history'} onClick={() => setView('history')}>历史与趋势</button></nav>
       {view === 'history' && <FinanceHistory householdId={snapshot.household_id} onAccessDenied={onAccessDenied}/>}
       <form hidden={view !== 'current'} className="finance-editor" onSubmit={event => {event.preventDefault(); void save();}}>

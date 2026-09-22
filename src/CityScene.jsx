@@ -14,9 +14,9 @@ import {mountMobility} from './CityMobility.mjs';
 import {mountCityTransport} from './CityTransport.mjs';
 import {tripPhase} from './travel-state.mjs';
 
-export function CityScene({realDay,state,previews,selected,mode,layoutKey,watchDeparture,travel,now,motionPaused,cityHour,cityLights,onTransport,onSelect,onReady,onError,apiRef}){
+export function CityScene({financeProjection,realDay,state,previews,selected,mode,layoutKey,watchDeparture,travel,now,motionPaused,cityHour,cityLights,onTransport,onSelect,onReady,onError,apiRef}){
  const host=useRef(null),context=useRef(null),latest=useRef({state,previews,onSelect,onReady,onError});
- latest.current={state,previews,onSelect,onReady,onError,onTransport,selected,mode,watchDeparture,travel,now,motionPaused,cityHour,cityLights};
+ latest.current={financeProjection,state,previews,onSelect,onReady,onError,onTransport,selected,mode,watchDeparture,travel,now,motionPaused,cityHour,cityLights};
  useEffect(()=>{
   let disposed=false,raf;const el=host.current;
   let renderer;
@@ -94,7 +94,7 @@ export function CityScene({realDay,state,previews,selected,mode,layoutKey,watchD
   new GLTFLoader().setDRACOLoader(draco).load('/models/mobility.glb',gltf=>{if(disposed)return;try{mobility=mountMobility(scene,gltf);el.dataset.mobility=JSON.stringify(mobility.snapshot());assetReady();}catch(error){latest.current.onError(error.message);}},undefined,error=>latest.current.onError(error.message||'行人与车辆加载失败'));
   new GLTFLoader().setDRACOLoader(draco).load('/models/family-city.glb',gltf=>{
    if(disposed)return;model=gltf.scene;scene.add(model);context.current.model=model;
-   model.traverse(o=>{if(o.isMesh){o.castShadow=!o.name.startsWith('ocean');o.receiveShadow=true;}if(o.userData.kind){dynamic.push(o);o.visible=visibleForNode(o.userData,latest.current.state,latest.current.previews);}});
+   model.traverse(o=>{if(o.isMesh){o.castShadow=!o.name.startsWith('ocean');o.receiveShadow=true;}if(o.userData.kind){dynamic.push(o);o.visible=visibleForNode(o.userData,latest.current.state,{...latest.current.previews,finance:latest.current.financeProjection?.modelLevel??1});}});
    lighting.attachCity(model);
    try{transport=mountCityTransport(model,renderer,s=>latest.current.onTransport?.(s));}catch(error){latest.current.onError(error.message);return;}
    model.updateMatrixWorld(true);
@@ -129,13 +129,13 @@ export function CityScene({realDay,state,previews,selected,mode,layoutKey,watchD
      const x=(temp.x*.5+.5)*width,y=(-temp.y*.5+.5)*height;const overlap=used.some(a=>Math.abs(a[0]-x)<125&&Math.abs(a[1]-y)<46);const hidden=latest.current.mode==='region'||overlap||temp.z>1||x<55||x>width-55||y<100||y>height-70;
      item.button.style.visibility=hidden?'hidden':'visible';item.button.style.transform=`translate(${x}px, ${y}px) translate(-50%,-50%)`;if(!hidden)used.push([x,y]);
      const trips=(latest.current.travel?.trips??[]).filter(t=>t.mode===d.travelMode),away=trips.filter(t=>tripPhase(t,latest.current.now)==='away').length,upcoming=trips.filter(t=>tripPhase(t,latest.current.now)==='upcoming').length;
-     const n=d.travelMode?away||upcoming:pending.filter(t=>t.district===d.id).length;item.count.textContent=n?d.travelMode?`${n} ${away?'在途':'待出发'}`:`${n} 项`:'';item.count.hidden=!n;
+     const n=d.travelMode?away||upcoming:pending.filter(t=>t.district===d.id).length;const financeLevel=d.id==='finance'?latest.current.financeProjection?.displayLevel:null;item.count.textContent=financeLevel?`Lv.${financeLevel}`:n?d.travelMode?`${n} ${away?'在途':'待出发'}`:`${n} 项`:'';item.count.hidden=!n&&!financeLevel;
     }
    }
   }raf=requestAnimationFrame(render);
   return()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();mobility?.dispose();transport?.dispose();lighting.dispose();draco.dispose();ao.dispose();bloom.dispose();composer.dispose();renderer.dispose();const materials=new Set();model?.traverse(o=>{if(o.isMesh){o.geometry.dispose();(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>materials.add(m));}});materials.forEach(m=>m.dispose());outline.geometry.dispose();outline.material.dispose();el.replaceChildren();apiRef.current=null;context.current=null;};
  },[]);
- useEffect(()=>{const c=context.current;if(c){c.dynamic.forEach(o=>{o.visible=visibleForNode(o.userData,state,previews);});if(host.current)host.current.dataset.visibleGroups=JSON.stringify(c.dynamic.filter(o=>o.visible).map(o=>o.name));if(c.renderer)c.renderer.shadowMap.needsUpdate=true;}},[state,previews,realDay]);
+ useEffect(()=>{const c=context.current;if(c){c.dynamic.forEach(o=>{o.visible=visibleForNode(o.userData,state,{...previews,finance:financeProjection?.modelLevel??1});});if(host.current)host.current.dataset.visibleGroups=JSON.stringify(c.dynamic.filter(o=>o.visible).map(o=>o.name));if(c.renderer)c.renderer.shadowMap.needsUpdate=true;}},[state,previews,realDay,financeProjection?.modelLevel]);
  useEffect(()=>{if(selected)context.current?.focus(selected,mode);else context.current?.focus(null);},[selected,mode,layoutKey]);
- return <div ref={host} className="city-canvas" data-testid="city-canvas"/>;
+ return <div ref={host} className="city-canvas" data-testid="city-canvas" data-finance-level={financeProjection?.actualLevel} data-finance-preview={financeProjection?.isPreview || undefined}/>;
 }
