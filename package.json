@@ -24,7 +24,8 @@
     "test:finance": "node --test tests/finance-state.test.mjs tests/finance-draft.test.mjs tests/finance-database.test.mjs tests/finance-lists-database.test.mjs",
     "test:cloud": "node --env-file=.env.cloud-test --test tests/cloud/finance.test.mjs",
     "cloud:bootstrap": "node --env-file=.env.bootstrap scripts/bootstrap-household.mjs",
-    "test:cloud:lists": "node --env-file=.env.t02-test --test tests/cloud/finance-lists.test.mjs"
+    "test:cloud:lists": "node --env-file=.env.t02-test --test tests/cloud/finance-lists.test.mjs",
+    "test:cloud:household": "node --env-file=.env.t03-test --test tests/cloud/household.test.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

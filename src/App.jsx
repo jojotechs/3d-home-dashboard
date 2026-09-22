@@ -6,6 +6,8 @@ import {FinancePanel} from './finance/FinancePanel.tsx';
 import {useAccessGate} from './auth/useAccessGate';
 import {AccountControl} from './auth/AccountControl';
 import {AccessDialog} from './auth/AccessDialog';
+import {AccountFlow} from './auth/AccountFlow';
+import {HouseholdDialog} from './auth/HouseholdDialog';
 import {TravelPanel} from './TravelPanel.jsx';
 import {TRAVEL_KEY,initialTravel,isTravelState,reduceTravel} from './travel-state.mjs';
 import {districts,tasks,initialState,isValidState,reduceState,derived,taskDone,levelDescriptions,STORAGE_KEY,localDay,demoStateOnly} from './city-state.mjs';
@@ -16,6 +18,7 @@ export function App(){
  const daylight=useCityDaylight();
  const access=useAccessGate();
  const financeExit=useRef(null);
+ const [householdOpen,setHouseholdOpen]=useState(false);
  const [financeVisit,setFinanceVisit]=useState(0);
  const [state,setState]=useState(load),[selected,setSelected]=useState(null),[mode,setMode]=useState('overview'),[activeTask,setActiveTask]=useState('read'),[car,setCar]=useState('car_a');
  const [ready,setReady]=useState(false),[error,setError]=useState(''),[toast,setToast]=useState(null),[previews,setPreviews]=useState({}),[showGrowth,setShowGrowth]=useState(false);
@@ -40,12 +43,12 @@ export function App(){
  function close(){leave(closePanel);}
  function openToday(){if(mode==='today'){close();return;}leave(()=>access.request('today','今日事务',()=>{setMode('today');setSelected(null);setShowGrowth(false);setPreviews({});}));}
  useEffect(()=>{const handler=e=>{if(e.key==='Escape'&&!document.querySelector('dialog[open]'))close();};window.addEventListener('keydown',handler);return()=>{window.removeEventListener('keydown',handler);clearTimeout(toastTimer.current);};},[]);
- useEffect(()=>{if(access.auth.status!=='signedIn'){closePanel();setToast(null);}},[access.auth.status,access.auth.session?.user.id]);
+ useEffect(()=>{if(access.auth.status!=='signedIn'){closePanel();setToast(null);setHouseholdOpen(false);}},[access.auth.status,access.auth.session?.user.id]);
  const regionTasks=tasks.filter(t=>t.district===selected&&(!t.car||t.car===car));
  const next=info.pending.find(t=>t.district==='chores')||info.pending[0],actualLevel=info.levels[selected]||1,displayLevel=previews[selected]??actualLevel;
  return <main className="app" data-mode={mode} data-night={daylight.hour<6.1||daylight.hour>=18.65}>
   <CityScene realDay={realDay} state={state} previews={previews} selected={selected} mode={mode} layoutKey={`${showGrowth}:${travelLayout}:${watchDeparture}`} onTransport={setTransport} watchDeparture={watchDeparture} travel={travel} now={now} motionPaused={motionPaused} cityHour={daylight.hour} cityLights={daylight.settings.lights} onSelect={select} onReady={()=>setReady(true)} onError={setError} apiRef={api}/>
-  <header className="topbar"><button className="brand" onClick={close} aria-label="回到家庭小城总览"><span className="brand-icon"><HouseLine size={34} weight="duotone"/></span><span><strong>家庭小城</strong><small>{date}</small></span></button><div className="top-actions"><button className={`today-button ${mode==='today'?'active':''}`} onClick={openToday} aria-label="今日事务" aria-expanded={mode==='today'}><ListChecks size={21}/><span>今日事务</span><b>{info.completed}<em>/{tasks.length}</em></b></button><AccountControl access={{...access,logout:()=>leave(access.logout)}} onReset={()=>leave(()=>access.request('today','生活区示例',()=>{commit({type:'reset'},'已恢复示例城市');closePanel();}))}/></div></header>
+  <header className="topbar"><button className="brand" onClick={close} aria-label="回到家庭小城总览"><span className="brand-icon"><HouseLine size={34} weight="duotone"/></span><span><strong>家庭小城</strong><small>{date}</small></span></button><div className="top-actions"><button className={`today-button ${mode==='today'?'active':''}`} onClick={openToday} aria-label="今日事务" aria-expanded={mode==='today'}><ListChecks size={21}/><span>今日事务</span><b>{info.completed}<em>/{tasks.length}</em></b></button><AccountControl onHousehold={()=>leave(()=>access.request('household','家庭成员',()=>{closePanel();setHouseholdOpen(true);}))} access={{...access,logout:()=>leave(access.logout)}} onReset={()=>leave(()=>access.request('today','生活区示例',()=>{commit({type:'reset'},'已恢复示例城市');closePanel();}))}/></div></header>
   <DaylightControl {...daylight}/>
   {mode==='overview'&&<div className="city-message"><span>让家更好，</span><span>从每一天的小进步开始。</span></div>}
   {!ready&&!error&&<div className="loading-panel"><HouseLine size={34} weight="duotone"/><strong>小城正在醒来</strong><span>正在载入三维街区…</span></div>}
@@ -63,6 +66,8 @@ export function App(){
   <div className="map-controls"><button className="compass-button" onClick={()=>api.current?.rotate()} aria-label="旋转视角90度"><span>N</span><Compass size={31} weight="duotone"/></button><div className="zoom-buttons"><button onClick={()=>api.current?.zoom(.2)} aria-label="放大地图"><Plus size={22}/></button><button onClick={()=>api.current?.zoom(-.2)} aria-label="缩小地图"><Minus size={22}/></button></div><button className="reset-view" onClick={close}><HouseLine size={17} weight="fill"/>回到全城</button><button className="motion-toggle" aria-pressed={motionPaused} aria-label={motionPaused?'播放城市人流车流':'暂停城市人流车流'} onClick={()=>setMotionPaused(v=>!v)}>{motionPaused?<Play size={14}/>:<Pause size={14}/>}<span>{motionPaused?'继续漫游':'暂停漫游'}</span></button><small>拖动旋转 · 滚轮缩放</small></div>
   {toast&&<div className="toast" role="status"><CheckCircle size={23} weight="fill"/><span>{toast.message}</span>{toast.eventId&&<button onClick={()=>{commit({type:'undo',id:toast.eventId});setToast(null);}}><ArrowCounterClockwise size={16}/>撤销</button>}</div>}
   <AccessDialog access={access}/>
+  <AccountFlow access={access}/>
+  {householdOpen&&access.canOpen('household')&&<HouseholdDialog key={access.auth.session?.user.id} access={access} onClose={()=>setHouseholdOpen(false)}/>}
   <div className="sr-only" aria-live="polite">{selected?`已选择${district?.name}`:'全城总览'}，今日完成{info.completed}项。</div>
  </main>;
 }

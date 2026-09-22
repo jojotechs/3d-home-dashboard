@@ -13,8 +13,27 @@ enabled = true
 site_url = "https://3d-home-dashboard.vercel.app"
 enable_signup = false
 enable_anonymous_sign_ins = false
+minimum_password_length = 12
+additional_redirect_urls = ["https://3d-home-dashboard.vercel.app/**", "http://127.0.0.1:5174/**", "http://localhost:5174/**"]
 
 [auth.email]
 # Keep the email provider enabled; global auth.enable_signup still blocks registration.
 enable_signup = true
 enable_confirmations = true
+
+[functions.invite-household]
+# New publishable keys are checked inside the function with auth.getUser().
+verify_jwt = false
+
+[auth.email.smtp]
+enabled = true
+host = "smtp.resend.com"
+port = 465
+user = "resend"
+pass = "env(RESEND_API_KEY)"
+admin_email = "family@mail.jojotechs.com"
+sender_name = "家庭小城"
+
+[auth.email.template.recovery]
+subject = "家庭小城 · 找回密码"
+content_path = "./supabase/templates/recovery.html"

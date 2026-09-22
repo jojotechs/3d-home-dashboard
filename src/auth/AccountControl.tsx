@@ -3,7 +3,7 @@ import {CaretDown, UserCircle, SignOut, ArrowCounterClockwise, ArrowUpRight} fro
 import type {AccessGate} from './useAccessGate';
 import './auth.css';
 
-export function AccountControl({access, onReset}: {access: AccessGate; onReset: () => void}) {
+export function AccountControl({access, onReset, onHousehold}: {access: AccessGate; onReset: () => void; onHousehold: () => void}) {
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const signedIn = access.auth.status === 'signedIn';
@@ -29,6 +29,7 @@ export function AccountControl({access, onReset}: {access: AccessGate; onReset: 
     {open && signedIn && <div className="account-popover" aria-label="账号信息">
       <div className="account-identity"><strong>{access.profile?.display_name || '我的账号'}</strong><span>{access.auth.session?.user.email}</span><small>{access.profile ? access.profile.household_name || '尚未加入家庭' : '家庭信息暂不可用'}{access.profile?.is_admin ? ' · 管理员' : ''}</small></div>
       {!access.profile && <button onClick={access.retry}>重新读取账号信息</button>}
+      {access.profile?.is_admin && <button onClick={()=>{setOpen(false);onHousehold();}}>管理家庭成员</button>}
       <button onClick={() => {setOpen(false); access.logout();}}><SignOut size={18}/>退出登录</button>
       <div className="account-demo"><small>生活区示例</small><p>生活区使用本机示例，财务记录保存在云端。</p>
         <button onClick={() => {setOpen(false); onReset();}}><ArrowCounterClockwise size={16}/>恢复生活区示例</button>

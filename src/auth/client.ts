@@ -40,18 +40,22 @@ export const appClient = url && /^https:\/\//.test(url) && key && isPublicKey(ke
     const requestUrl = new URL(input instanceof Request ? input.url : String(input));
     if (requestUrl.pathname.endsWith('/token') && requestUrl.searchParams.get('grant_type') === 'password' && loginController) signals.push(loginController.signal);
     return fetch(input, {...init, signal: AbortSignal.any(signals)});
-  }}, auth: {persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, storageKey: authChannel, storage: authStorage}})
+  }}, auth: {persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storageKey: authChannel, storage: authStorage}})
   : null;
 
-type AuthState = {status: 'checking' | 'signedIn' | 'signedOut' | 'signingOut' | 'signingIn'; session: Session | null};
-let authState: AuthState = {status: appClient ? 'checking' : 'signedOut', session: null};
+const incoming = new URLSearchParams(location.search);
+const fragment = new URLSearchParams(location.hash.slice(1));
+const incomingFlow = incoming.get('setup') === '1' || fragment.get('type') === 'invite' ? 'invite' : incoming.get('recovery') === '1' || fragment.get('type') === 'recovery' ? 'recovery' : null;
+
+type AuthState = {status: 'checking' | 'signedIn' | 'signedOut' | 'signingOut' | 'signingIn'; session: Session | null; flow?: 'invite' | 'recovery' | null; linkError?: string | null};
+let authState: AuthState = {status: appClient ? 'checking' : 'signedOut', session: null, flow: incomingFlow, linkError: fragment.get('error_description') || incoming.get('error_description')};
 const authListeners = new Set<() => void>();
 function publishAuth(value: AuthState) {
   authState = value;
   authListeners.forEach(listener => listener());
 }
-appClient?.auth.onAuthStateChange((_event, session) => {
-  if (authState.status !== 'signingOut' && authState.status !== 'signingIn') publishAuth({status: session ? 'signedIn' : 'signedOut', session});
+appClient?.auth.onAuthStateChange((event, session) => {
+  if (authState.status !== 'signingOut' && authState.status !== 'signingIn') publishAuth({...authState, status: session ? 'signedIn' : 'signedOut', session, flow: event === 'PASSWORD_RECOVERY' ? 'recovery' : authState.flow, linkError: authState.linkError || (!session && authState.flow ? '邮件链接已失效' : null)});
 });
 export const getAuth = () => authState;
 export function subscribeAuth(listener: () => void) {
@@ -116,4 +120,11 @@ export async function signIn(email: string, password: string): Promise<{error: u
 
 export function isAccessError(error: unknown): boolean {
   return ['42501', 'PGRST301', 'PGRST303'].includes((error as {code?: string})?.code ?? '');
+}
+
+export function finishPassword() {
+  const url=new URL(location.href); url.searchParams.delete('setup'); url.searchParams.delete('recovery');
+  url.searchParams.delete('error'); url.searchParams.delete('error_description');
+  history.replaceState(null,'',url.pathname+url.search);
+  publishAuth({...authState,flow:null,linkError:null});
 }

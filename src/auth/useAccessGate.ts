@@ -32,6 +32,7 @@ export function useAccessGate() {
     const version = ++generation.current;
     const current = getAuth();
     if (!appClient) {setDialog('error'); return;}
+    if (current.flow || current.linkError) return;
     if (current.status === 'checking' || current.status === 'signingOut' || current.status === 'signingIn') {
       if (intent) setDialog('checking');
       return;
@@ -69,7 +70,15 @@ export function useAccessGate() {
       setProfile(null);
       if (pending.current && auth.status !== 'signingIn') setDialog(auth.status === 'signedOut' ? 'login' : 'checking');
     }
-  }, [auth.status, auth.session?.user.id]);
+  }, [auth.status, auth.session?.user.id, auth.flow, auth.linkError]);
+
+  useEffect(() => {
+    if (auth.status !== 'signedIn') return;
+    const refresh = () => {if (!pending.current && !getAuth().flow && document.visibilityState === 'visible') void authorize(null);};
+    const timer = setInterval(refresh, 30000);
+    window.addEventListener('focus', refresh); window.addEventListener('online', refresh);
+    return () => {clearInterval(timer); window.removeEventListener('focus',refresh); window.removeEventListener('online',refresh);};
+  }, [auth.status,auth.session?.user.id]);
 
   function request(module: string, title: string, open: () => void) {
     const intent = {module, title, open};
@@ -97,6 +106,6 @@ export function useAccessGate() {
   const currentProfile = auth.session?.user.id === profile?.user_id ? profile : null;
   return {auth, profile: currentProfile, dialog, destination, request, dismiss, login, logout,
     retry: () => {void authorize(pending.current);},
-    canOpen: (module: string) => auth.status === 'signedIn' && !!currentProfile?.modules.includes(module)};
+    canOpen: (module: string) => auth.status === 'signedIn' && !auth.flow && !auth.linkError && !!currentProfile?.modules.includes(module)};
 }
 export type AccessGate = ReturnType<typeof useAccessGate>;

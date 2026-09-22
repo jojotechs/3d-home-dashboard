@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import {HouseLine, LockKey, X} from '@phosphor-icons/react';
-import {signIn} from './client';
+import {appClient, signIn} from './client';
 import type {AccessGate} from './useAccessGate';
 import './auth.css';
 
@@ -33,6 +33,8 @@ export function AccessDialog({access}: {access: AccessGate}) {
 }
 
 function LoginForm({locked}: {locked: boolean}) {
+  const [recover, setRecover] = useState(false);
+  const [notice, setNotice] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
@@ -43,6 +45,12 @@ function LoginForm({locked}: {locked: boolean}) {
     event.preventDefault(); if (busy || locked) return;
     setBusy(true); setError('');
     try {
+      if (recover) {
+        const {error} = await appClient!.auth.resetPasswordForEmail(email.trim(), {redirectTo: location.origin+'/?recovery=1'});
+        if (error) throw error;
+        if (alive.current) setNotice('如果这个邮箱已有账号，我们会发送找回密码邮件。');
+        return;
+      }
       const result = await signIn(email.trim(), password);
       if (alive.current && !result.cancelled) {
         if (result.error) setError('登录失败，请检查邮箱、密码和网络连接。');
@@ -52,9 +60,11 @@ function LoginForm({locked}: {locked: boolean}) {
     finally {if (alive.current) setBusy(false);}
   }}>
     <label>邮箱<input autoFocus type="email" autoComplete="username" value={email} onChange={event => setEmail(event.target.value)} required disabled={busy || locked} placeholder="你的邮箱"/></label>
-    <label>密码<input type="password" autoComplete="current-password" value={password} onChange={event => setPassword(event.target.value)} required disabled={busy || locked} placeholder="输入密码"/></label>
+    {!recover && <label>密码<input type="password" autoComplete="current-password" value={password} onChange={event => setPassword(event.target.value)} required disabled={busy || locked} placeholder="输入密码"/></label>}
     {error && <p className="access-error" role="alert">{error}</p>}
-    <button className="primary access-action" disabled={busy || locked}>{busy || locked ? '正在登录…' : '登录'}</button>
+    <button className="primary access-action" disabled={busy || locked}>{busy || locked ? '正在连接…' : recover ? '发送找回邮件' : '登录'}</button>
+    {notice && <p role="status">{notice}</p>}
+    <button type="button" disabled={busy || locked} onClick={()=>{setRecover(value=>!value);setError('');setNotice('');setPassword('');}}>{recover?'返回登录':'忘记密码？'}</button>
     <small>使用家庭管理员已开通的账号</small>
   </form>;
 }
