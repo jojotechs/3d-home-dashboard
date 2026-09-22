@@ -37,6 +37,7 @@ export interface FinanceDraftRow {
   removed: boolean;
   base: FinanceEntry | null;
   missing?: boolean;
+  needsReview?: boolean;
 }
 export interface FinanceRequest {
   p_household_id: string;

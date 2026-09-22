@@ -48,10 +48,34 @@ test('an explicit refresh keeps local edits while showing fresh unrelated rows a
   assert.deepEqual(draftChanges(reloaded), [{id:'bank',operation:'upsert',expected_version:'1',kind:'balance',name:'银行',amount_minor:'9000'}]);
   const conflict = refreshDraft(draft, [{...bank,amount_minor:'11000',version:'2'},freshWallet]);
   assert.equal(conflict.find(row => row.id === 'bank').base.amount_minor, '11000');
+  assert.equal(conflict.find(row => row.id === 'bank').needsReview, true);
+  assert.throws(() => draftChanges(conflict), /核对/);
+  // A second refresh cannot silently dismiss an unresolved choice.
+  assert.throws(() => draftChanges(refreshDraft(conflict, [{...bank,amount_minor:'11000',version:'2'},freshWallet])), /核对/);
+  conflict.find(row => row.id === 'bank').needsReview = false;
   assert.equal(draftChanges(conflict)[0].expected_version, '2');
   const removed = refreshDraft(draft, [freshWallet]);
   assert.throws(() => draftChanges(removed), /已被其他成员移除/);
   removed.find(row => row.id === 'bank').removed = true;
   assert.deepEqual(draftChanges(removed), []);
   assert.equal(draftTotals(refreshDraft(removed, [freshWallet])).net, '6000');
+});
+
+test('removing a remotely changed entry requires review and adopting the cloud keeps unrelated edits', () => {
+  const bank = {id:'bank',kind:'balance',name:'银行',amount_minor:'10000',version:'1'};
+  const wallet = {id:'wallet',kind:'balance',name:'微信',amount_minor:'5000',version:'1'};
+  const draft = createDraft([bank,wallet]);
+  draft[0].removed = true; draft[1].amount = '60';
+  const remote = {...bank,name:'共同储蓄',amount_minor:'12000',version:'2'};
+  const review = refreshDraft(draft, [remote,wallet]);
+  assert.equal(review[0].removed,true);
+  assert.throws(() => draftChanges(review), /核对/);
+  review[0].needsReview = false;
+  assert.deepEqual(draftChanges(review)[0], {id:'bank',operation:'remove',expected_version:'2'});
+  const adopted = [...createDraft([review[0].base]),review[1]];
+  assert.equal(draftTotals(adopted).net,'18000');
+  assert.deepEqual(draftChanges(adopted), [{id:'wallet',operation:'upsert',expected_version:'1',kind:'balance',name:'微信',amount_minor:'6000'}]);
+  // Equal local and remote values need no overwrite or extra history.
+  const converged = refreshDraft(adopted,[remote,{...wallet,amount_minor:'6000',version:'2'}]);
+  assert.deepEqual(draftChanges(converged),[]);
 });

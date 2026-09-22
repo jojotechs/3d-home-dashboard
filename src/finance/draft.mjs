@@ -23,6 +23,7 @@ export function draftChanges(rows) {
       if (row.removed) return [];
       throw new Error('有项目已被其他成员移除，请放弃该项修改；需要时可重新新增。');
     }
+    if (row.needsReview) throw new Error('请先核对有冲突的项目，选择采用云端记录或保留你的修改。');
     if (row.removed) return [{id:row.id,operation:'remove',expected_version:row.base.version}];
     const name = row.name.trim(), amount = parseRmb(row.amount);
     if (!name || [...name].length > 100) throw new Error('请填写 1–100 字的项目名称。');
@@ -50,7 +51,9 @@ export function refreshDraft(rows, entries) {
   const edits = rows.filter(rowChanged);
   const merged = createDraft(entries).map(current => {
     const edit = edits.find(row => row.id === current.id);
-    return edit ? {...edit,base:current.base,missing:false} : current;
+    if (!edit) return current;
+    const updated = {...edit,base:current.base,missing:false};
+    return {...updated,needsReview:rowChanged(updated) && (!!edit.needsReview || edit.base?.version !== current.base.version)};
   });
   for (const edit of edits) {
     if (entries.some(entry => entry.id === edit.id)) continue;

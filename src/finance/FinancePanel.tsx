@@ -21,12 +21,15 @@ export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () =>
   const [conflict, setConflict] = useState(false);
   const [review, setReview] = useState(false);
   const [retry, setRetry] = useState<FinanceRequest | null>(null);
+  const [needsCurrent, setNeedsCurrent] = useState(false);
   const [leaving, setLeaving] = useState<(() => void) | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
+  const reviewNotice = useRef<HTMLDivElement>(null);
   const alive = useRef(true);
   const operation = useRef(0);
   const working = useRef(false);
   const dirty = rows.some(rowChanged);
+  const unresolved = rows.filter(row => rowChanged(row) && (row.needsReview || row.missing)).length;
   let totals = null;
   try {totals = draftTotals(rows);} catch { /* Partial inputs have no valid draft total. */ }
 
@@ -47,6 +50,9 @@ export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () =>
     if (leaving) dialog.current?.showModal();
     else dialog.current?.close();
   }, [leaving]);
+  useEffect(() => {
+    if (!loading) reviewNotice.current?.focus();
+  }, [conflict, loading]);
   useEffect(() => {
     // An exit requested while saving can proceed once confirmation has removed
     // all pending edits. A failed save keeps the dialog and draft intact.
@@ -74,8 +80,8 @@ export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () =>
       const current = data as FinanceSnapshot;
       setSnapshot(current);
       setRows(previous => keepInput ? refreshDraft(previous, current.entries) : createDraft(current.entries));
-      setRetry(null); setConflict(false); setReview(keepInput);
-      if (keepInput) setNotice('已读取最新记录，你的修改仍保留。请核对各项云端值，再确认保存。');
+      setNeedsCurrent(false); setConflict(false); setReview(keepInput);
+      if (keepInput) setNotice('已读取最新记录，你的修改仍保留。请核对标记的项目，再确认保存。');
     } catch (failure) {
       if (alive.current && generation === operation.current) {
         if (isAccessError(failure)) {setSnapshot(null); onAccessDenied();}
@@ -87,7 +93,7 @@ export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () =>
   }
 
   async function save() {
-    if (!appClient || !snapshot || working.current || conflict) return;
+    if (!appClient || !snapshot || working.current || loading || conflict || needsCurrent || unresolved) return;
     let request = retry;
     if (!request) {
       try {
@@ -105,7 +111,7 @@ export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () =>
       if (failure) throw failure;
       const confirmed = data as FinanceSnapshot;
       setSnapshot(confirmed); setRows(createDraft(confirmed.entries));
-      setRetry(null); setReview(false);
+      setRetry(null); setReview(false); setNeedsCurrent(true);
       setNotice('已保存到云端');
       // A retry may acknowledge an older commit. Read the current book before
       // permitting another edit; never resubmit the already confirmed patch.
@@ -114,7 +120,7 @@ export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () =>
       if (alive.current && generation === operation.current) {
         setError(financeError(failure));
         const code = (failure as {code?:string})?.code;
-        if (code === 'PT409') setConflict(true);
+        if (code === 'PT409') {setRetry(null); setConflict(true);}
         if (code === '22023' || code === '22003') setRetry(null);
         if (isAccessError(failure)) {setSnapshot(null); onAccessDenied();}
       }
@@ -136,27 +142,33 @@ export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () =>
     setRows(previous => previous.flatMap(row => row.id !== id ? [row] : row.base && !row.missing ? [{...row,removed:true}] : []));
     setNotice(''); setError('');
   }
-  const locked = saving || loading || !!retry;
+  function useCloud(id: string) {
+    setRows(previous => previous.flatMap(row => row.id !== id ? [row] : row.missing || !row.base ? [] : createDraft([row.base])));
+    setError(''); setNotice('已采用该项云端记录，其他草稿仍保留。');
+  }
+  const locked = saving || loading || !!retry || needsCurrent;
   return <div className="finance-book">
     {loading && <p role="status">正在读取云端记录…</p>}
     {error && <p className="finance-error" role="alert">{error}</p>}
     {!loading && !snapshot && <button className="primary" onClick={() => void read(false)}>重新读取</button>}
     {snapshot && <>
-      <div className="finance-summary"><span className="eyebrow">已保存的储蓄净额</span><strong className="net-worth">¥ {formatRmb(snapshot.net_savings_minor)}</strong>
+      <div className="finance-summary"><span className="eyebrow">{needsCurrent ? '上次已确认的储蓄净额' : '已保存的储蓄净额'}</span><strong className="net-worth">¥ {formatRmb(snapshot.net_savings_minor)}</strong>
         <small>{snapshot.saved_at ? `云端更新于 ${time(snapshot.saved_at)}（北京时间）` : '还没有财务记录，添加余额或负债开始记账。'}</small>
         <small>{BigInt(snapshot.net_savings_minor) < 1000000n ? 'Lv.1 · 街角初成' : '财务已保存 · 十级城市成长将在后续开放'}</small>
       </div>
       <form className="finance-editor" onSubmit={event => {event.preventDefault(); void save();}}>
-        <FinanceList kind="balance" rows={rows.filter(row => row.kind === 'balance')} disabled={locked} onChange={change} onAdd={() => add('balance')} onRemove={remove}/>
-        <FinanceList kind="debt" rows={rows.filter(row => row.kind === 'debt')} disabled={locked} onChange={change} onAdd={() => add('debt')} onRemove={remove}/>
+        {(conflict || unresolved > 0) && <div ref={reviewNotice} tabIndex={-1} className="finance-review" role="status">{conflict ? <><strong>有成员先更新了记录</strong><p>本次修改均未保存，输入仍保留。请读取最新记录，核对后再提交。</p></> : <p>还有 {unresolved} 项需要核对。选择采用云端记录，或保留你的修改后再保存。</p>}</div>}
+        <FinanceList kind="balance" rows={rows.filter(row => row.kind === 'balance')} disabled={locked} onChange={change} onAdd={() => add('balance')} onRemove={remove} onUseCloud={useCloud}/>
+        <FinanceList kind="debt" rows={rows.filter(row => row.kind === 'debt')} disabled={locked} onChange={change} onAdd={() => add('debt')} onRemove={remove} onUseCloud={useCloud}/>
         <div className={`finance-draft-summary ${dirty ? 'is-dirty' : ''}`} aria-label="草稿合计">
           <div><span>{dirty ? '草稿储蓄净额 · 未保存' : '当前列表合计'}</span><strong>{totals ? `¥ ${formatRmb(totals.net)}` : '待填写有效金额'}</strong></div>
           <small>{totals ? `余额 ¥ ${formatRmb(totals.balance)} − 负债 ¥ ${formatRmb(totals.debt)}` : '请填写金额，最多保留两位小数。'}</small>
           {dirty && <small>点击保存后才会更新云端记录。</small>}
         </div>
-        <div className="finance-actions"><button className="primary" disabled={saving || loading || conflict || (!dirty && !retry)}>{saving ? '正在保存…' : retry ? '重试保存' : review ? '确认并保存修改' : '保存修改'}</button>
-          <button type="button" className="text-button" disabled={saving || loading} onClick={() => void read(dirty || !!retry)}>读取最新记录</button></div>
-        {retry && !saving && <p className="finance-muted">输入已保留。重试使用同一次提交，避免重复记账；需要修改时，先读取最新记录并核对。</p>}
+        <div className="finance-actions"><button className="primary" disabled={saving || loading || conflict || needsCurrent || unresolved > 0 || (!dirty && !retry)}>{saving ? '正在保存…' : retry ? '重试保存' : review ? '确认并保存修改' : '保存修改'}</button>
+          <button type="button" className="text-button" disabled={saving || loading || !!retry} onClick={() => void read(dirty)}>读取最新记录</button></div>
+        {retry && !saving && <p className="finance-review" role="status">本次提交的结果尚未确认，输入已保留。请先重试确认同一次提交，避免重复记账；确认后即可继续编辑。</p>}
+        {needsCurrent && !loading && <p className="finance-review" role="status">本次提交已保存，但暂时无法读取最新记录。请重新读取后继续编辑，无需再次保存。</p>}
       </form>
     </>}
     {notice && <p className="finance-success" role="status">{notice}</p>}
