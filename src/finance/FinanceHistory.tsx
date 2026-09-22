@@ -2,7 +2,7 @@ import type {FinanceHistoryEntry} from './client';
 import {formatRmb} from './money.mjs';
 import {beijingTime, historyTotals, trendPoints} from './history.mjs';
 
-export function FinanceHistory({history, onRefresh, refreshing}: {history: FinanceHistoryEntry[]; onRefresh: () => void; refreshing: boolean}) {
+export function FinanceHistory({history, onRefresh, refreshing, canCorrect, onCorrect}: {history: FinanceHistoryEntry[]; onRefresh: () => void; refreshing: boolean; canCorrect: boolean; onCorrect: (id: string) => void}) {
   const points: {x:number; y:number}[] = history ? trendPoints(history) : [];
   const values = history?.map(update => BigInt(update.snapshot.net_savings_minor)) ?? [];
   const range = values.length ? {min:values.reduce((a,b) => a < b ? a : b).toString(), max:values.reduce((a,b) => a > b ? a : b).toString()} : null;
@@ -20,13 +20,16 @@ export function FinanceHistory({history, onRefresh, refreshing}: {history: Finan
         <div className="finance-trend-range"><span>{beijingTime(history[0].saved_at)}</span><span>{beijingTime(history.at(-1)!.saved_at)}</span></div>
         <small>北京时间 · 每个点对应一次保存，可展开下方记录查看完整明细。</small>
       </figure>
+      {!canCorrect && <p className="finance-muted">请先处理当前账本的草稿或待确认提交，再纠正历史。</p>}
       <div className="finance-history-list">{[...history].reverse().map(update => {
         const totals = historyTotals(update.snapshot.entries);
         return <details key={update.id} className="finance-history-update">
           <summary><span><strong>¥ {formatRmb(update.snapshot.net_savings_minor)}</strong><small>{beijingTime(update.saved_at)}（北京时间）</small></span><span>{update.actor_name}</span></summary>
           <p>余额 ¥ {formatRmb(totals.balance)} − 负债 ¥ {formatRmb(totals.debt)}</p>
-          <p className="finance-muted">操作人：{update.actor_name} · 第 {update.version} 次更新</p>
+          <p className="finance-muted">操作人：{update.actor_name} · 更新编号 {update.version}</p>
+          {update.revisions?.map(revision=><p className="finance-muted" key={revision.revision}>修订 {revision.revision}：{revision.actor_name} · {beijingTime(revision.revised_at)}（北京时间）</p>)}
           {(['balance','debt'] as const).map(kind => <div key={kind} className="finance-history-entries"><h3>{kind === 'balance' ? '当时的余额' : '当时的负债'}</h3>{update.snapshot.entries.filter(entry => entry.kind === kind).map(entry => <div className="finance-history-entry" key={entry.id}><span>{entry.name}<small>原创建者：{entry.creator_name}</small></span><strong>¥ {formatRmb(entry.amount_minor)}</strong></div>)}{!update.snapshot.entries.some(entry => entry.kind === kind) && <p className="finance-muted">没有{kind === 'balance' ? '余额' : '负债'}记录</p>}</div>)}
+          {!!update.snapshot.entries.length && <button className="text-button" disabled={!canCorrect} onClick={()=>onCorrect(update.id)}>纠正这次记录</button>}
         </details>;
       })}</div>
       <p className="finance-muted">创建者表示最初录入的人，不代表资金所有人。历史保留每次保存时的名称与归属。</p>

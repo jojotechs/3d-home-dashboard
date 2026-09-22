@@ -54,6 +54,8 @@ export function financeError(error: unknown): string {
 }
 
 export interface FinanceHistoryEntry {
+  revision: string;
+  revisions: {revision: string; actor_id: string; actor_name: string; revised_at: string}[];
   id: string;
   actor_id: string;
   actor_name: string;
@@ -65,4 +67,17 @@ export interface FinanceHistoryEntry {
 export interface FinanceBook {
   current: FinanceSnapshot;
   history: FinanceHistoryEntry[];
+}
+
+export interface FinanceCorrectionRow extends FinanceEntry {
+  baseMinor: string;
+  amount: string;
+}
+export interface FinanceCorrectionRequest {
+  p_household_id: string;
+  p_update_id: string;
+  p_expected_revision: string;
+  p_expected_book_version: string;
+  p_changes: {id:string; amount_minor:string}[];
+  p_request_id: string;
 }

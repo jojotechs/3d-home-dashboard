@@ -8,6 +8,7 @@ import {formatRmb} from './money.mjs';
 import {FinanceList} from './FinanceList';
 import {FinanceHistory} from './FinanceHistory';
 import {FinanceGrowth} from './FinanceGrowth';
+import {FinanceCorrection} from './FinanceCorrection';
 import {financeLevel, levelFeedback} from './growth.mjs';
 import './finance.css';
 
@@ -15,6 +16,7 @@ type ExitGuard = RefObject<((leave: () => void) => void) | null>;
 const time = (value: string) => new Date(value).toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'});
 
 export function FinancePanel({onAccessDenied, exitGuard, onBookRead}: {onAccessDenied: () => void; exitGuard: ExitGuard; onBookRead: (book: FinanceBook) => void}) {
+  const [correcting, setCorrecting] = useState<string | null>(null);
   const [book, setBook] = useState<FinanceBook | null>(null);
   const [feedback, setFeedback] = useState('');
   const [view, setView] = useState<'current' | 'history'>('current');
@@ -172,7 +174,7 @@ export function FinancePanel({onAccessDenied, exitGuard, onBookRead}: {onAccessD
       {book && !needsCurrent && <FinanceGrowth book={book}/>}
       {feedback && !needsCurrent && <p className="finance-success" role="status">{feedback}</p>}
       <nav className="finance-tabs" aria-label="财务视图"><button aria-pressed={view === 'current'} onClick={() => setView('current')}>当前账本{dirty ? ' · 有草稿' : ''}</button><button aria-pressed={view === 'history'} onClick={() => setView('history')}>历史与趋势</button></nav>
-      {view === 'history' && book && <FinanceHistory history={book.history} refreshing={saving || loading || !!retry} onRefresh={() => void read(dirty)}/>}
+      {view === 'history' && book && <FinanceHistory history={book.history} refreshing={saving || loading || !!retry} onRefresh={() => void read(dirty)} canCorrect={!dirty && !locked} onCorrect={setCorrecting}/>}
       <form hidden={view !== 'current'} className="finance-editor" onSubmit={event => {event.preventDefault(); void save();}}>
         {(conflict || unresolved > 0) && <div ref={reviewNotice} tabIndex={-1} className="finance-review" role="status">{conflict ? <><strong>有成员先更新了记录</strong><p>本次修改均未保存，输入仍保留。请读取最新记录，核对后再提交。</p></> : <p>还有 {unresolved} 项需要核对。选择采用云端记录，或保留你的修改后再保存。</p>}</div>}
         <FinanceList kind="balance" rows={rows.filter(row => row.kind === 'balance')} disabled={locked} onChange={change} onAdd={() => add('balance')} onRemove={remove} onUseCloud={useCloud}/>
@@ -188,6 +190,10 @@ export function FinancePanel({onAccessDenied, exitGuard, onBookRead}: {onAccessD
         {needsCurrent && !loading && <p className="finance-review" role="status">本次提交已保存，但暂时无法读取最新记录。请重新读取后继续编辑，无需再次保存。</p>}
       </form>
     </>}
+    {correcting && book && <FinanceCorrection initialBook={book} updateId={correcting}
+      onClose={needsRefresh=>{setCorrecting(null);if(needsRefresh){setNeedsCurrent(true);void read(false);}}}
+      onAccessDenied={()=>{setCorrecting(null);setSnapshot(null);setBook(null);onAccessDenied();}}
+      onCommitted={fresh=>{setBook(fresh);setSnapshot(fresh.current);setRows(createDraft(fresh.current.entries));onBookRead(fresh);setCorrecting(null);setFeedback('');setNotice('历史修订已保存，当前账本、趋势和历史成果已重新核对。');}}/>}
     {notice && <p className="finance-success" role="status">{notice}</p>}
     <p className="finance-muted">储蓄净额为所记录余额减负债，不代表完整家庭净资产。其他地区仍使用本机示例数据。</p>
     <dialog ref={dialog} className="finance-exit-dialog" aria-labelledby="finance-exit-title" onCancel={event => {event.preventDefault(); event.stopPropagation(); setLeaving(null);}}>
