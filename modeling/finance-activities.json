@@ -1,0 +1,75 @@
+{
+  "coordinateSpace": "district_local_blender_metres",
+  "routeIndex": 0,
+  "entrance": "street",
+  "levels": {
+    "1": {
+      "nodes": {
+        "street": [0, -24.4, 0.72],
+        "gate": [0, -22, 0.51],
+        "south": [0, -19, 0.51],
+        "square": [0, -15, 0.51],
+        "west": [-9, -15, 0.51],
+        "cafeLane": [-9, -8.5, 0.51],
+        "cafeFront": [-18, -8.5, 0.51],
+        "cafeDoor": [-18, -7.6, 0.7],
+        "terraceLane": [-19, -14, 0.51],
+        "terrace": [-19, -12.65, 0.51],
+        "bankLane": [-9, 2, 0.51],
+        "bankFront": [-19, 2, 0.51],
+        "bankStep": [-19, 3.5, 0.94],
+        "bankDoor": [-19, 5.45, 0.94],
+        "eastLane": [5, -6, 0.51],
+        "eastFront": [5, 0.2, 0.51],
+        "shopFront": [15, 0.2, 0.51],
+        "shopDoor": [15, 3.4, 0.7]
+      },
+      "edges": [["street", "gate"], ["gate", "south"], ["south", "square"], ["square", "west"], ["west", "cafeLane"], ["cafeLane", "cafeFront"], ["cafeFront", "cafeDoor"], ["west", "terraceLane"], ["terraceLane", "terrace"], ["cafeLane", "bankLane"], ["bankLane", "bankFront"], ["bankFront", "bankStep"], ["bankStep", "bankDoor"], ["square", "eastLane"], ["eastLane", "eastFront"], ["eastFront", "shopFront"], ["shopFront", "shopDoor"]],
+      "places": [
+        {"id": "corner-cafe", "node": "cafeDoor", "action": "coffee", "indoor": true, "purchase": true, "dwell": [7, 12], "facing": [0, 1]},
+        {"id": "cafe-terrace", "node": "terrace", "action": "coffee", "dwell": [6, 10], "facing": [0, 1]},
+        {"id": "savings", "node": "bankDoor", "action": "banking", "indoor": true, "dwell": [8, 14], "facing": [0, 1]},
+        {"id": "co-op", "node": "shopDoor", "action": "shopping", "indoor": true, "purchase": true, "dwell": [8, 13], "facing": [0, 1]}
+      ]
+    },
+    "2": {
+      "nodes": {
+        "street": [0, -24.4, 0.72],
+        "gate": [0, -22, 0.51],
+        "south": [0, -19, 0.51],
+        "west": [-12.5, -19, 0.51],
+        "westAisle": [-16, -4.5, 0.51],
+        "bankFront": [-22, -4.5, 0.51],
+        "bankStep": [-21, -2.5, 0.94],
+        "bankDoor": [-20, -0.55, 0.94],
+        "marketAisle": [-13, -4.5, 0.51],
+        "marketFront": [2, -4.5, 0.51],
+        "marketDoor": [2, -2.5, 0.88],
+        "fruitLane": [-10, -14.5, 0.51],
+        "fruit": [-10, -12.2, 0.51],
+        "flowerLane": [-2, -14.5, 0.51],
+        "flowers": [-2, -12.2, 0.51],
+        "bakeryLane": [6, -14.5, 0.51],
+        "bakery": [6, -12.2, 0.51],
+        "east": [14, -19, 0.51],
+        "cafeLane": [14, -11.5, 0.51],
+        "cafeFront": [21, -11.5, 0.51],
+        "cafeDoor": [21, -11.1, 0.7],
+        "terraceLane": [21, -19, 0.51],
+        "terrace": [21, -15, 0.51],
+        "westTurn": [-12.5, -14.2, 0.51],
+        "westClear": [-16, -14.2, 0.51]
+      },
+      "edges": [["street", "gate"], ["gate", "south"], ["south", "west"], ["westAisle", "bankFront"], ["bankFront", "bankStep"], ["bankStep", "bankDoor"], ["westAisle", "marketAisle"], ["marketAisle", "marketFront"], ["marketFront", "marketDoor"], ["south", "flowerLane"], ["flowerLane", "fruitLane"], ["fruitLane", "fruit"], ["flowerLane", "flowers"], ["flowerLane", "bakeryLane"], ["bakeryLane", "bakery"], ["south", "east"], ["east", "cafeLane"], ["cafeLane", "cafeFront"], ["cafeFront", "cafeDoor"], ["east", "terraceLane"], ["terraceLane", "terrace"], ["west", "westTurn"], ["westTurn", "westClear"], ["westClear", "westAisle"]],
+      "places": [
+        {"id": "market", "node": "marketDoor", "action": "shopping", "indoor": true, "purchase": true, "dwell": [10, 16], "facing": [0, 1]},
+        {"id": "fruit-stall", "node": "fruit", "action": "browsing", "purchase": true, "dwell": [5, 9], "facing": [0, 1]},
+        {"id": "flower-stall", "node": "flowers", "action": "browsing", "purchase": true, "dwell": [5, 9], "facing": [0, 1]},
+        {"id": "bakery-stall", "node": "bakery", "action": "browsing", "purchase": true, "dwell": [5, 9], "facing": [0, 1]},
+        {"id": "market-cafe", "node": "cafeDoor", "action": "coffee", "indoor": true, "purchase": true, "dwell": [7, 12], "facing": [0, 1]},
+        {"id": "cafe-terrace", "node": "terrace", "action": "coffee", "dwell": [6, 10], "facing": [1, 0]},
+        {"id": "savings", "node": "bankDoor", "action": "banking", "indoor": true, "dwell": [8, 14], "facing": [0, 1]}
+      ]
+    }
+  }
+}

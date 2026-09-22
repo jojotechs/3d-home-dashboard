@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import assets from '../../modeling/finance-levels.json' with {type:'json'};
 import {createLightPoolMaterial} from '../CityLighting.mjs';
+import activityPlans from '../../modeling/finance-activities.json' with {type:'json'};
+import {DistrictActivities} from '../activities/DistrictActivities.mjs';
 
 function disposeTree(root) {
   root.removeFromParent();
@@ -14,11 +16,11 @@ function disposeTree(root) {
 }
 
 /** One level owns all its geometry, lights, materials and visual updates. */
-function activate(gltf,level) {
+function activate(gltf,level,activities,origin) {
   const root=gltf.scene;
   const district=root.getObjectByName(`finance_level_${level}`);
   if(!district || district.userData.financeLevel!==level)throw Error('财务街景资源不完整，请重新载入。');
-  const lamps=[], actors=[];
+  const lamps=[];
   root.traverse(o=>{
     if(o.isMesh){
       o.castShadow=true;o.receiveShadow=true;
@@ -31,13 +33,12 @@ function activate(gltf,level) {
       }
     }
     if(o.userData.financeMotion==='walk'){
-      const route=o.userData.route.map(([x,y])=>new THREE.Vector3(x,0,-y));
-      const lengths=route.map((p,i)=>p.distanceTo(route[(i+1)%route.length]));
-      actors.push({object:o,route,lengths,length:lengths.reduce((a,b)=>a+b,0),speed:o.userData.speed});
+      // Legacy GLB customers are superseded by the city's shared, articulated pedestrians.
+      o.visible=false;o.traverse(child=>{if(child.isMesh)child.castShadow=false;});
     }
   });
-  // Moving customers do not leave frozen shadows in the city's cached sunlight map.
-  actors.forEach(({object})=>object.traverse(o=>{if(o.isMesh)o.castShadow=false;}));
+  const unregister=activities?.register(new DistrictActivities({id:'finance',origin,
+    routeIndex:activityPlans.routeIndex,entrance:activityPlans.entrance,...activityPlans.levels[level]}));
   const anchors=district.userData.lightAnchors;
   const lights=anchors.map(a=>{
     const l=new THREE.PointLight('#ffc786',0,a.range,2);l.position.set(a.x,a.z,-a.y);district.add(l);return l;
@@ -53,20 +54,12 @@ function activate(gltf,level) {
     lamps.forEach(m=>{m.emissiveIntensity=night*(m.name.startsWith('finance_lamp')?2.4:.9);});
     lights.forEach((l,i)=>{l.intensity=night*anchors[i].power;});
     pools.visible=night>.005;poolMat.uniforms.opacity.value=night*.22;
-    if(paused)return;
-    actors.forEach(({object,route,lengths,length,speed})=>{
-      let distance=seconds*speed%length,index=0;
-      while(distance>lengths[index])distance-=lengths[index++];
-      const a=route[index],b=route[(index+1)%route.length];
-      object.position.lerpVectors(a,b,distance/lengths[index]);
-      object.rotation.y=Math.atan2(-(b.x-a.x),-(b.z-a.z));
-    });
   }
-  return {root,update,dispose:()=>disposeTree(root),snapshot:()=>({level,seconds:+seconds.toFixed(3),paused,night:+night.toFixed(3),lights:lights.length,actors:actors.map(a=>({name:a.object.name,position:a.object.position.toArray().map(v=>+v.toFixed(3))}))})};
+  return {root,update,dispose(){unregister?.();disposeTree(root);},snapshot:()=>({level,seconds:+seconds.toFixed(3),paused,night:+night.toFixed(3),lights:lights.length,activities:activities?.snapshot()??null})};
 }
 
 /** Load only the requested level. Late responses never reattach an obsolete level. */
-export function mountFinanceDistrict(parent,loader,{onReady,onError,onChange}) {
+export function mountFinanceDistrict(parent,loader,{onReady,onError,onChange,activities,origin}) {
   let active=null,requested=null,generation=0,disposed=false,ready=false;
   async function setLevel(level) {
     if(disposed||level===requested)return;
@@ -77,7 +70,7 @@ export function mountFinanceDistrict(parent,loader,{onReady,onError,onChange}) {
       const asset=assets.levels[level];if(!asset)throw Error('财务街景等级尚未提供。');
       gltf=await loader.loadAsync(asset.url);
       if(disposed||revision!==generation){disposeTree(gltf.scene);return;}
-      active=activate(gltf,level);parent.add(active.root);onChange();
+      active=activate(gltf,level,activities,origin);parent.add(active.root);onChange();
       if(!ready){ready=true;onReady();}
     }catch(error){
       if(gltf&&!active)disposeTree(gltf.scene);

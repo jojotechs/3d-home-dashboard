@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import {createLightPoolMaterial} from './CityLighting.mjs';
 import {createMobility} from './mobility-sim.mjs';
 const palette=['#f6e5cb','#77abd1','#cc927d','#8eb79d','#dddaca','#d3b46a'];
-export function mountMobility(scene,gltf){
- const simulation=createMobility(),parts=[],dummy=new THREE.Object3D(),actor=new THREE.Matrix4(),local=new THREE.Matrix4(),rotation=new THREE.Quaternion(),axis=new THREE.Vector3(1,0,0),unit=new THREE.Vector3(1,1,1),position=new THREE.Vector3();
+export function mountMobility(scene,gltf,{activities}={}){
+ const simulation=createMobility(undefined,24,40,{activities}),parts=[],dummy=new THREE.Object3D(),actor=new THREE.Matrix4(),local=new THREE.Matrix4(),rotation=new THREE.Quaternion(),axis=new THREE.Vector3(1,0,0),unit=new THREE.Vector3(1,1,1),position=new THREE.Vector3();
  gltf.scene.updateMatrixWorld(true);
  const definitions=[['motion_car',[0,0,0]],['walker_body',[0,0,0]],['walker_head',[0,0,0]],['walker_leg_left',[-.105,.86,0]],['walker_leg_right',[.105,.86,0]],['walker_arm_left',[-.255,1.34,0]],['walker_arm_right',[.255,1.34,0]]];
  for(const [name,pivot] of definitions){
@@ -22,27 +22,40 @@ export function mountMobility(scene,gltf){
  const heads=new THREE.InstancedMesh(bulbGeometry,headMaterial,simulation.cars.length*2),tails=new THREE.InstancedMesh(bulbGeometry,tailMaterial,simulation.cars.length*2);
  const beamGeometry=new THREE.PlaneGeometry(2,2);beamGeometry.rotateX(-Math.PI/2);const beamMaterial=createLightPoolMaterial('#ffe6ab',0),beams=new THREE.InstancedMesh(beamGeometry,beamMaterial,simulation.cars.length);
  for(const mesh of [heads,tails,beams]){mesh.frustumCulled=false;mesh.visible=false;mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);scene.add(mesh);}
+ // Shared instanced shopping bags: the same street actor carries the outcome of a visit.
+ const bagGeometry=new THREE.BoxGeometry(.27,.31,.15),bagMaterial=new THREE.MeshStandardMaterial({color:'#e7b86a',roughness:.85});
+ const handleGeometry=new THREE.TorusGeometry(.072,.012,4,8),handleMaterial=new THREE.MeshStandardMaterial({color:'#75543c',roughness:.85});
+ const bags=new THREE.InstancedMesh(bagGeometry,bagMaterial,simulation.people.length),handles=new THREE.InstancedMesh(handleGeometry,handleMaterial,simulation.people.length);
+ for(const mesh of [bags,handles]){mesh.frustumCulled=false;mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);scene.add(mesh);}
+ const floor=p=>p.pose.z;
  const bulbPos=new THREE.Vector3();const upAxis=new THREE.Vector3(0,1,0);
  function draw(){
   for(const part of parts){const list=part.cars?simulation.cars:simulation.people;
    list.forEach((p,i)=>{
-    const heading=Math.atan2(p.pose.dx*(p.direction??1),-p.pose.dy*(p.direction??1));
-    dummy.position.set(p.pose.x,part.cars ? .84 : p.routeIndex===7 ? .8 : p.routeIndex===8 ? .55 : .72,-p.pose.y);dummy.rotation.set(0,heading,0);dummy.scale.set(1,1,1);dummy.updateMatrix();actor.copy(dummy.matrix);
+    const heading=Math.atan2(p.pose.dx,-p.pose.dy);
+    dummy.position.set(p.pose.x,part.cars ? .84 : floor(p),-p.pose.y);dummy.rotation.set(0,heading,0);dummy.scale.setScalar(p.visible===false?0:1);dummy.updateMatrix();actor.copy(dummy.matrix);
     const isLimb=part.name.includes('leg')||part.name.includes('arm'),isLeft=part.name.endsWith('left');
-    const gait=p.pause>0?0:Math.sin(p.phase??0)*.43;
+    const gait=p.moving===false?0:Math.sin(p.phase??0)*.43;
     rotation.setFromAxisAngle(axis,isLimb?gait*(isLeft?1:-1)*(part.name.includes('arm')?-1:1):0);
     position.set(...part.pivot);local.compose(position,rotation,unit);actor.multiply(local);part.instances.setMatrixAt(i,actor);
    });part.instances.instanceMatrix.needsUpdate=true;
   }
-  [...simulation.cars,...simulation.people].forEach((p,i)=>{const car=i<simulation.cars.length;dummy.position.set(p.pose.x,car ? .84 : p.routeIndex===7 ? .79 : p.routeIndex===8 ? .55 : .71,-p.pose.y);dummy.rotation.set(0,Math.atan2(p.pose.dx,-p.pose.dy),0);dummy.scale.set(car ? .92 : .22,1,car?2.05:.26);dummy.updateMatrix();shadows.setMatrixAt(i,dummy.matrix);});shadows.instanceMatrix.needsUpdate=true;
+  [...simulation.cars,...simulation.people].forEach((p,i)=>{const car=i<simulation.cars.length;dummy.position.set(p.pose.x,car ? .84 : floor(p)-.01,-p.pose.y);dummy.rotation.set(0,Math.atan2(p.pose.dx,-p.pose.dy),0);dummy.scale.set(car ? .92 : .22,1,car?2.05:.26);if(p.visible===false)dummy.scale.setScalar(0);dummy.updateMatrix();shadows.setMatrixAt(i,dummy.matrix);});shadows.instanceMatrix.needsUpdate=true;
+  simulation.people.forEach((p,i)=>{
+   const angle=Math.atan2(p.pose.dx,-p.pose.dy),gait=p.moving===false?0:Math.sin(p.phase)*.43;rotation.setFromAxisAngle(upAxis,angle);
+   for(const [mesh,height] of [[bags,.65],[handles,.84]]){
+    bulbPos.set(.37-.255,height-1.34,.02).applyAxisAngle(axis,gait);bulbPos.x+=.255;bulbPos.y+=1.34;bulbPos.applyQuaternion(rotation);dummy.position.set(p.pose.x+bulbPos.x,floor(p)+bulbPos.y,-p.pose.y+bulbPos.z);
+    dummy.rotation.set(gait,angle,0,'YXZ');dummy.scale.setScalar(p.carrying&&p.visible!==false?1:0);dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix);
+   }
+  });bags.instanceMatrix.needsUpdate=true;handles.instanceMatrix.needsUpdate=true;
   simulation.cars.forEach((p,i)=>{
    const angle=Math.atan2(p.pose.dx,-p.pose.dy);rotation.setFromAxisAngle(upAxis,angle);
    for(let side=0;side<2;side++)for(const [mesh,z] of [[heads,2.075],[tails,-2.03]]){
-    bulbPos.set(side===0?-.65:.65,.64,z).applyQuaternion(rotation);dummy.position.set(p.pose.x+bulbPos.x,.84+bulbPos.y,-p.pose.y+bulbPos.z);dummy.rotation.set(0,angle,0);dummy.scale.set(.16,.08,.065);dummy.updateMatrix();mesh.setMatrixAt(i*2+side,dummy.matrix);
+    bulbPos.set(side===0?-.65:.65,.64,z).applyQuaternion(rotation);dummy.position.set(p.pose.x+bulbPos.x,.84+bulbPos.y,-p.pose.y+bulbPos.z);dummy.rotation.set(0,angle,0,'XYZ');dummy.scale.set(.16,.08,.065);dummy.updateMatrix();mesh.setMatrixAt(i*2+side,dummy.matrix);
    }
    dummy.position.set(p.pose.x+p.pose.dx*4.8,.948,-p.pose.y-p.pose.dy*4.8);dummy.rotation.set(0,angle,0);dummy.scale.set(1.45,1,3.3);dummy.updateMatrix();beams.setMatrixAt(i,dummy.matrix);
   });for(const mesh of [heads,tails,beams])mesh.instanceMatrix.needsUpdate=true;
  }
  draw();
- return {setNightLights(value){for(const mesh of [heads,tails,beams])mesh.visible=value>.03;beamMaterial.uniforms.opacity.value=value*.52;},update(dt){simulation.step(dt);draw();},snapshot(){return {cars:simulation.cars.length,pedestrians:simulation.people.length,elapsed:Number(simulation.elapsed.toFixed(2)),car:simulation.cars.slice(0,3).map(c=>[+c.pose.x.toFixed(2),+c.pose.y.toFixed(2)]),walkers:simulation.people.slice(0,3).map(p=>[+p.pose.x.toFixed(2),+p.pose.y.toFixed(2)])};},dispose(){for(const mesh of [heads,tails,beams]){scene.remove(mesh);mesh.dispose();}bulbGeometry.dispose();headMaterial.dispose();tailMaterial.dispose();beamGeometry.dispose();beamMaterial.dispose();for(const p of parts){scene.remove(p.instances);p.instances.geometry.dispose();p.instances.material.dispose();p.instances.dispose();}scene.remove(shadows);shadowGeometry.dispose();shadowMaterial.dispose();shadows.dispose();const materials=new Set();gltf.scene.traverse(o=>{if(o.isMesh){o.geometry.dispose();(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>materials.add(m));}});materials.forEach(m=>m.dispose());}};
+ return {setNightLights(value){for(const mesh of [heads,tails,beams])mesh.visible=value>.03;beamMaterial.uniforms.opacity.value=value*.52;},update(dt){simulation.step(dt);draw();},snapshot(){return {activities:activities?.snapshot()??null,cars:simulation.cars.length,pedestrians:simulation.people.length,elapsed:Number(simulation.elapsed.toFixed(2)),car:simulation.cars.slice(0,3).map(c=>[+c.pose.x.toFixed(2),+c.pose.y.toFixed(2)]),walkers:simulation.people.slice(0,3).map(p=>[+p.pose.x.toFixed(2),+p.pose.y.toFixed(2)])};},dispose(){for(const mesh of [bags,handles]){scene.remove(mesh);mesh.geometry.dispose();mesh.material.dispose();mesh.dispose();}for(const mesh of [heads,tails,beams]){scene.remove(mesh);mesh.dispose();}bulbGeometry.dispose();headMaterial.dispose();tailMaterial.dispose();beamGeometry.dispose();beamMaterial.dispose();for(const p of parts){scene.remove(p.instances);p.instances.geometry.dispose();p.instances.material.dispose();p.instances.dispose();}scene.remove(shadows);shadowGeometry.dispose();shadowMaterial.dispose();shadows.dispose();const materials=new Set();gltf.scene.traverse(o=>{if(o.isMesh){o.geometry.dispose();(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>materials.add(m));}});materials.forEach(m=>m.dispose());}};
 }

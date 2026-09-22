@@ -13,6 +13,7 @@ import {OutputPass} from 'three/addons/postprocessing/OutputPass.js';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {districts,visibleForNode,derived} from './city-state.mjs';
 import {mountMobility} from './CityMobility.mjs';
+import {PedestrianActivities} from './activities/PedestrianActivities.mjs';
 import {mountCityTransport} from './CityTransport.mjs';
 import {tripPhase} from './travel-state.mjs';
 
@@ -39,6 +40,7 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
   const composer=new EffectComposer(renderer,renderTarget);composer.addPass(new RenderPass(scene,camera));
   const ao=new GTAOPass(scene,camera,1,1,undefined,{radius:1.2,thickness:.6,distanceFallOff:1,samples:16});ao.blendIntensity=.75;composer.addPass(ao);const bloom=new UnrealBloomPass(new THREE.Vector2(1,1),.24,.45,1.05);bloom.enabled=false;composer.addPass(bloom);composer.addPass(new OutputPass());
   const lighting=mountCityLighting(scene,renderer,sun,hemisphere,bloom);
+  const activities=new PedestrianActivities();
   renderer.info.autoReset=false;
   const rays=new THREE.Raycaster(),pointer=new THREE.Vector2(),dynamic=[];const labelEls=new Map(),overviewPoints=[];let model,mobility,transport,financeDistrict,tween=null,down=null,drag=false,loaded=0;
   const outline=new THREE.LineLoop(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:'#e9fff6',transparent:true,opacity:.65,depthTest:true}));outline.visible=false;outline.renderOrder=5;scene.add(outline);
@@ -95,13 +97,14 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
   const draco=new DRACOLoader().setDecoderPath('/draco/');
   const assetReady=()=>{loaded++;if(loaded===4)latest.current.onReady();};
   new GLTFLoader().setDRACOLoader(draco).load('/models/city-lighting-v1.glb',gltf=>{if(disposed)return;try{lighting.attachRig(gltf);assetReady();}catch(error){latest.current.onError(error.message);}},undefined,error=>latest.current.onError(error.message||'灯光模型加载失败'));
-  new GLTFLoader().setDRACOLoader(draco).load('/models/mobility.glb',gltf=>{if(disposed)return;try{mobility=mountMobility(scene,gltf);el.dataset.mobility=JSON.stringify(mobility.snapshot());assetReady();}catch(error){latest.current.onError(error.message);}},undefined,error=>latest.current.onError(error.message||'行人与车辆加载失败'));
+  new GLTFLoader().setDRACOLoader(draco).load('/models/mobility.glb',gltf=>{if(disposed)return;try{mobility=mountMobility(scene,gltf,{activities});el.dataset.mobility=JSON.stringify(mobility.snapshot());assetReady();}catch(error){latest.current.onError(error.message);}},undefined,error=>latest.current.onError(error.message||'行人与车辆加载失败'));
   new GLTFLoader().setDRACOLoader(draco).load('/models/family-city.glb',gltf=>{
    if(disposed)return;model=gltf.scene;scene.add(model);context.current.model=model;
    const financeRoot=model.getObjectByName('district_finance');
    financeRoot.getObjectByName('static_finance').visible=false;
    financeRoot.getObjectByName('dynamic_finance').visible=false;
    financeDistrict=mountFinanceDistrict(financeRoot,new GLTFLoader().setDRACOLoader(draco),{
+    activities,origin:[...districts.find(d=>d.id==='finance').center,0],
     onReady:assetReady,onError:message=>latest.current.onError(message),
     onChange:()=>{renderer.shadowMap.needsUpdate=true;el.dataset.financeScene=JSON.stringify(financeDistrict.snapshot());},
    });
@@ -134,9 +137,10 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
    const dt=lastFrame?Math.min(.05,(t-lastFrame)/1000):0;lastFrame=t;
    lighting.setTime(latest.current.cityHour??13,latest.current.cityLights!==false);const lightFrame=lighting.update(dt,t/1000);mobility?.setNightLights(lightFrame.night);
    if(transport){const status=transport.update(latest.current.travel,Date.now(),lightFrame.night);if(frame%15===0)el.dataset.transport=JSON.stringify({status,actors:transport.snapshot()});}
-   financeDistrict?.update(dt,lightFrame.night,latest.current.motionPaused||document.hidden||matchMedia('(prefers-reduced-motion: reduce)').matches);
+   const actorsPaused=latest.current.motionPaused||document.hidden||matchMedia('(prefers-reduced-motion: reduce)').matches;
+   financeDistrict?.update(dt,lightFrame.night,actorsPaused);
    if(frame%30===0){el.dataset.daylight=JSON.stringify(lighting.snapshot());if(financeDistrict)el.dataset.financeScene=JSON.stringify(financeDistrict.snapshot());}
-   if(mobility&&!latest.current.motionPaused&&!document.hidden)mobility.update(dt);
+   if(mobility&&!actorsPaused)mobility.update(dt);
    renderer.info.reset();composer.render();
    if(frame>0&&frame%120===0){el.dataset.cameraZoom=camera.zoom.toFixed(3);el.dataset.viewportWidth=String(rect().width);if(mobility)el.dataset.mobility=JSON.stringify({...mobility.snapshot(),paused:latest.current.motionPaused});el.dataset.visibleGroups=JSON.stringify(dynamic.filter(o=>o.visible).map(o=>o.name));el.dataset.renderGeometries=String(renderer.info.memory.geometries);el.dataset.renderTextures=String(renderer.info.memory.textures);el.dataset.renderCalls=String(renderer.info.render.calls);el.dataset.renderTriangles=String(renderer.info.render.triangles);el.dataset.averageFps=(120000/(performance.now()-metricStart)).toFixed(1);metricStart=performance.now();}
    if(frame++%3===0&&model){const {width,height}=rect();const used=[];const pending=derived(latest.current.state).pending;
@@ -149,7 +153,7 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
     }
    }
   }raf=requestAnimationFrame(render);
-  return()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();mobility?.dispose();transport?.dispose();financeDistrict?.dispose();lighting.dispose();draco.dispose();ao.dispose();bloom.dispose();composer.dispose();renderer.dispose();const materials=new Set();model?.traverse(o=>{if(o.isMesh){o.geometry.dispose();(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>materials.add(m));}});materials.forEach(m=>m.dispose());outline.geometry.dispose();outline.material.dispose();el.replaceChildren();apiRef.current=null;context.current=null;};
+  return()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();financeDistrict?.dispose();activities.dispose();mobility?.dispose();transport?.dispose();lighting.dispose();draco.dispose();ao.dispose();bloom.dispose();composer.dispose();renderer.dispose();const materials=new Set();model?.traverse(o=>{if(o.isMesh){o.geometry.dispose();(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>materials.add(m));}});materials.forEach(m=>m.dispose());outline.geometry.dispose();outline.material.dispose();el.replaceChildren();apiRef.current=null;context.current=null;};
  },[]);
  useEffect(()=>{const c=context.current;if(c){c.financeDistrict?.setLevel(financeProjection?.modelLevel??1);const anchor=c.model?.getObjectByName('anchor_label_finance');if(anchor)anchor.position.y=financeAssets.levels[financeProjection?.modelLevel??1].height+2;c.dynamic.forEach(o=>{o.visible=visibleForNode(o.userData,state,{...previews,finance:financeProjection?.modelLevel??1});});if(host.current)host.current.dataset.visibleGroups=JSON.stringify(c.dynamic.filter(o=>o.visible).map(o=>o.name));if(c.renderer)c.renderer.shadowMap.needsUpdate=true;}},[state,previews,realDay,financeProjection?.modelLevel]);
  useEffect(()=>{if(selected)context.current?.focus(selected,mode);else context.current?.focus(null);},[selected,mode,layoutKey,financeProjection?.modelLevel]);

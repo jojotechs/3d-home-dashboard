@@ -62,6 +62,8 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 
 ## Agent skills
 
+- Pedestrian interaction feedback (2026-09-22): street pedestrians must interact with district facilities, beginning with finance (enter/leave, browse, shop and linger). Use scene-owned object composition and constructor injection: a shared pedestrian activity lifecycle consumes district-owned walkable graphs, entrances and activity places. Reuse the actual street people; later districts register their own providers. Activity is visual only and never changes financial records or achievements. Keep metre scale, pause/reduced-motion behavior and clean up visits/reservations when a district model is replaced.
+
 ### Issue tracker
 
 任务和规格使用 GitHub Issues：`jojotechs/3d-home-dashboard`。见 `docs/agents/issue-tracker.md`。

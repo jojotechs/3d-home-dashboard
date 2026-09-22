@@ -42,9 +42,13 @@ export const walkingRoutes=[
  rectangle(-34.4,-24.4,34.4,24.4),rectangle(-34.4,31.6,110.4,82.4),
  rectangle(41.6,-24.4,110.4,24.4),rectangle(-34.4,-82.4,34.4,-31.6),
  rectangle(41.6,-82.4,110.4,-31.6),rectangle(207,-85.6,268,-84.4),rectangle(-2,90,58,91.5),
-].map(p=>makeRoute(p,{lane:0,radius:.55}));
+].map((p,i)=>({...makeRoute(p,{lane:0,radius:.55}),groundZ:i===7?.8:i===8?.55:.72}));
+function walkingPose(route,s,direction){
+ const pose=sampleRoute(route,s);
+ return {...pose,z:route.groundZ,dx:pose.dx*direction,dy:pose.dy*direction};
+}
 export const intersections=[[-114,-86],[-38,-86],[38,-86],[114,-86],[-114,28],[-38,28],[38,28],[114,28],[-114,86],[-38,86],[114,86],[-38,-28],[38,-28],[114,-28],[179,-74]];
-export function createMobility(seed=Math.floor(Math.random()*4294967296),carCount=24,peopleCount=40){
+export function createMobility(seed=Math.floor(Math.random()*4294967296),carCount=24,peopleCount=40,{activities}={}){
  const random=randomGenerator(seed),cars=[],people=[],reservations=new Map();let elapsed=0;
  for(let i=0;i<carCount;i++){
   const routeIndex=i%carRoutes.length,route=carRoutes[routeIndex];let s=0,pose;
@@ -53,7 +57,8 @@ export function createMobility(seed=Math.floor(Math.random()*4294967296),carCoun
  }
  for(let i=0;i<peopleCount;i++){
   const routeIndex=i%walkingRoutes.length,s=random()*walkingRoutes[routeIndex].length;
-  people.push({id:i,routeIndex,s,pose:sampleRoute(walkingRoutes[routeIndex],s),speed:.9+random()*.42,direction:random()>.5?1:-1,phase:random()*Math.PI*2,color:Math.floor(random()*6),pause:0,nextPause:8+random()*35});
+  const speed=.9+random()*.42,direction=random()>.5?1:-1,pose=walkingPose(walkingRoutes[routeIndex],s,direction);
+  people.push({id:i,routeIndex,s,pose,speed,direction,phase:random()*Math.PI*2,color:Math.floor(random()*6),pause:0,nextPause:8+random()*35,visible:true,moving:true,carrying:false,visitCooldown:0});
  }
  return {cars,people,get elapsed(){return elapsed;},step(seconds){
   const dt=Math.min(.05,Math.max(0,seconds));if(!dt)return;elapsed+=dt;
@@ -73,9 +78,12 @@ export function createMobility(seed=Math.floor(Math.random()*4294967296),carCoun
   });
   cars.forEach((c,i)=>{c.speed=speeds[i];c.s=(c.s+c.speed*dt)%carRoutes[c.routeIndex].length;c.pose=sampleRoute(carRoutes[c.routeIndex],c.s);});
   people.forEach(p=>{
+   if(activities?.update(p,dt))return;
+   p.visitCooldown=Math.max(0,p.visitCooldown-dt);p.moving=false;
+   if(activities?.tryEnter(p))return;
    if(p.pause>0){p.pause-=dt;return;}
    p.nextPause-=dt;if(p.nextPause<=0){p.pause=1.5+random()*3;p.nextPause=14+random()*40;return;}
-   p.s+=p.speed*p.direction*dt;p.phase+=p.speed*dt*5.1;p.pose=sampleRoute(walkingRoutes[p.routeIndex],p.s);
+   p.s+=p.speed*p.direction*dt;p.phase+=p.speed*dt*5.1;p.pose=walkingPose(walkingRoutes[p.routeIndex],p.s,p.direction);p.moving=true;
   });
  }};
 }

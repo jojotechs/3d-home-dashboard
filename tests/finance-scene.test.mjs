@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
 import {mountFinanceDistrict} from '../src/finance/FinanceDistrict.mjs';
+import {PedestrianActivities} from '../src/activities/PedestrianActivities.mjs';
 
 // Asset loading is the external boundary. Real Three objects exercise scene ownership.
 function asset(level) {
@@ -17,21 +18,27 @@ function asset(level) {
   return {gltf:{scene},root,material,actor,disposed:()=>[geometryDisposals,materialDisposals]};
 }
 
-test('changing finance level removes the entire old atmosphere; pause retains static light and stops customers',async()=>{
+test('changing finance level removes old activity reservations and atmosphere; pause retains static light',async()=>{
   const parent=new THREE.Group(),first=asset(1),second=asset(2);
-  const district=mountFinanceDistrict(parent,{loadAsync:async url=>url.endsWith('1.glb')?first.gltf:second.gltf},{onReady(){},onChange(){},onError:assert.fail});
+  const activities=new PedestrianActivities({random:()=>0});
+  const district=mountFinanceDistrict(parent,{loadAsync:async url=>url.endsWith('1.glb')?first.gltf:second.gltf},{activities,origin:[-76,56,0],onReady(){},onChange(){},onError:assert.fail});
   await district.setLevel(1);district.update(2,1,false);
   assert.equal(parent.children.length,1);assert.ok(first.material.emissiveIntensity>0);
-  const position=first.actor.position.clone();district.update(20,1,true);
-  assert.deepEqual(first.actor.position,position);assert.equal(district.snapshot().seconds,2);
+  assert.equal(first.actor.visible,false,'Legacy looping customers must not double the city pedestrians');
+  const person={id:0,routeIndex:0,pose:{x:-76,y:31.6,dx:1,dy:0},speed:1.2,phase:0};
+  assert.ok(activities.tryEnter(person));
+  district.update(20,1,true);assert.equal(district.snapshot().seconds,2);
   district.update(1,0,true);assert.equal(first.material.emissiveIntensity,0);
   await district.setLevel(2);
+  assert.equal(activities.snapshot().visitors.length,0);assert.equal(person.visible,true);
+  assert.deepEqual(activities.snapshot().districts,['finance']);
   assert.equal(parent.getObjectByName('finance_level_1'),undefined);
   assert.equal(parent.getObjectByName('customer_1'),undefined);
   assert.deepEqual(first.disposed(),[1,1]);
   let lights=0;parent.traverse(o=>{if(o.isLight)lights++;});assert.equal(lights,1);
   district.update(1,1,false);assert.equal(district.snapshot().level,2);
   district.dispose();assert.equal(parent.children.length,0);assert.deepEqual(second.disposed(),[1,1]);
+  assert.deepEqual(activities.snapshot().districts,[]);
 });
 
 test('late model downloads cannot revive an obsolete level or attach after the scene has closed',async()=>{
