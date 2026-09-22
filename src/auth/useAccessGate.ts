@@ -48,6 +48,7 @@ export function useAccessGate() {
       const context = data as AccessContext;
       if (context.user_id !== userId || !Array.isArray(context.modules)) throw new Error('Invalid access context');
       setProfile(context);
+      if (background) return;
       pending.current = null;
       if (intent && !context.modules.includes(intent.module)) {setDialog('denied'); return;}
       setDialog(null);

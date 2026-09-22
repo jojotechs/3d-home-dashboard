@@ -55,7 +55,7 @@ type AuthState = {status: 'checking' | 'signedIn' | 'signedOut' | 'signingOut' |
 let authState: AuthState = {status: appClient ? 'checking' : 'signedOut', session: null, flow: incomingFlow, linkError: incomingError};
 const authListeners = new Set<() => void>();
 function publishAuth(value: AuthState) {
-  authState = value;
+  authState = {flow: null, linkError: null, ...value};
   authListeners.forEach(listener => listener());
 }
 appClient?.auth.onAuthStateChange((_event, session) => {
