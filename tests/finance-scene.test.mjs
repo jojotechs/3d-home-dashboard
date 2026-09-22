@@ -55,3 +55,12 @@ test('late model downloads cannot revive an obsolete level or attach after the s
   pending.get('/models/finance/level-2.glb')(final.gltf);await closing;
   assert.equal(parent.children.length,0);assert.deepEqual(final.disposed(),[1,1]);assert.deepEqual(errors,[]);
 });
+
+test('a failed model activation cannot publish activity places for an invisible building',async()=>{
+  const broken=asset(1),activities=new PedestrianActivities(),errors=[];
+  delete broken.root.userData.lightAnchors;
+  const district=mountFinanceDistrict(new THREE.Group(),{loadAsync:async()=>broken.gltf},{activities,origin:[-76,56,0],onReady:assert.fail,onChange(){},onError:error=>errors.push(error)});
+  await district.setLevel(1);
+  assert.equal(errors.length,1);assert.deepEqual(activities.snapshot().districts,[]);
+  assert.deepEqual(broken.disposed(),[1,1]);district.dispose();
+});

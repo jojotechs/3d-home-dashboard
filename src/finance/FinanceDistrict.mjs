@@ -37,8 +37,6 @@ function activate(gltf,level,activities,origin) {
       o.visible=false;o.traverse(child=>{if(child.isMesh)child.castShadow=false;});
     }
   });
-  const unregister=activities?.register(new DistrictActivities({id:'finance',origin,
-    routeIndex:activityPlans.routeIndex,entrance:activityPlans.entrance,...activityPlans.levels[level]}));
   const anchors=district.userData.lightAnchors;
   const lights=anchors.map(a=>{
     const l=new THREE.PointLight('#ffc786',0,a.range,2);l.position.set(a.x,a.z,-a.y);district.add(l);return l;
@@ -55,6 +53,9 @@ function activate(gltf,level,activities,origin) {
     lights.forEach((l,i)=>{l.intensity=night*anchors[i].power;});
     pools.visible=night>.005;poolMat.uniforms.opacity.value=night*.22;
   }
+  // Publish activity places only after the complete model has activated successfully.
+  const unregister=activities?.register(new DistrictActivities({id:'finance',origin,
+    routeIndex:activityPlans.routeIndex,entrance:activityPlans.entrance,...activityPlans.levels[level]}));
   return {root,update,dispose(){unregister?.();disposeTree(root);},snapshot:()=>({level,seconds:+seconds.toFixed(3),paused,night:+night.toFixed(3),lights:lights.length,activities:activities?.snapshot()??null})};
 }
 
