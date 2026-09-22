@@ -167,7 +167,7 @@ export function FinancePanel({onAccessDenied, exitGuard, onBookRead}: {onAccessD
       {book && !needsCurrent && <FinanceGrowth book={book}/>}
       {feedback && !needsCurrent && <p className="finance-success" role="status">{feedback}</p>}
       <nav className="finance-tabs" aria-label="财务视图"><button aria-pressed={view === 'current'} onClick={() => setView('current')}>当前账本{dirty ? ' · 有草稿' : ''}</button><button aria-pressed={view === 'history'} onClick={() => setView('history')}>历史与趋势</button></nav>
-      {view === 'history' && <FinanceHistory householdId={snapshot.household_id} onAccessDenied={onAccessDenied}/>}
+      {view === 'history' && book && <FinanceHistory history={book.history} refreshing={saving || loading || !!retry} onRefresh={() => void read(dirty)}/>}
       <form hidden={view !== 'current'} className="finance-editor" onSubmit={event => {event.preventDefault(); void save();}}>
         {(conflict || unresolved > 0) && <div ref={reviewNotice} tabIndex={-1} className="finance-review" role="status">{conflict ? <><strong>有成员先更新了记录</strong><p>本次修改均未保存，输入仍保留。请读取最新记录，核对后再提交。</p></> : <p>还有 {unresolved} 项需要核对。选择采用云端记录，或保留你的修改后再保存。</p>}</div>}
         <FinanceList kind="balance" rows={rows.filter(row => row.kind === 'balance')} disabled={locked} onChange={change} onAdd={() => add('balance')} onRemove={remove} onUseCloud={useCloud}/>
