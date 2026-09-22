@@ -1,0 +1,99 @@
+{
+  "household": "cc1d2d60-9a83-4f4a-ad78-8cb3b4d595ec",
+  "current": "28200000",
+  "version": "12",
+  "growth": {
+    "currentLevel": 5,
+    "stage": "区域中心",
+    "peakMinor": "42000000",
+    "peakLevel": 6,
+    "nextLevel": 6,
+    "nextMinor": "30000000",
+    "remainingMinor": "1800000"
+  },
+  "level7Achieved": false,
+  "history": [
+    {
+      "version": "1",
+      "revision": "3",
+      "net": "130000",
+      "actor": "历史验收管理员",
+      "revisions": [
+        {
+          "actor_id": "657ced93-0b46-49a6-b02f-73fe63c30334",
+          "revision": "2",
+          "actor_name": "历史验收管理员",
+          "revised_at": "2026-09-22T09:09:18.26759+00:00"
+        },
+        {
+          "actor_id": "657ced93-0b46-49a6-b02f-73fe63c30334",
+          "revision": "3",
+          "actor_name": "历史验收管理员",
+          "revised_at": "2026-09-22T09:09:18.96107+00:00"
+        }
+      ]
+    },
+    {
+      "version": "4",
+      "revision": "1",
+      "net": "140000",
+      "actor": "历史修订成员",
+      "revisions": []
+    },
+    {
+      "version": "5",
+      "revision": "1",
+      "net": "0",
+      "actor": "历史验收管理员",
+      "revisions": []
+    },
+    {
+      "version": "6",
+      "revision": "2",
+      "net": "42000000",
+      "actor": "历史验收管理员",
+      "revisions": [
+        {
+          "actor_id": "657ced93-0b46-49a6-b02f-73fe63c30334",
+          "revision": "2",
+          "actor_name": "历史验收管理员",
+          "revised_at": "2026-09-22T09:11:22.495023+00:00"
+        }
+      ]
+    },
+    {
+      "version": "7",
+      "revision": "3",
+      "net": "27000000",
+      "actor": "历史验收管理员",
+      "revisions": [
+        {
+          "actor_id": "657ced93-0b46-49a6-b02f-73fe63c30334",
+          "revision": "2",
+          "actor_name": "历史验收管理员",
+          "revised_at": "2026-09-22T09:11:54.239975+00:00"
+        },
+        {
+          "actor_id": "657ced93-0b46-49a6-b02f-73fe63c30334",
+          "revision": "3",
+          "actor_name": "历史验收管理员",
+          "revised_at": "2026-09-22T09:13:45.78619+00:00"
+        }
+      ]
+    },
+    {
+      "version": "10",
+      "revision": "2",
+      "net": "28200000",
+      "actor": "历史修订成员",
+      "revisions": [
+        {
+          "actor_id": "141b2ed4-45a8-4c8f-a194-f8bac1ec9fa5",
+          "revision": "2",
+          "actor_name": "历史修订成员",
+          "revised_at": "2026-09-22T09:21:25.911173+00:00"
+        }
+      ]
+    }
+  ]
+}
