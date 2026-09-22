@@ -34,6 +34,7 @@ export function FinancePanel({onAccessDenied, exitGuard, onBookRead}: {onAccessD
   const alive = useRef(true);
   const operation = useRef(0);
   const working = useRef(false);
+  const pendingLevelFeedback = useRef<number | null>(null);
   const dirty = rows.some(rowChanged);
   const unresolved = rows.filter(row => rowChanged(row) && (row.needsReview || row.missing)).length;
   let totals = null;
@@ -75,7 +76,7 @@ export function FinancePanel({onAccessDenied, exitGuard, onBookRead}: {onAccessD
     return () => window.removeEventListener('beforeunload', warn);
   }, [dirty, retry]);
 
-  async function read(keepInput: boolean, beforeLevel?: number) {
+  async function read(keepInput: boolean) {
     if (!appClient) return;
     const generation = ++operation.current;
     setLoading(true); setError('');
@@ -86,7 +87,10 @@ export function FinancePanel({onAccessDenied, exitGuard, onBookRead}: {onAccessD
       const nextBook = data as FinanceBook;
       const current = nextBook.current;
       setBook(nextBook); onBookRead(nextBook);
-      if (beforeLevel !== undefined) setFeedback(levelFeedback(beforeLevel,financeLevel(current.net_savings_minor)));
+      if (pendingLevelFeedback.current !== null) {
+        setFeedback(levelFeedback(pendingLevelFeedback.current,financeLevel(current.net_savings_minor)));
+        pendingLevelFeedback.current = null;
+      }
       setSnapshot(current);
       setRows(previous => keepInput ? refreshDraft(previous, current.entries) : createDraft(current.entries));
       setNeedsCurrent(false); setConflict(false); setReview(keepInput);
@@ -112,7 +116,7 @@ export function FinancePanel({onAccessDenied, exitGuard, onBookRead}: {onAccessD
       } catch (failure) {setError((failure as Error).message); return;}
     }
     working.current = true;
-    setSaving(true); setRetry(request); setError(''); setNotice('');
+    setSaving(true); setRetry(request); setError(''); setNotice(''); setFeedback('');
     const generation = ++operation.current;
     try {
       const {data, error: failure} = await appClient.rpc('save_finances', request);
@@ -124,7 +128,8 @@ export function FinancePanel({onAccessDenied, exitGuard, onBookRead}: {onAccessD
       setNotice('已保存到云端');
       // A retry may acknowledge an older commit. Read the current book before
       // permitting another edit; never resubmit the already confirmed patch.
-      await read(false, financeLevel(snapshot.net_savings_minor));
+      pendingLevelFeedback.current = financeLevel(snapshot.net_savings_minor);
+      await read(false);
     } catch (failure) {
       if (alive.current && generation === operation.current) {
         setError(financeError(failure));
