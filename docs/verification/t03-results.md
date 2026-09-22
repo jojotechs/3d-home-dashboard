@@ -1,6 +1,6 @@
 # T03 家庭邀请、财务授权与邮件找回
 
-对应 [Issue #5](https://github.com/jojotechs/3d-home-dashboard/issues/5)。前置 #3 已通过 GitHub 原生依赖接口确认关闭。实施起点 d6c7a99；核心实现 c30bdaa，正式站点 https://3d-home-dashboard.vercel.app/。下文将已完成检查与尚待人工设密的验收分开。
+对应 [Issue #5](https://github.com/jojotechs/3d-home-dashboard/issues/5)。前置 #3 已通过 GitHub 原生依赖接口确认关闭。实施起点 d6c7a99；核心实现 c30bdaa，正式站点 https://3d-home-dashboard.vercel.app/。T03 于 2026-09-22 完成真实云端、实际邮件及应用内浏览器验收。
 
 ## 复用配置与边界
 
@@ -37,9 +37,9 @@
 
 SMTP 实测通过同一公开 `resetPasswordForEmail` 接口发起；Resend provider ID `01a0c7f3-7dec-705c-9521-70cbddda07b9` 于 2026-09-22 15:10 显示 Delivered，中文邮件模板与正式站点回跳参数均正确。此动作只申请恢复邮件，尚未修改密码。
 
-在首次设密后打开上述旧恢复链接，页面正确提示“邮件链接已失效”。随后从正式站点登录弹窗的“忘记密码”重新申请；Resend provider ID `01a0c813-4fb6-7b75-afa3-6596fd6a986c` 于 15:45 显示 Delivered。打开该真实邮件链接后，正式站点显示正确测试邮箱和“设置你的密码”表单，已交由用户完成输入、确认、提交及退出重登。
+在首次设密后打开上述旧恢复链接，页面正确提示“邮件链接已失效”。随后从正式站点登录弹窗的“忘记密码”重新申请；Resend provider ID `01a0c813-4fb6-7b75-afa3-6596fd6a986c` 于 15:45 显示 Delivered。打开该真实邮件链接后，正式站点显示正确测试邮箱和“设置你的密码”表单。新密码输入、确认和提交按浏览器工具要求交由用户完成；用户随后确认已用新密码重新登录。代理在应用内浏览器核对到已登录的 `f9u2c7`、正确验收邮箱和原验收家庭，没有恢复或设密弹窗。重新进入财务仍被撤权提示拦截，未显示金额。
 
-用户已完成首次设密并加入家庭；浏览器显示该受邀账号和验收家庭，云端邀请为 accepted，并绑定原成员 ID，未新增重复成员。该账号（现昵称 `f9u2c7`）随后在正式站点获授权，读回 234.56 元，于 15:42:39 保存为 234.57 元；创建者仍是原成员，最近修改者为该受邀账号。管理员撤权后，再进入财务显示独立权限提示且没有金额。退出登录后，模块入口转为登录弹窗。邮件恢复后的新密码提交与重新登录尚待用户完成；这是浏览器工具对新凭据设置的强制交接要求，不以 Delivered 代替完整恢复验收。
+用户已完成首次设密并加入家庭；浏览器显示该受邀账号和验收家庭，云端邀请为 accepted，并绑定原成员 ID，未新增重复成员。该账号（现昵称 `f9u2c7`）随后在正式站点获授权，读回 234.56 元，于 15:42:39 保存为 234.57 元；创建者仍是原成员，最近修改者为该受邀账号。管理员撤权后，再进入财务显示独立权限提示且没有金额。退出登录后，模块入口转为登录弹窗。至此实际邮件邀请、加入、授权读写、撤权、邮件找回及重登流程完成，密码从未交给代理。
 
 昵称反馈已调整：新增成员称呼初始留空、可选；空白提交才生成 6 位字母＋数字昵称，手填名称保持原样，失败重试复用同一成员 ID 和昵称。应用内浏览器将三个空格提交到真实云端，创建了 `e5d9t7`，显示保存成功，刷新后仍存在；原受邀测试成员按用户要求改为同类随机昵称。新增成功但刷新失败时也保留请求，防止重试重复创建。代码 `c7a41b3` 已上线，GitHub Vercel 状态 success（deployment `AMTBYDrF7Hp9X1LdDTdbJjk8DtLf`）。
 
@@ -55,4 +55,4 @@ SMTP 实测通过同一公开 `resetPasswordForEmail` 接口发起；Resend prov
 
 ## 最终检查
 
-修复后 `npm test` 53/53、typecheck、构建、Sites 4/4 及 Deno Edge Function 类型检查通过。构建保留全部 Sites 输出；已有 Three.js 大 chunk 警告仍存在。`ac25336` 已推送 main，GitHub Vercel 状态为 success（deployment `7aev1Hw6ShfhDxgBT7d8a1FERre3`）。昵称调整后再次通过 53 项测试、typecheck、构建和 Sites 4/4；Standards / Spec 复核剩余发现均为 0，包括修复添加确认后刷新失败的重试问题。邮件找回后的设密与重新登录尚未完成，不将本票标为全部验收完成。
+修复后 `npm test` 53/53、typecheck、构建、Sites 4/4 及 Deno Edge Function 类型检查通过。构建保留全部 Sites 输出；已有 Three.js 大 chunk 警告仍存在。`ac25336` 已推送 main，GitHub Vercel 状态为 success（deployment `7aev1Hw6ShfhDxgBT7d8a1FERre3`）。昵称调整后再次通过 53 项测试、typecheck、构建和 Sites 4/4；Standards / Spec 复核剩余发现均为 0，包括修复添加确认后刷新失败的重试问题。真实邮件恢复和新密码重登已完成，T03 验收通过。仅隔离验收家庭留有测试记录，正式家庭未参与写测试。
