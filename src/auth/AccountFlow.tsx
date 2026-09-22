@@ -20,7 +20,7 @@ export function AccountFlow({access}: {access: AccessGate}) {
     const url=new URL(location.href); url.searchParams.delete('invite');
     history.replaceState(null,'',url.pathname+url.search); setInvite(null);
   };
-  const needsPassword = !!auth.flow && !!auth.session;
+  const needsPassword = !!auth.flow && !!auth.session && !auth.linkError;
   return <dialog ref={dialog} className="access-dialog" aria-labelledby="account-flow-title" onCancel={e=>e.preventDefault()}>
     {open && <div className="access-card">
       <span className="access-eyebrow">家庭小城 · 账号</span>

@@ -45,17 +45,26 @@ export const appClient = url && /^https:\/\//.test(url) && key && isPublicKey(ke
 
 const incoming = new URLSearchParams(location.search);
 const fragment = new URLSearchParams(location.hash.slice(1));
-const incomingFlow = incoming.get('setup') === '1' || fragment.get('type') === 'invite' ? 'invite' : incoming.get('recovery') === '1' || fragment.get('type') === 'recovery' ? 'recovery' : null;
+const callbackToken = fragment.get('access_token');
+const callbackType = fragment.get('type');
+const incomingFlow = callbackToken && fragment.get('refresh_token') && (callbackType === 'invite' || callbackType === 'recovery') ? callbackType : null;
+const linkRequested = incoming.has('setup') || incoming.has('recovery') || callbackType === 'invite' || callbackType === 'recovery';
+const incomingError = fragment.get('error_description') || incoming.get('error_description') || (linkRequested && !incomingFlow ? '邮件链接已失效，请重新申请。' : null);
 
 type AuthState = {status: 'checking' | 'signedIn' | 'signedOut' | 'signingOut' | 'signingIn'; session: Session | null; flow?: 'invite' | 'recovery' | null; linkError?: string | null};
-let authState: AuthState = {status: appClient ? 'checking' : 'signedOut', session: null, flow: incomingFlow, linkError: fragment.get('error_description') || incoming.get('error_description')};
+let authState: AuthState = {status: appClient ? 'checking' : 'signedOut', session: null, flow: incomingFlow, linkError: incomingError};
 const authListeners = new Set<() => void>();
 function publishAuth(value: AuthState) {
   authState = value;
   authListeners.forEach(listener => listener());
 }
-appClient?.auth.onAuthStateChange((event, session) => {
-  if (authState.status !== 'signingOut' && authState.status !== 'signingIn') publishAuth({...authState, status: session ? 'signedIn' : 'signedOut', session, flow: event === 'PASSWORD_RECOVERY' ? 'recovery' : authState.flow, linkError: authState.linkError || (!session && authState.flow ? '邮件链接已失效' : null)});
+appClient?.auth.onAuthStateChange((_event, session) => {
+  if (authState.status === 'signingOut' || authState.status === 'signingIn') return;
+  // Failed URL verification can leave an older account's session intact in the SDK.
+  // Only the session from this exact email callback may enter password setup.
+  const invalidCallback = !!authState.flow && session?.access_token !== callbackToken;
+  publishAuth({...authState, status: session ? 'signedIn' : 'signedOut', session,
+    linkError: authState.linkError || (invalidCallback ? '邮件链接已失效，请重新申请。' : null)});
 });
 export const getAuth = () => authState;
 export function subscribeAuth(listener: () => void) {

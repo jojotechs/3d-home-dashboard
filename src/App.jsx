@@ -44,6 +44,7 @@ export function App(){
  function openToday(){if(mode==='today'){close();return;}leave(()=>access.request('today','今日事务',()=>{setMode('today');setSelected(null);setShowGrowth(false);setPreviews({});}));}
  useEffect(()=>{const handler=e=>{if(e.key==='Escape'&&!document.querySelector('dialog[open]'))close();};window.addEventListener('keydown',handler);return()=>{window.removeEventListener('keydown',handler);clearTimeout(toastTimer.current);};},[]);
  useEffect(()=>{if(access.auth.status!=='signedIn'){closePanel();setToast(null);setHouseholdOpen(false);}},[access.auth.status,access.auth.session?.user.id]);
+ useEffect(()=>{if(selected==='finance'&&access.auth.status==='signedIn'&&access.profile&&!access.profile.modules.includes('finance')){closePanel();access.denied('财务市区');}},[selected,access.profile]);
  const regionTasks=tasks.filter(t=>t.district===selected&&(!t.car||t.car===car));
  const next=info.pending.find(t=>t.district==='chores')||info.pending[0],actualLevel=info.levels[selected]||1,displayLevel=previews[selected]??actualLevel;
  return <main className="app" data-mode={mode} data-night={daylight.hour<6.1||daylight.hour>=18.65}>

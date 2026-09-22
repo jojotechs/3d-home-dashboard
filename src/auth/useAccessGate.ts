@@ -28,7 +28,7 @@ export function useAccessGate() {
     return () => {mounted.current = false; generation.current++;};
   }, []);
 
-  async function authorize(intent: Intent | null) {
+  async function authorize(intent: Intent | null, background = false) {
     const version = ++generation.current;
     const current = getAuth();
     if (!appClient) {setDialog('error'); return;}
@@ -54,6 +54,9 @@ export function useAccessGate() {
       intent?.open();
     } catch (failure) {
       if (!mounted.current || version !== generation.current || getAuth().session?.user.id !== userId) return;
+      // A failed background refresh is not evidence of revoked permission.
+      // Keep an open draft alive; every new entry and cloud write still checks access.
+      if (background && !isAccessError(failure)) return;
       setProfile(null);
       if (isAccessError(failure)) {
         // Preserve the requested destination while expired credentials are cleared.
@@ -74,7 +77,7 @@ export function useAccessGate() {
 
   useEffect(() => {
     if (auth.status !== 'signedIn') return;
-    const refresh = () => {if (!pending.current && !getAuth().flow && document.visibilityState === 'visible') void authorize(null);};
+    const refresh = () => {if (!pending.current && !getAuth().flow && document.visibilityState === 'visible') void authorize(null, true);};
     const timer = setInterval(refresh, 30000);
     window.addEventListener('focus', refresh); window.addEventListener('online', refresh);
     return () => {clearInterval(timer); window.removeEventListener('focus',refresh); window.removeEventListener('online',refresh);};
@@ -106,6 +109,7 @@ export function useAccessGate() {
   const currentProfile = auth.session?.user.id === profile?.user_id ? profile : null;
   return {auth, profile: currentProfile, dialog, destination, request, dismiss, login, logout,
     retry: () => {void authorize(pending.current);},
+    denied: (title: string) => {pending.current=null;setDestination(title);setDialog('denied');},
     canOpen: (module: string) => auth.status === 'signedIn' && !auth.flow && !auth.linkError && !!currentProfile?.modules.includes(module)};
 }
 export type AccessGate = ReturnType<typeof useAccessGate>;
