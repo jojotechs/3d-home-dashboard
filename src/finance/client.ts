@@ -52,3 +52,12 @@ export function financeError(error: unknown): string {
   if (code === '22023' || code === '22003') return '金额或名称格式不正确，请检查后重试。';
   return '未收到云端确认，输入已保留。请检查连接后重试。';
 }
+
+export interface FinanceHistoryEntry {
+  id: string;
+  actor_id: string;
+  actor_name: string;
+  saved_at: string;
+  version: string;
+  snapshot: FinanceSnapshot;
+}

@@ -6,12 +6,14 @@ import type {FinanceDraftRow, FinanceRequest, FinanceSnapshot} from './client';
 import {createDraft, draftChanges, draftTotals, refreshDraft, rowChanged} from './draft.mjs';
 import {formatRmb} from './money.mjs';
 import {FinanceList} from './FinanceList';
+import {FinanceHistory} from './FinanceHistory';
 import './finance.css';
 
 type ExitGuard = RefObject<((leave: () => void) => void) | null>;
 const time = (value: string) => new Date(value).toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'});
 
 export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () => void; exitGuard: ExitGuard}) {
+  const [view, setView] = useState<'current' | 'history'>('current');
   const [snapshot, setSnapshot] = useState<FinanceSnapshot | null>(null);
   const [rows, setRows] = useState<FinanceDraftRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -156,7 +158,9 @@ export function FinancePanel({onAccessDenied, exitGuard}: {onAccessDenied: () =>
         <small>{snapshot.saved_at ? `云端更新于 ${time(snapshot.saved_at)}（北京时间）` : '还没有财务记录，添加余额或负债开始记账。'}</small>
         <small>{BigInt(snapshot.net_savings_minor) < 1000000n ? 'Lv.1 · 街角初成' : '财务已保存 · 十级城市成长将在后续开放'}</small>
       </div>
-      <form className="finance-editor" onSubmit={event => {event.preventDefault(); void save();}}>
+      <nav className="finance-tabs" aria-label="财务视图"><button aria-pressed={view === 'current'} onClick={() => setView('current')}>当前账本{dirty ? ' · 有草稿' : ''}</button><button aria-pressed={view === 'history'} onClick={() => setView('history')}>历史与趋势</button></nav>
+      {view === 'history' && <FinanceHistory householdId={snapshot.household_id} onAccessDenied={onAccessDenied}/>}
+      <form hidden={view !== 'current'} className="finance-editor" onSubmit={event => {event.preventDefault(); void save();}}>
         {(conflict || unresolved > 0) && <div ref={reviewNotice} tabIndex={-1} className="finance-review" role="status">{conflict ? <><strong>有成员先更新了记录</strong><p>本次修改均未保存，输入仍保留。请读取最新记录，核对后再提交。</p></> : <p>还有 {unresolved} 项需要核对。选择采用云端记录，或保留你的修改后再保存。</p>}</div>}
         <FinanceList kind="balance" rows={rows.filter(row => row.kind === 'balance')} disabled={locked} onChange={change} onAdd={() => add('balance')} onRemove={remove} onUseCloud={useCloud}/>
         <FinanceList kind="debt" rows={rows.filter(row => row.kind === 'debt')} disabled={locked} onChange={change} onAdd={() => add('debt')} onRemove={remove} onUseCloud={useCloud}/>
