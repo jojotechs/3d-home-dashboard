@@ -19,3 +19,13 @@
 .app[data-night=true] .finance-tabs{background:#20394c}.app[data-night=true] .finance-tabs button[aria-pressed=true]{background:#385567}.app[data-night=true] :is(.finance-trend,.finance-history-update,.finance-history-entry){border-color:#496777}.app[data-night=true] :is(.finance-trend small,.finance-trend-range,.finance-history-update summary small,.finance-history-entry small){color:#afc6d0}.app[data-night=true] .finance-trend{color:#7fb8f0}
 .finance-growth{padding:16px;border:1px solid #d4dfd7;border-radius:14px;display:flex;flex-direction:column;gap:12px;background:#f2f6ef}.finance-growth>div{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px}.finance-growth>div:first-child strong{font-size:18px;color:#347fd2}.finance-growth strong{overflow-wrap:anywhere}.finance-growth small{font-size:11px;color:#657a72}.app[data-night=true] .finance-growth{background:#20394c;border-color:#496777}.app[data-night=true] .finance-growth small{color:#afc6d0}.app[data-night=true] .finance-growth>div:first-child strong{color:#7fb8f0}
 .finance-correction-dialog{box-sizing:border-box;width:min(560px,calc(100vw - 28px));max-height:85dvh;overflow:auto;border:1px solid #d4dfd7;border-radius:20px;padding:24px;background:#fffdf7;color:#29443d;box-shadow:0 18px 60px #183a3940}.finance-correction-dialog::backdrop{background:#142d3a70;backdrop-filter:blur(5px)}.finance-correction-dialog h2{margin:0;font-size:20px}.finance-correction-dialog p{margin:12px 0}.finance-correction-rows{display:flex;flex-direction:column;gap:16px;margin:18px 0}.finance-correction-rows small{font-size:11px;font-weight:400;color:#657a72}.finance-correction-dialog .finance-actions{margin-top:14px}.app[data-night=true] .finance-correction-dialog{background:#20394c;color:#d3e2e9;border-color:#597887}.app[data-night=true] .finance-correction-rows small{color:#afc6d0}
+.finance-collapsed .finance-book{padding:0;gap:0}
+.finance-collapsed .finance-book > :not(dialog){display:none}
+.finance-collapsed .region-header{margin-bottom:0}
+.finance-region .panel-header-actions{flex-shrink:0}
+@media(min-width:980px){
+ .region-panel.finance-region:not(.finance-collapsed){left:auto;right:24px;top:110px;bottom:100px;width:440px;max-height:none;transform:none}
+ .finance-region:not(.finance-collapsed) .region-header{gap:10px;flex-wrap:wrap}
+ .finance-region:not(.finance-collapsed) .region-icon{display:none}
+}
+@media(min-width:980px){.app:has(.finance-region:not(.finance-collapsed)) .map-controls{right:auto;left:28px}}

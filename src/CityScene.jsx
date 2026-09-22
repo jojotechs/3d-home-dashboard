@@ -6,6 +6,8 @@ import {EffectComposer} from 'three/addons/postprocessing/EffectComposer.js';
 import {RenderPass} from 'three/addons/postprocessing/RenderPass.js';
 import {GTAOPass} from 'three/addons/postprocessing/GTAOPass.js';
 import {UnrealBloomPass} from 'three/addons/postprocessing/UnrealBloomPass.js';
+import {mountFinanceDistrict} from './finance/FinanceDistrict.mjs';
+import financeAssets from '../modeling/finance-levels.json' with {type:'json'};
 import {mountCityLighting} from './CityLighting.mjs';
 import {OutputPass} from 'three/addons/postprocessing/OutputPass.js';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
@@ -38,13 +40,13 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
   const ao=new GTAOPass(scene,camera,1,1,undefined,{radius:1.2,thickness:.6,distanceFallOff:1,samples:16});ao.blendIntensity=.75;composer.addPass(ao);const bloom=new UnrealBloomPass(new THREE.Vector2(1,1),.24,.45,1.05);bloom.enabled=false;composer.addPass(bloom);composer.addPass(new OutputPass());
   const lighting=mountCityLighting(scene,renderer,sun,hemisphere,bloom);
   renderer.info.autoReset=false;
-  const rays=new THREE.Raycaster(),pointer=new THREE.Vector2(),dynamic=[];const labelEls=new Map(),overviewPoints=[];let model,mobility,transport,tween=null,down=null,drag=false,loaded=0;
+  const rays=new THREE.Raycaster(),pointer=new THREE.Vector2(),dynamic=[];const labelEls=new Map(),overviewPoints=[];let model,mobility,transport,financeDistrict,tween=null,down=null,drag=false,loaded=0;
   const outline=new THREE.LineLoop(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:'#e9fff6',transparent:true,opacity:.65,depthTest:true}));outline.visible=false;outline.renderOrder=5;scene.add(outline);
   const temp=new THREE.Vector3(),right=new THREE.Vector3(),up=new THREE.Vector3();const rect=()=>el.getBoundingClientRect();
   function resize(){const {width,height}=rect();renderer.setSize(width,height);composer.setSize(width,height);const half=118;camera.left=-half*width/height;camera.right=half*width/height;camera.top=half;camera.bottom=-half;camera.updateProjectionMatrix();if(model)focus(latest.current.selected,latest.current.mode);}
   const observer=new ResizeObserver(resize);observer.observe(el);resize();
   function focus(id,layout='region'){
-   const d=districts.find(d=>d.id===id),center=d?[d.center[0]+(d.viewOffset?.[0]??0),d.center[1]+(d.viewOffset?.[1]??0)]:null;const toTarget=d?new THREE.Vector3(center[0],d.height*.23,-center[1]):new THREE.Vector3(78,8,10);
+   const original=districts.find(d=>d.id===id),d=id==='finance'?{...original,height:financeAssets.levels[latest.current.financeProjection?.modelLevel??1].height}:original,center=d?[d.center[0]+(d.viewOffset?.[0]??0),d.center[1]+(d.viewOffset?.[1]??0)]:null;const toTarget=d?new THREE.Vector3(center[0],d.height*.23,-center[1]):new THREE.Vector3(78,8,10);
    const railwayView=d?.id==='rail'&&latest.current.watchDeparture;
    if(railwayView)toTarget.set(8,6,-111);
    const footprint=railwayView?[340,52]:d?.viewFootprint??d?.footprint??[d?.id==='health'?136:60,d?.id==='habits'?92:d?.id==='finance'||d?.id==='health'?44:40];
@@ -63,15 +65,17 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
    }
    if(d){camera.updateMatrixWorld();right.setFromMatrixColumn(camera.matrixWorld,0);up.setFromMatrixColumn(camera.matrixWorld,1);
     const {width,height}=rect();const drawerWidth=el.parentElement.querySelector('.today-drawer')?.getBoundingClientRect().width??320;
-    const panelHeight=el.parentElement.querySelector('.region-panel')?.getBoundingClientRect().height??180;
+    const panel=el.parentElement.querySelector('.region-panel'),panelHeight=panel?.getBoundingClientRect().height??180;
+    const financeSide=d.id==='finance'&&width>=980&&!panel?.classList.contains('finance-collapsed');
+    const financeWidth=financeSide?(panel?.getBoundingClientRect().width??440)+48:0;
     const [worldWidth,worldDepth]=footprint;
     const parcelWidth=Math.abs(right.x)*worldWidth+Math.abs(right.z)*worldDepth+10;
     const parcelHeight=Math.abs(up.x)*worldWidth+Math.abs(up.z)*worldDepth+Math.abs(up.y)*(railwayView?26:d.height)+8;
-    zoom=Math.min(zoom,(camera.right-camera.left)*Math.max(.3,(width-(layout==='today'?drawerWidth:0)-48)/width)/parcelWidth);
-    zoom=Math.min(zoom,(camera.top-camera.bottom)*Math.max(.3,(height-(layout==='region'?panelHeight:0)-180)/height)/parcelHeight);
+    zoom=Math.min(zoom,(camera.right-camera.left)*Math.max(.3,(width-(layout==='today'?drawerWidth:financeWidth)-48)/width)/parcelWidth);
+    zoom=Math.min(zoom,(camera.top-camera.bottom)*Math.max(.3,(height-(layout==='region'&&!financeSide?panelHeight:0)-180)/height)/parcelHeight);
     if(railwayView)zoom*=.91;
-    toTarget.addScaledVector(right,layout==='today'?-(camera.right-camera.left)/zoom*(drawerWidth/2)/width:0);
-    toTarget.addScaledVector(up,layout==='region'?-(camera.top-camera.bottom)/zoom*((panelHeight+110-90)/2)/height:0);
+    toTarget.addScaledVector(right,layout==='today'?-(camera.right-camera.left)/zoom*(drawerWidth/2)/width:(camera.right-camera.left)/zoom*(financeWidth/2)/width);
+    toTarget.addScaledVector(up,layout==='region'&&!financeSide?-(camera.top-camera.bottom)/zoom*((panelHeight+110-90)/2)/height:0);
    }
    const direction=d?camera.position.clone().sub(controls.target):overviewDirection;
    tween={start:performance.now(),fromTarget:controls.target.clone(),toTarget,fromPosition:camera.position.clone(),toPosition:toTarget.clone().add(direction),fromZoom:camera.zoom,toZoom:zoom};
@@ -89,13 +93,24 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
   renderer.domElement.addEventListener('pointerdown',onDown);renderer.domElement.addEventListener('pointermove',onMove);renderer.domElement.addEventListener('pointerup',onUp);
   controls.addEventListener('start',()=>{tween=null;});
   const draco=new DRACOLoader().setDecoderPath('/draco/');
-  const assetReady=()=>{loaded++;if(loaded===3)latest.current.onReady();};
-  new GLTFLoader().setDRACOLoader(draco).load('/models/city-lighting.glb',gltf=>{if(disposed)return;try{lighting.attachRig(gltf);assetReady();}catch(error){latest.current.onError(error.message);}},undefined,error=>latest.current.onError(error.message||'灯光模型加载失败'));
+  const assetReady=()=>{loaded++;if(loaded===4)latest.current.onReady();};
+  new GLTFLoader().setDRACOLoader(draco).load('/models/city-lighting-v1.glb',gltf=>{if(disposed)return;try{lighting.attachRig(gltf);assetReady();}catch(error){latest.current.onError(error.message);}},undefined,error=>latest.current.onError(error.message||'灯光模型加载失败'));
   new GLTFLoader().setDRACOLoader(draco).load('/models/mobility.glb',gltf=>{if(disposed)return;try{mobility=mountMobility(scene,gltf);el.dataset.mobility=JSON.stringify(mobility.snapshot());assetReady();}catch(error){latest.current.onError(error.message);}},undefined,error=>latest.current.onError(error.message||'行人与车辆加载失败'));
   new GLTFLoader().setDRACOLoader(draco).load('/models/family-city.glb',gltf=>{
    if(disposed)return;model=gltf.scene;scene.add(model);context.current.model=model;
-   model.traverse(o=>{if(o.isMesh){o.castShadow=!o.name.startsWith('ocean');o.receiveShadow=true;}if(o.userData.kind){dynamic.push(o);o.visible=visibleForNode(o.userData,latest.current.state,{...latest.current.previews,finance:latest.current.financeProjection?.modelLevel??1});}});
+   const financeRoot=model.getObjectByName('district_finance');
+   financeRoot.getObjectByName('static_finance').visible=false;
+   financeRoot.getObjectByName('dynamic_finance').visible=false;
+   financeDistrict=mountFinanceDistrict(financeRoot,new GLTFLoader().setDRACOLoader(draco),{
+    onReady:assetReady,onError:message=>latest.current.onError(message),
+    onChange:()=>{renderer.shadowMap.needsUpdate=true;el.dataset.financeScene=JSON.stringify(financeDistrict.snapshot());},
+   });
+   context.current.financeDistrict=financeDistrict;
+   financeDistrict.setLevel(latest.current.financeProjection?.modelLevel??1);
+   model.traverse(o=>{if(o.isMesh){o.castShadow=!o.name.startsWith('ocean');o.receiveShadow=true;}if(o.userData.kind&&o.userData.district!=='finance'){dynamic.push(o);o.visible=visibleForNode(o.userData,latest.current.state,{...latest.current.previews,finance:latest.current.financeProjection?.modelLevel??1});}});
    lighting.attachCity(model);
+   const financeAnchor=model.getObjectByName('anchor_label_finance');
+   financeAnchor.position.y=financeAssets.levels[latest.current.financeProjection?.modelLevel??1].height+2;
    try{transport=mountCityTransport(model,renderer,s=>latest.current.onTransport?.(s));}catch(error){latest.current.onError(error.message);return;}
    model.updateMatrixWorld(true);
    for(const name of ['static_city_base',...districts.map(d=>'district_'+d.id)]){
@@ -119,10 +134,11 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
    const dt=lastFrame?Math.min(.05,(t-lastFrame)/1000):0;lastFrame=t;
    lighting.setTime(latest.current.cityHour??13,latest.current.cityLights!==false);const lightFrame=lighting.update(dt,t/1000);mobility?.setNightLights(lightFrame.night);
    if(transport){const status=transport.update(latest.current.travel,Date.now(),lightFrame.night);if(frame%15===0)el.dataset.transport=JSON.stringify({status,actors:transport.snapshot()});}
-   if(frame%30===0)el.dataset.daylight=JSON.stringify(lighting.snapshot());
+   financeDistrict?.update(dt,lightFrame.night,latest.current.motionPaused||document.hidden||matchMedia('(prefers-reduced-motion: reduce)').matches);
+   if(frame%30===0){el.dataset.daylight=JSON.stringify(lighting.snapshot());if(financeDistrict)el.dataset.financeScene=JSON.stringify(financeDistrict.snapshot());}
    if(mobility&&!latest.current.motionPaused&&!document.hidden)mobility.update(dt);
    renderer.info.reset();composer.render();
-   if(frame>0&&frame%120===0){el.dataset.cameraZoom=camera.zoom.toFixed(3);el.dataset.viewportWidth=String(rect().width);if(mobility)el.dataset.mobility=JSON.stringify({...mobility.snapshot(),paused:latest.current.motionPaused});el.dataset.visibleGroups=JSON.stringify(dynamic.filter(o=>o.visible).map(o=>o.name));el.dataset.renderCalls=String(renderer.info.render.calls);el.dataset.renderTriangles=String(renderer.info.render.triangles);el.dataset.averageFps=(120000/(performance.now()-metricStart)).toFixed(1);metricStart=performance.now();}
+   if(frame>0&&frame%120===0){el.dataset.cameraZoom=camera.zoom.toFixed(3);el.dataset.viewportWidth=String(rect().width);if(mobility)el.dataset.mobility=JSON.stringify({...mobility.snapshot(),paused:latest.current.motionPaused});el.dataset.visibleGroups=JSON.stringify(dynamic.filter(o=>o.visible).map(o=>o.name));el.dataset.renderGeometries=String(renderer.info.memory.geometries);el.dataset.renderTextures=String(renderer.info.memory.textures);el.dataset.renderCalls=String(renderer.info.render.calls);el.dataset.renderTriangles=String(renderer.info.render.triangles);el.dataset.averageFps=(120000/(performance.now()-metricStart)).toFixed(1);metricStart=performance.now();}
    if(frame++%3===0&&model){const {width,height}=rect();const used=[];const pending=derived(latest.current.state).pending;
     const ordered=[...districts].sort((a,b)=>Number(b.id===latest.current.selected)-Number(a.id===latest.current.selected));
     for(const d of ordered){const item=labelEls.get(d.id);if(!item)continue;const anchor=model.getObjectByName('anchor_label_'+d.id);if(anchor)anchor.getWorldPosition(temp);else temp.set(d.center[0],d.height+2,-d.center[1]);temp.project(camera);
@@ -133,9 +149,9 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
     }
    }
   }raf=requestAnimationFrame(render);
-  return()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();mobility?.dispose();transport?.dispose();lighting.dispose();draco.dispose();ao.dispose();bloom.dispose();composer.dispose();renderer.dispose();const materials=new Set();model?.traverse(o=>{if(o.isMesh){o.geometry.dispose();(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>materials.add(m));}});materials.forEach(m=>m.dispose());outline.geometry.dispose();outline.material.dispose();el.replaceChildren();apiRef.current=null;context.current=null;};
+  return()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();mobility?.dispose();transport?.dispose();financeDistrict?.dispose();lighting.dispose();draco.dispose();ao.dispose();bloom.dispose();composer.dispose();renderer.dispose();const materials=new Set();model?.traverse(o=>{if(o.isMesh){o.geometry.dispose();(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>materials.add(m));}});materials.forEach(m=>m.dispose());outline.geometry.dispose();outline.material.dispose();el.replaceChildren();apiRef.current=null;context.current=null;};
  },[]);
- useEffect(()=>{const c=context.current;if(c){c.dynamic.forEach(o=>{o.visible=visibleForNode(o.userData,state,{...previews,finance:financeProjection?.modelLevel??1});});if(host.current)host.current.dataset.visibleGroups=JSON.stringify(c.dynamic.filter(o=>o.visible).map(o=>o.name));if(c.renderer)c.renderer.shadowMap.needsUpdate=true;}},[state,previews,realDay,financeProjection?.modelLevel]);
- useEffect(()=>{if(selected)context.current?.focus(selected,mode);else context.current?.focus(null);},[selected,mode,layoutKey]);
+ useEffect(()=>{const c=context.current;if(c){c.financeDistrict?.setLevel(financeProjection?.modelLevel??1);const anchor=c.model?.getObjectByName('anchor_label_finance');if(anchor)anchor.position.y=financeAssets.levels[financeProjection?.modelLevel??1].height+2;c.dynamic.forEach(o=>{o.visible=visibleForNode(o.userData,state,{...previews,finance:financeProjection?.modelLevel??1});});if(host.current)host.current.dataset.visibleGroups=JSON.stringify(c.dynamic.filter(o=>o.visible).map(o=>o.name));if(c.renderer)c.renderer.shadowMap.needsUpdate=true;}},[state,previews,realDay,financeProjection?.modelLevel]);
+ useEffect(()=>{if(selected)context.current?.focus(selected,mode);else context.current?.focus(null);},[selected,mode,layoutKey,financeProjection?.modelLevel]);
  return <div ref={host} className="city-canvas" data-testid="city-canvas" data-finance-level={financeProjection?.actualLevel} data-finance-preview={financeProjection?.isPreview || undefined}/>;
 }

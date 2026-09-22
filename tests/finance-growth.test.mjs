@@ -22,3 +22,15 @@ test('all ten finance levels compare exact cents and permit immediate multi-leve
   assert.equal(financeProjection(growth).displayLevel,6);
   assert.equal(financeProjection(null,9),null);
 });
+
+test('saved Lv.1 and Lv.2 select their own models regardless of the historical peak', () => {
+  const history=[{snapshot:{net_savings_minor:'1000000'}}];
+  const low=financeProjection(financeGrowth('999999',history));
+  const high=financeProjection(financeGrowth('1000000',history));
+  assert.equal(low.modelLevel,1);
+  assert.equal(low.modelReady,true);
+  assert.equal(high.modelLevel,2);
+  assert.equal(high.modelReady,true);
+  assert.equal(financeProjection(financeGrowth('1000000',history),1).modelLevel,1);
+  assert.equal(financeProjection(financeGrowth('3000000',history)).modelReady,false);
+});

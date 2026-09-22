@@ -1,3 +1,4 @@
+import financeAssets from '../../modeling/finance-levels.json' with {type:'json'};
 const thresholds = [0n,1000000n,3000000n,8000000n,15000000n,30000000n,50000000n,80000000n,120000000n,200000000n];
 const stages = ['街角初成','邻里商街','区域中心','繁荣市区','花园都会'];
 export function financeLevel(minor) {
@@ -18,13 +19,13 @@ export function financeGrowth(currentMinor, history) {
     nextLevel:next === null ? null : currentLevel+1, nextMinor:next === null ? null : next.toString(),
     remainingMinor:next === null ? null : (next-BigInt(currentMinor)).toString()};
 }
-/** The ten-level art is delivered separately. Never pass ten-level IDs to the old three-stage mesh ranges. */
+/** Only delivered per-level assets may be selected; legacy three-stage ranges are never reused. */
 export function financeProjection(growth, previewLevel = null) {
   if (!growth) return null;
   const displayLevel = previewLevel ?? growth.currentLevel;
   if (!Number.isInteger(displayLevel) || displayLevel < 1 || displayLevel > 10) throw Error('Invalid finance level');
   return {actualLevel:growth.currentLevel, displayLevel, isPreview:previewLevel !== null,
-    achieved:displayLevel <= growth.peakLevel, modelLevel:1, modelReady:false};
+    achieved:displayLevel <= growth.peakLevel, modelLevel:financeAssets.levels[displayLevel] ? displayLevel : 1, modelReady:!!financeAssets.levels[displayLevel]};
 }
 export function levelFeedback(before, after) {
   if (after > before) return `财务市区从 Lv.${before} 升至 Lv.${after}。积累又多了一步。`;

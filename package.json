@@ -27,7 +27,10 @@
     "test:cloud:lists": "node --env-file=.env.t02-test --test tests/cloud/finance-lists.test.mjs",
     "test:cloud:household": "node --env-file=.env.t03-test --test tests/cloud/household.test.mjs",
     "test:cloud:collaboration": "node --env-file=.env.t02-test --test tests/cloud/finance-collaboration.test.mjs",
-    "test:cloud:corrections": "node --env-file=.env.t07-test --test tests/cloud/finance-corrections.test.mjs"
+    "test:cloud:corrections": "node --env-file=.env.t07-test --test tests/cloud/finance-corrections.test.mjs",
+    "model:finance": "bash modeling/run-blender.sh modeling/build_finance_levels.py",
+    "model:verify-finance": "bash modeling/run-blender.sh modeling/verify_finance_levels.py",
+    "model:finance-studies": "bash modeling/run-blender.sh modeling/render_finance_levels.py"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

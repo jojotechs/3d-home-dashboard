@@ -17,7 +17,7 @@ for x in [-33.8,33.8]:
   if j%2==0:lantern(x,y+4)
 for x in [-98,-60,-18,21,60,98]:lantern(x,24);lantern(x,-24)
 for x,y in [(-27,-17.5),(27,-18),(-28,1),(28,4),(9,3)]:lantern(x,y,pool=4)
-for x,y in [(-10,-19.1),(11,19.8),(28,-5),(-28,-5)]:lantern(x-76,y+56,.78,.35,False,4.3)
+# Finance fixtures belong to the active independent finance GLB. Legacy rig stays preserved.
 for x in [-64,-22,8,39,64]:lantern(x+38,56-19.8,pool=4.5)
 for x,y in [(-28,-17),(28,-17),(13,18)]:lantern(x+76,y-56)
 for x,y in [(-26,-5),(26,-5),(-12,-18),(12,-18)]:lantern(x+76,y)
@@ -54,6 +54,6 @@ for name in ['night_warm','night_blue','night_red']:
  mat=MATERIALS[name];bs=mat.node_tree.nodes['Principled BSDF'];bs.inputs['Emission Color'].default_value=bs.inputs['Base Color'].default_value;bs.inputs['Emission Strength'].default_value=2.2
 bpy.ops.wm.save_as_mainfile(filepath=str(ROOT/'exports/city-lighting-rig.blend'))
 bpy.ops.object.select_all(action='SELECT')
-bpy.ops.export_scene.gltf(filepath=str(ROOT/'public/models/city-lighting.glb'),export_format='GLB',use_selection=True,export_yup=True,export_extras=True,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=6,export_draco_position_quantization=16)
+bpy.ops.export_scene.gltf(filepath=str(ROOT/'public/models/city-lighting-v1.glb'),export_format='GLB',use_selection=True,export_yup=True,export_extras=True,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=6,export_draco_position_quantization=16)
 (ROOT/'exports/lighting-fixtures.json').write_text(json.dumps({'version':'0.8','lantern_count':len(anchors),'anchors':anchors,'checks':['fixture scale follows 1 m scene units','roadside poles sit outside carriageways','existing lamps reused as inserts','runway lights follow the expanded airport airside']},indent=2))
 print('LIGHTING_RIG_COMPLETE',len(anchors),flush=True)

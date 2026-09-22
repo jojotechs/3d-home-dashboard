@@ -86,7 +86,9 @@
         "hit_finance"
       ],
       "architecture_brief": "modeling/finance-design.md",
-      "asset_version": "0.4"
+      "asset_version": "phase-one-lv1-2",
+      "level_assets_manifest": "modeling/finance-levels.json",
+      "legacy_reference": "public/models/family-city.glb (original finance v0.4, runtime hidden)"
     },
     {
       "district_id": "health",
@@ -1000,14 +1002,26 @@
       "hood_open_only_for_applicable_repair_task": true
     },
     "finance": {
-      "currency_demo": "CNY",
-      "milestone_demo_values": [
-        100000,
-        300000,
-        600000
+      "currency": "CNY",
+      "visual_basis": "latest_saved_net_savings",
+      "level_2_to_10_thresholds_minor": [
+        "1000000",
+        "3000000",
+        "8000000",
+        "15000000",
+        "30000000",
+        "50000000",
+        "80000000",
+        "120000000",
+        "200000000"
       ],
-      "visual_basis": "highest_valid_achieved_milestone",
-      "current_value_must_remain_truthful": true
+      "historical_peak_controls_model": false,
+      "unauthorized_model_level": 1,
+      "unavailable_level_model": 1,
+      "available_model_levels": [
+        1,
+        2
+      ]
     },
     "health": {
       "basis": "distinct_valid_completed_activity_records",

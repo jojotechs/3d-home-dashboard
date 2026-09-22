@@ -36,7 +36,7 @@ export function mountCityLighting(scene,renderer,sun,hemisphere,bloom){
  const night={value:0},colored=new THREE.Color(),blended=new THREE.Color();
  const fixtures=[],windowMats=[],waterMats=[],pointLights=[];let rig=null,pools=null,poolMat=null;
  let targetHour=13,targetLights=true,currentNight=0,lastShadow=0,lastSunPosition=sun.position.clone(),beacon=null;
- for(const [x,z,h,range] of [[-76,-56,8,38],[0,0,5,27],[55,-52,5,35],[76,0,6,28],[242,85,6,36],[28,-91,5,30]]){
+ for(const [x,z,h,range] of [[0,0,5,27],[55,-52,5,35],[76,0,6,28],[242,85,6,36],[28,-91,5,30]]){
   const light=new THREE.PointLight('#ffc88a',0,range,2);light.position.set(x,h,z);scene.add(light);pointLights.push(light);
  }
  function attachCity(model){
