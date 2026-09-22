@@ -37,7 +37,9 @@
 
 SMTP 实测通过同一公开 `resetPasswordForEmail` 接口发起；Resend provider ID `01a0c7f3-7dec-705c-9521-70cbddda07b9` 于 2026-09-22 15:10 显示 Delivered，中文邮件模板与正式站点回跳参数均正确。此动作只申请恢复邮件，尚未修改密码。
 
-当前等待用户在浏览器中自行完成新密码填写与提交；这是浏览器工具对新凭据设置的强制交接要求。加入、授权读写、撤权及邮件恢复/重新登录的浏览器验收完成后，更新此段。不得用控制台截图或生成但未发出的链接声称闭环。
+用户已完成首次设密并加入家庭；浏览器显示该受邀账号和验收家庭，云端邀请为 accepted，并绑定原成员 ID，未新增重复成员。邮件恢复后的新密码提交与重新登录尚待用户完成；这是浏览器工具对新凭据设置的强制交接要求，不以 Delivered 代替完整恢复验收。
+
+昵称反馈已调整：新增成员称呼初始留空、可选；空白提交才生成 6 位字母＋数字昵称，手填名称保持原样，失败重试复用同一成员 ID 和昵称。应用内浏览器将三个空格提交到真实云端，创建了 `e5d9t7`，显示保存成功；原受邀测试成员按用户要求改为同类随机昵称。新增成功但刷新失败时也保留请求，防止重试重复创建。
 
 回归：已登录管理员打开仅含 `?recovery=1` 的无效链接，看到“邮件链接已失效”，没有密码表单。错误/损坏的邮件回跳不能借用 SDK 保留的旧会话更新其他账号。无权弹窗跨后台权限刷新仍保持可见；普通成员账号菜单不含管理入口，退出后身份和财务显示清除。
 
@@ -51,4 +53,4 @@ SMTP 实测通过同一公开 `resetPasswordForEmail` 接口发起；Resend prov
 
 ## 最终检查
 
-修复后 `npm test` 53/53、typecheck、构建、Sites 4/4 及 Deno Edge Function 类型检查通过。构建保留全部 Sites 输出；已有 Three.js 大 chunk 警告仍存在。c30bdaa 的 Vercel 部署状态已确认为 success；最终代码版本 `ac25336` 已推送 main，GitHub Vercel 状态为 success（deployment `7aev1Hw6ShfhDxgBT7d8a1FERre3`）。后续两处权限提示稳定性修复已再经 Standards / Spec 复核，两轴剩余发现均为 0。完整邮件账号流程仍待用户设密，不将本票标为全部验收完成。
+修复后 `npm test` 53/53、typecheck、构建、Sites 4/4 及 Deno Edge Function 类型检查通过。构建保留全部 Sites 输出；已有 Three.js 大 chunk 警告仍存在。`ac25336` 已推送 main，GitHub Vercel 状态为 success（deployment `7aev1Hw6ShfhDxgBT7d8a1FERre3`）。昵称调整后再次通过 53 项测试、typecheck、构建和 Sites 4/4；Standards / Spec 复核剩余发现均为 0，包括修复添加确认后刷新失败的重试问题。邮件找回后的设密与重新登录尚未完成，不将本票标为全部验收完成。

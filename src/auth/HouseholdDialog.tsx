@@ -1,13 +1,14 @@
 import {useEffect,useRef,useState} from 'react';
 import {X} from '@phosphor-icons/react';
 import {appClient} from './client';
+import {randomMemberName} from './member-name.mjs';
 import type {AccessGate} from './useAccessGate';
 
 type Member={id:string;display_name:string;user_id:string|null;is_admin:boolean;finance_access:boolean;invitation:{email:string;expires_at:string;status:string}|null};
 type Household={household_id:string;members:Member[]};
 export function HouseholdDialog({access,onClose}: {access:AccessGate;onClose:()=>void}) {
   const [data,setData]=useState<Household|null>(null),[error,setError]=useState(''),[notice,setNotice]=useState(''),[busy,setBusy]=useState(false),[name,setName]=useState('');
-  const ref=useRef<HTMLDialogElement>(null), alive=useRef(true), addition=useRef<{id:string;name:string}|null>(null);
+  const ref=useRef<HTMLDialogElement>(null), alive=useRef(true), addition=useRef<{id:string;input:string;name:string}|null>(null);
   const refresh=async()=>{
     const {data,error}=await appClient!.rpc('get_household_members');
     if(error)throw error;
@@ -18,9 +19,9 @@ export function HouseholdDialog({access,onClose}: {access:AccessGate;onClose:()=
     void refresh().catch(()=>{if(alive.current)setError('成员信息暂不可用，请重试。');});
     return()=>{alive.current=false;};
   },[]);
-  async function mutate(action:()=>Promise<void>,success:string) {
+  async function mutate(action:()=>Promise<void>,success:string,onSuccess?:()=>void) {
     if(busy)return;setBusy(true);setError('');setNotice('');
-    try{await action();await refresh();if(alive.current)setNotice(success);access.retry();}
+    try{await action();await refresh();onSuccess?.();if(alive.current)setNotice(success);access.retry();}
     catch(error){if(alive.current)setError((error as {message?:string}).message || '操作暂未完成，请稍后重试。');}
     finally{if(alive.current)setBusy(false);}
   }
@@ -33,10 +34,12 @@ export function HouseholdDialog({access,onClose}: {access:AccessGate;onClose:()=
       {!data ? <button className="access-action" onClick={()=>void mutate(async()=>{},'')}>重新读取成员</button> : <>
         <div className="household-members">{data.members.map(member=><MemberCard key={member.id} member={member} busy={busy} mutate={mutate}/>)}</div>
         <form className="access-form household-add" onSubmit={e=>{e.preventDefault();
-          if(!addition.current || addition.current.name!==name.trim())addition.current={id:crypto.randomUUID(),name:name.trim()};
+          if(busy)return;
+          const input=name.trim();
+          if(!addition.current || addition.current.input!==input)addition.current={id:crypto.randomUUID(),input,name:input || randomMemberName()};
           const request=addition.current;
-          void mutate(async()=>{const {error}=await appClient!.rpc('add_household_member',{p_household:data.household_id,p_member:request.id,p_name:request.name});if(error)throw error;addition.current=null;setName('');},'成员已添加，可按需发送邀请。');
-        }}><label>新成员称呼<input value={name} onChange={e=>setName(e.target.value)} maxLength={100} required disabled={busy} placeholder="如：家人、小朋友"/></label><button className="primary access-action" disabled={busy}>添加成员</button></form>
+          void mutate(async()=>{const {error}=await appClient!.rpc('add_household_member',{p_household:data.household_id,p_member:request.id,p_name:request.name});if(error)throw error;},'成员已添加，可按需发送邀请。',()=>{addition.current=null;setName('');});
+        }}><label>新成员称呼<input value={name} onChange={e=>setName(e.target.value)} maxLength={100} disabled={busy} placeholder="选填，留空自动生成字母＋数字昵称"/></label><button className="primary access-action" disabled={busy}>添加成员</button></form>
       </>}
     </div>
   </dialog>;
