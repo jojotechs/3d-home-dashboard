@@ -1,0 +1,37 @@
+{
+  "public/models/family-city.glb": {
+    "unchanged_from": "ee73f7b",
+    "sha256": "410f2daebc1bb1023cb87f1e6df3ac2473c9d9ede3c2ac5cb2aeaca9b74f9c70",
+    "bytes": 7493336
+  },
+  "public/models/city-lighting.glb": {
+    "unchanged_from": "ee73f7b",
+    "sha256": "e6e598f0b1889937c8ca45d6949297b7ebadaaf78ddb903312525f0c5e070baa",
+    "bytes": 75480
+  },
+  "public/models/mobility.glb": {
+    "unchanged_from": "ee73f7b",
+    "sha256": "796f7a042ed86b0d63225890a6a1a0cf0f6e70e18467513196d1c106d19da11b",
+    "bytes": 23564
+  },
+  ".openai/hosting.json": {
+    "unchanged_from": "ee73f7b",
+    "sha256": "d532abb65cf9ae20634b464d954cb4a08a0de9f3cd3cdf7f9c3ec8948826d947",
+    "bytes": 31
+  },
+  "worker/index.js": {
+    "unchanged_from": "ee73f7b",
+    "sha256": "2dd0615a445143933d88d4271f54f5d63ee951421fcd08c5a7617bb09c564389",
+    "bytes": 483
+  },
+  "scripts/prepare-sites-build.mjs": {
+    "unchanged_from": "ee73f7b",
+    "sha256": "b6a6adaa4fab3234676116dd1c9cb6611275ab9d92dd26f5bf402393e3744bf6",
+    "bytes": 910
+  },
+  "tests/sites-worker.test.mjs": {
+    "unchanged_from": "ee73f7b",
+    "sha256": "96af7b48906c6460c793356d7b6952f7d5026dbf5a502bec0d9297ff04201c26",
+    "bytes": 2219
+  }
+}

@@ -1,0 +1,297 @@
+{
+  "level2Night": {
+    "calls": "161",
+    "finance": {
+      "actors": [
+        {
+          "name": "market_customer_a",
+          "position": [
+            9,
+            0,
+            15.492
+          ]
+        },
+        {
+          "name": "market_customer_b",
+          "position": [
+            -4.226,
+            0,
+            7
+          ]
+        },
+        {
+          "name": "market_customer_c",
+          "position": [
+            23,
+            0,
+            0.32
+          ]
+        }
+      ],
+      "level": 2,
+      "lights": 3,
+      "loading": false,
+      "night": 1,
+      "paused": true,
+      "requested": 2,
+      "seconds": 141.885
+    },
+    "fps": "59.7",
+    "geometries": "172",
+    "textures": "22",
+    "triangles": "1871846"
+  },
+  "pauseAfter": {
+    "requested": 2,
+    "loading": false,
+    "level": 2,
+    "seconds": 141.885,
+    "paused": true,
+    "night": 1,
+    "lights": 3,
+    "actors": [
+      {
+        "name": "market_customer_a",
+        "position": [
+          9,
+          0,
+          15.492
+        ]
+      },
+      {
+        "name": "market_customer_b",
+        "position": [
+          -4.226,
+          0,
+          7
+        ]
+      },
+      {
+        "name": "market_customer_c",
+        "position": [
+          23,
+          0,
+          0.32
+        ]
+      }
+    ]
+  },
+  "lightsOff": {
+    "requested": 2,
+    "loading": false,
+    "level": 2,
+    "seconds": 141.885,
+    "paused": true,
+    "night": 0,
+    "lights": 3,
+    "actors": [
+      {
+        "name": "market_customer_a",
+        "position": [
+          9,
+          0,
+          15.492
+        ]
+      },
+      {
+        "name": "market_customer_b",
+        "position": [
+          -4.226,
+          0,
+          7
+        ]
+      },
+      {
+        "name": "market_customer_c",
+        "position": [
+          23,
+          0,
+          0.32
+        ]
+      }
+    ]
+  },
+  "level1Night": {
+    "calls": "161",
+    "finance": {
+      "actors": [
+        {
+          "name": "corner_customer",
+          "position": [
+            1.699,
+            0,
+            7
+          ]
+        },
+        {
+          "name": "savings_customer",
+          "position": [
+            -9.636,
+            0,
+            -3
+          ]
+        }
+      ],
+      "level": 1,
+      "lights": 3,
+      "loading": false,
+      "night": 1,
+      "paused": false,
+      "requested": 1,
+      "seconds": 413.287
+    },
+    "fps": "59.9",
+    "geometries": "171",
+    "textures": "22",
+    "triangles": "1832594"
+  },
+  "localReadback": {
+    "current": "9999.99",
+    "peak": "10000.00",
+    "currentLevel": 1,
+    "peakLevel": 2,
+    "historyCount": 3
+  },
+  "mobile": {
+    "viewport": 390,
+    "panelWidth": 358,
+    "scrollWidth": 390,
+    "expandCollapse": "passed",
+    "screenshotLimitation": "IAB viewport capture was scaled; DOM geometry and interactions verified"
+  },
+  "productionLevel2": {
+    "calls": "161",
+    "finance": {
+      "actors": [
+        {
+          "name": "market_customer_a",
+          "position": [
+            1.08,
+            0,
+            14
+          ]
+        },
+        {
+          "name": "market_customer_b",
+          "position": [
+            10,
+            0,
+            6.123
+          ]
+        },
+        {
+          "name": "market_customer_c",
+          "position": [
+            23,
+            0,
+            -3.945
+          ]
+        }
+      ],
+      "level": 2,
+      "lights": 3,
+      "loading": false,
+      "night": 1,
+      "paused": false,
+      "requested": 2,
+      "seconds": 38.65
+    },
+    "fps": "57.6",
+    "geometries": "172",
+    "script": "/assets/index-CubaQ5Ok.js",
+    "textures": "22",
+    "triangles": "1871846",
+    "viewport": 1280
+  },
+  "signedOut": {
+    "requested": 1,
+    "loading": false,
+    "level": 1,
+    "seconds": 53.869,
+    "paused": false,
+    "night": 1,
+    "lights": 3,
+    "actors": [
+      {
+        "name": "corner_customer",
+        "position": [
+          -5,
+          0,
+          14.708
+        ]
+      },
+      {
+        "name": "savings_customer",
+        "position": [
+          -11,
+          0,
+          -8.015
+        ]
+      }
+    ]
+  },
+  "productionLevel1": {
+    "calls": "177",
+    "finance": {
+      "actors": [
+        {
+          "name": "corner_customer",
+          "position": [
+            -5,
+            0,
+            8.092
+          ]
+        },
+        {
+          "name": "savings_customer",
+          "position": [
+            -9.871,
+            0,
+            -3
+          ]
+        }
+      ],
+      "level": 1,
+      "lights": 3,
+      "loading": false,
+      "night": 1,
+      "paused": false,
+      "requested": 1,
+      "seconds": 44.417
+    },
+    "fps": "58.7",
+    "geometries": "171",
+    "textures": "22",
+    "triangles": "1927802"
+  },
+  "productionReload": {
+    "growth": "当前财务等级\nLv.1 · 街角初成\n历史最高\nLv.2 · ¥ 10,000.00\n\n下一级 Lv.2：¥ 10,000.00\n还差 ¥ 0.01",
+    "model": {
+      "requested": 1,
+      "loading": false,
+      "level": 1,
+      "seconds": 46.8,
+      "paused": false,
+      "night": 1,
+      "lights": 3,
+      "actors": [
+        {
+          "name": "corner_customer",
+          "position": [
+            -5,
+            0,
+            9.76
+          ]
+        },
+        {
+          "name": "savings_customer",
+          "position": [
+            -11,
+            0,
+            -3.42
+          ]
+        }
+      ]
+    }
+  }
+}

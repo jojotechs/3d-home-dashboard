@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "light_anchors": 82,
+  "mesh_objects": 5,
+  "emissive_materials": [
+    "home_night_blue",
+    "home_night_red",
+    "home_night_warm"
+  ],
+  "glb_bytes": 74188,
+  "checks": [
+    "82 unique finite light placements survive GLB re-import",
+    "warm, blue and red emissive materials survive export",
+    "source metre units retained",
+    "companion model does not replace any district geometry"
+  ]
+}

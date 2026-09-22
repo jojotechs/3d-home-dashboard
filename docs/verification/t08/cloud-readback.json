@@ -1,0 +1,41 @@
+{
+  "household": "a3318304-bfc3-45c7-97d9-8c4d14564192",
+  "role": "isolated household administrator",
+  "email": "family-city-t08-015ba47e@example.com",
+  "currentMinor": "999999",
+  "version": "5",
+  "entries": [
+    {
+      "name": "T08 街角储蓄",
+      "amount_minor": "999999"
+    }
+  ],
+  "history": [
+    {
+      "saved_at": "2026-09-22T09:43:28.069696+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "999999"
+    },
+    {
+      "saved_at": "2026-09-22T09:51:16.688926+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "1000000"
+    },
+    {
+      "saved_at": "2026-09-22T09:58:14.829979+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "999999"
+    },
+    {
+      "saved_at": "2026-09-22T10:25:10.532689+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "1000000"
+    },
+    {
+      "saved_at": "2026-09-22T10:28:46.986187+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "999999"
+    }
+  ],
+  "checkedAt": "2026-09-22T10:30:55.230Z"
+}
