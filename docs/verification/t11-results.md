@@ -38,3 +38,5 @@ bash modeling/run-blender.sh modeling/render_finance_levels.py --levels 7 8 --ou
 ## 最终生产证据
 
 代码 `b8a4056`，生产脚本 `index-D5aSupsV.js`，Vercel部署 `4xEURRMdsPdGVTxriqBQT3nCG5hV` 成功。生产Lv.8/7约57.9/53.9 FPS；测量为当前机器/视角，并非通用帧率保证。固定构建与生产控制台无错误/警告。原始云端回读版本25、299,999.99元，历史保留有效峰值800,000；仅本次明确保存新增记录，详见`t11/cloud-final.json`。所有浏览器操作均在in-app browser，真实家庭未写入。
+
+本轮最终回归（T13完成后）：全套79/79、typecheck、build、Sites4/4通过。完整模型批次记录见`t13-results.md`。

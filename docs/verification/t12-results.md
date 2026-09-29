@@ -35,3 +35,5 @@ npm run model:verify-activities
 bash modeling/run-blender.sh modeling/verify_finance_airspace.py
 bash modeling/run-blender.sh modeling/render_finance_levels.py --levels 9 --output docs/verification/t12
 ```
+
+本轮最终回归（T13完成后）：全套79/79、typecheck、build、Sites4/4通过。完整模型批次记录见`t13-results.md`。
