@@ -1,0 +1,42 @@
+{
+  "public/models/family-city.glb": {
+    "unchanged": true,
+    "sha256": "410f2daebc1bb1023cb87f1e6df3ac2473c9d9ede3c2ac5cb2aeaca9b74f9c70"
+  },
+  "public/models/city-lighting.glb": {
+    "unchanged": true,
+    "sha256": "e6e598f0b1889937c8ca45d6949297b7ebadaaf78ddb903312525f0c5e070baa"
+  },
+  ".openai/hosting.json": {
+    "unchanged": true,
+    "sha256": "d532abb65cf9ae20634b464d954cb4a08a0de9f3cd3cdf7f9c3ec8948826d947"
+  },
+  "worker/index.js": {
+    "unchanged": true,
+    "sha256": "2dd0615a445143933d88d4271f54f5d63ee951421fcd08c5a7617bb09c564389"
+  },
+  "scripts/prepare-sites-build.mjs": {
+    "unchanged": true,
+    "sha256": "b6a6adaa4fab3234676116dd1c9cb6611275ab9d92dd26f5bf402393e3744bf6"
+  },
+  "tests/sites-worker.test.mjs": {
+    "unchanged": true,
+    "sha256": "96af7b48906c6460c793356d7b6952f7d5026dbf5a502bec0d9297ff04201c26"
+  },
+  "public/models/finance/level-1.glb": {
+    "unchanged": true,
+    "sha256": "48feab33ce999e05bd520e08f6ccc371a6796149c31a9c2a450486c8861a7cb3"
+  },
+  "public/models/finance/level-2.glb": {
+    "unchanged": true,
+    "sha256": "37c7a458f7c9350ee3f84a31335c9b30883926b74aeca1dd6919d559676c39ba"
+  },
+  "public/models/finance/level-3.glb": {
+    "unchanged": true,
+    "sha256": "2d42bf7b72ce2fcd9f74f6bb9197cb844c620df6632fe9de7cdb3236efa7e932"
+  },
+  "public/models/finance/level-4.glb": {
+    "unchanged": true,
+    "sha256": "7fb20424f40a02bdc80d4a02dc00658efa6fe54a2f5b4e31b9d80e4dd89263fb"
+  }
+}

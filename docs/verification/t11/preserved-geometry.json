@@ -1,0 +1,44 @@
+{
+  "finance_tower_0_level_3_mesh": {
+    "source_vertices": 25696,
+    "delivered_vertices": 27192,
+    "triangles": 13722,
+    "max_bidirectional_vertex_error_m": 0.0
+  },
+  "finance_tower_1_level_3_mesh": {
+    "source_vertices": 8188,
+    "delivered_vertices": 8296,
+    "triangles": 7200,
+    "max_bidirectional_vertex_error_m": 0.0
+  },
+  "finance_tower_2_level_3_mesh": {
+    "source_vertices": 32376,
+    "delivered_vertices": 33554,
+    "triangles": 16398,
+    "max_bidirectional_vertex_error_m": 0.0
+  },
+  "finance_tower_3_level_3_mesh": {
+    "source_vertices": 11198,
+    "delivered_vertices": 11240,
+    "triangles": 5608,
+    "max_bidirectional_vertex_error_m": 0.0
+  },
+  "finance_tower_4_level_3_mesh": {
+    "source_vertices": 9234,
+    "delivered_vertices": 9456,
+    "triangles": 5052,
+    "max_bidirectional_vertex_error_m": 0.0
+  },
+  "finance_tower_5_level_3_mesh": {
+    "source_vertices": 26916,
+    "delivered_vertices": 28196,
+    "triangles": 15228,
+    "max_bidirectional_vertex_error_m": 0.0
+  },
+  "static_finance_mesh": {
+    "source_vertices": 66546,
+    "delivered_vertices": 66804,
+    "triangles": 34456,
+    "max_bidirectional_vertex_error_m": 0.0
+  }
+}

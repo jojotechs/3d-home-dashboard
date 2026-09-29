@@ -1,0 +1,42 @@
+{
+  "1": {
+    "samples": 2070,
+    "minimum_clearance_m": 0.2502495050430298,
+    "collisions": []
+  },
+  "2": {
+    "samples": 2787,
+    "minimum_clearance_m": 0.254909485578537,
+    "collisions": []
+  },
+  "3": {
+    "samples": 4293,
+    "minimum_clearance_m": 0.2973552644252777,
+    "collisions": []
+  },
+  "4": {
+    "samples": 4158,
+    "minimum_clearance_m": 0.3270100951194763,
+    "collisions": []
+  },
+  "5": {
+    "samples": 3852,
+    "minimum_clearance_m": 0.24491505324840546,
+    "collisions": []
+  },
+  "6": {
+    "samples": 3303,
+    "minimum_clearance_m": 0.29073888063430786,
+    "collisions": []
+  },
+  "7": {
+    "samples": 3303,
+    "minimum_clearance_m": 0.2451326847076416,
+    "collisions": []
+  },
+  "8": {
+    "samples": 2814,
+    "minimum_clearance_m": 0.30373895168304443,
+    "collisions": []
+  }
+}
