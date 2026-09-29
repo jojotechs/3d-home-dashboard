@@ -13,11 +13,15 @@ export function createFinanceAtmosphere(root) {
     const mesh=new THREE.Mesh(geometry,material);mesh.name=`finance_beam_${index}`;
     mesh.position.copy(point(spec.from));const direction=point(spec.to).sub(mesh.position);
     mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),direction.clone().normalize());
-    mesh.scale.set(spec.radius,direction.length(),spec.radius);root.add(mesh);return mesh;
+    mesh.scale.set(spec.radius,direction.length(),spec.radius);root.add(mesh);
+    const target=new THREE.Object3D();target.position.copy(point(spec.to));root.add(target);
+    const light=new THREE.SpotLight(spec.color,0,direction.length()+8,Math.atan2(spec.radius,direction.length())*1.7,.65,2);
+    light.position.copy(mesh.position);light.target=target;root.add(light);
+    return {mesh,light};
   });
   let lit=false;
   return {
-    update(seconds,night){lit=night>.005;beams.forEach(mesh=>{mesh.visible=lit;mesh.material.opacity=night*.055;});},
+    update(seconds,night){lit=night>.005;beams.forEach(({mesh,light})=>{mesh.visible=lit;mesh.material.opacity=night*.055;light.intensity=night*220;});},
     snapshot:()=>({beams:beams.length,lit}),
   };
 }

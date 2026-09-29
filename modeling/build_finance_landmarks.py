@@ -31,11 +31,11 @@ def level_seven_additions(g):
                 for dx in [-.59,.59]:f.box((px+dx,-.28,2.5),(.065,.08,1.85),'finance_bronze')
             transfer(g,f,x+xx,y+yy,rot=rot)
         for dx in [-w*.4,w*.4]:wall_lamp(g,x+dx,y-d/2,4)
-    for x,y,w,z in [(-21,4.7,10,24.5),(-3,5.8,7,32)]:
-        for xx in [-w*.3,w*.3]:
-            for height in range(7,int(z),3):
-                g.box((x+xx,y-.12,height),(.85,.06,1.35),'finance_window')
-        g.box((x,y-.1,5),(w,.14,.09),'finance_lamp')
+    for x,y,w,d,rows in [(-21,10.8,12,12,[7]),(-21,10.8,10.5,10.5,[10,13,16,19,22]),(-3,11.9,10,12,[7,10,13,16,19,22,25,28,31])]:
+        columns=[-w/2+(j+.5)*w/round(w/2.1) for j in range(round(w/2.1)) if j%2==0] if x==-21 else [-2.72,0,2.72]
+        for xx in columns:
+            for z in rows:g.box((x+xx,y-d/2-(.185 if x==-21 else .025),z),(.85,.025,1.35),'finance_window')
+        g.box((x,y-d/2-.1,5),(w,.14,.09),'finance_lamp')
     for z,r in [(7,7.2),(13,6.4),(19,6.4)]:
         for j in range(8):
             a=j*TAU/8
@@ -87,6 +87,11 @@ def level_eight(g):
             g.rod((x,y,.52),(x,y,5.2),.07,'finance_bronze',8)
             g.rod((x,y,3.8),(x*.45,y,5.9),.055,'finance_bronze',8)
         g.box((0,y,5.95),(7,4.7,.12),'glass_finance_mint')
+    # The promenade's browsing stop faces an actual original sculpture and caption.
+    g.cylinder((0,11,1.05),1.1,1.05,'cream',24)
+    g.mesh([(0,11,3.8),(0,11,1.55),(-.9,11,2.7),(.9,11,2.7),(0,10.4,2.7),(0,11.6,2.7)],
+        [(0,2,4),(0,4,3),(0,3,5),(0,5,2),(1,4,2),(1,3,4),(1,5,3),(1,2,5)],'finance_bronze')
+    text_mesh(g,'CITY ARTS',(0,9.89,1.12),.23,'finance_copper')
     cafe_tables(g,[(-17,-17),(-22,-17)])
     street_bench(g,12,-15);street_bench(g,23,-8,math.pi/2)
     digital_sign(g,16,.8,6,9,'AURORA / EXHIBITIONS')

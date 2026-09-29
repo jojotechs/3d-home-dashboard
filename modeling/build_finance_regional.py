@@ -15,16 +15,21 @@ def level_five(g):
         if site==5:
             for mat in ['leaf','leaf2']:
                 vs,fs,sm=b.data[mat];b.data[mat][0]=[(xx,yy,zz+.52 if zz<1.5 else zz) for xx,yy,zz in vs]
-        # Add window lighting, thin bronze joinery, service doors and foundation courses.
-        for rot,xx,yy,span in [(0,0,-5.2,10),(math.pi,0,5.2,10)]:
-            f=Geometry()
-            for z in [2.5,5.5,8.5]:
-                for px in [-3,0,3]:
-                    f.box((px,-.13,z),(1.08,.06,1.2),'finance_window')
-                    f.box((px,-.2,z),(.04,.06,1.3),'finance_bronze')
-            transfer(b,f,xx,yy,rot=rot)
-        b.box((0,5.28,1.8),(1.5,.18,2.6),'finance_copper')
-        for z in [.95,1.5,2.05]:b.box((0,-5.3,z),(10,.08,.025),'finance_sandstone')
+        # Warm inserts follow the real front/rear face of every original building tier.
+        profiles={
+            0:[(0,0,10,[2.8],[-4.48,0,4.48],.10),(0,0,9.2,[8.45],[-4.356,0,4.356],.225)],
+            1:[(-1.5,0,10,[2.3,5.3,8.3,11.3],[-3.167,0,3.167],.225)],
+            2:[(0,0,11,[2.6,5.05,7.3,10.1],[-3.96,0,3.96],.225)],
+            3:[(0,0,11,[2.3,5.3,8.3,11.3,14.3],[-4.5,-1.5,1.5,4.5],.225)],
+            4:[(0,0,10,[2.3],[-4.688,-1.563,1.563,4.688],.225),(-.9,1,8,[6.1,9.1,12.1,15.1,18.1,21.1],[-3.6,-1.8,0,1.8,3.6],.025)],
+            5:[(0,1.5,9,[2.3,5.3,8.3,11.3,14.3],[-3.938,-1.313,1.313,3.938],.025)],
+        }
+        for dx,dy,depth,rows,columns,inset in profiles[site]:
+            for side in [-1,1]:
+                for row,z in enumerate(rows):
+                    for col,px in enumerate(columns):
+                        if (row+col)%3==1:continue
+                        b.box((dx+px,dy+side*(depth/2+inset),z),(1,.014,1.0),'finance_window')
         transfer(g,b,x,y)
     fountain(g,9,-12,2.7)
     bus_shelter(g,-15,-19)

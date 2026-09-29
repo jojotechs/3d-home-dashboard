@@ -89,8 +89,11 @@ test('landmark facade lighting follows night and is removed on downgrade',async(
   await district.setLevel(8);district.update(1,1,false);
   assert.equal(district.snapshot().atmosphere.beams,1);
   assert.equal(district.snapshot().atmosphere.lit,true);
+  const washLights=[];parent.traverse(o=>{if(o.isSpotLight)washLights.push(o);});
+  assert.equal(washLights.length,1);assert.ok(washLights[0].intensity>0);
   district.update(30,0,true);assert.equal(district.snapshot().seconds,1);
   assert.equal(district.snapshot().atmosphere.lit,false);
+  assert.equal(washLights[0].intensity,0);
   await district.setLevel(5);district.update(1,1,false);
   assert.equal(district.snapshot().atmosphere.beams,0);assert.deepEqual(high.disposed(),[1,1]);
   district.dispose();assert.equal(parent.children.length,0);

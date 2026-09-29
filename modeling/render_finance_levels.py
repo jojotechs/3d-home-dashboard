@@ -23,11 +23,18 @@ for level in args.levels:
     lights=[]
     for a in root['lightAnchors']:
         bpy.ops.object.light_add(type='POINT',location=(a['x'],a['y'],a['z']));o=bpy.context.object;o.data.color=(1,.65,.34);o.data.shadow_soft_size=1;lights.append(o)
+    washes=[]
+    for spec in root.get('financeEffects',{}).get('beams',[]):
+        start=Vector(spec['from']);direction=Vector(spec['to'])-start
+        bpy.ops.object.light_add(type='SPOT',location=start);o=bpy.context.object
+        o.rotation_euler=direction.to_track_quat('-Z','Y').to_euler();o.data.color=(1,.75,.45)
+        o.data.spot_size=math.atan2(spec['radius'],direction.length)*3.4;o.data.spot_blend=.65;washes.append(o)
     for night in [False,True]:
         bg.inputs[0].default_value=(.055,.11,.24,1) if night else (.78,.85,.81,1);bg.inputs[1].default_value=.45 if night else .65
         sun.data.energy=.45 if night else 2.2;sun.data.color=(.37,.54,1) if night else (1,.88,.7)
         area.data.energy=1200 if night else 14000;area.data.color=(.38,.56,1) if night else (1,.95,.83)
         for light in lights:light.data.energy=140 if night else 0
+        for light in washes:light.data.energy=850 if night else 0
         for mat in bpy.data.materials:
             if mat.name.startswith(('finance_window','finance_lamp')):
                 bs=mat.node_tree.nodes.get('Principled BSDF');bs.inputs['Emission Color'].default_value=(1,.57,.22,1);bs.inputs['Emission Strength'].default_value=(2.4 if mat.name.startswith('finance_lamp') else .9) if night else 0
