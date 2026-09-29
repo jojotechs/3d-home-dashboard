@@ -18,7 +18,7 @@ def observatory(g,rx,ry,height,label):
         band(g,0,0,z,rx+.12,ry+.12,.11,'cream',64)
         for i in range(32):
             a=i*TAU/32;b=a+TAU/32*.66
-            if (i+z)%5 in [0,2]:
+            if (i+z)%5 in [0,2] and z+2.2<body:
                 g.mesh([((rx+.018)*math.cos(c),(ry+.018)*math.sin(c),zz) for zz in [z+.5,z+2.2] for c in [a,b]],[(0,1,3,2)],'finance_window')
     for i in range(32):
         a=i*TAU/32
@@ -72,7 +72,12 @@ def build_ten():
             g.rod((x,yy,z-.6),(nx,yy,nz-.6),.22,'finance_bronze',8)
             g.rod((x,yy,z),(x,yy,z+1.05),.035,'finance_bronze',6)
             g.rod((x,yy,z+1.05),(nx,yy,nz+1.05),.045,'finance_bronze',8)
-    for x in [-7,7]:roof_garden(g,x,10.3,38.7,3,.7)
+    for x in [-8,-7,-6,6,7,8]:
+        heights=[34+8*math.sin(math.pi*(xx+14)/28) for xx in [x-.35,x+.35]]
+        top=max(heights)+.06
+        base=[(x-.35,9.95,heights[0]),(x+.35,9.95,heights[1]),(x+.35,10.65,heights[1]),(x-.35,10.65,heights[0])]
+        g.mesh(base+[(xx,yy,top) for xx,yy,_ in base],[(0,3,2,1),(4,5,6,7),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7)],'cream')
+        roof_garden(g,x,10.3,top,.7,.7)
     # Layered central pavilion and planted stepped public terraces.
     b=Geometry();ellipse(b,4.6,5,.52,5,'finance_limestone');ellipse(b,4.2,4.6,5.52,4.4,'glass_finance_teal');ellipse(b,5.1,5.5,10,.4,'cream');transfer(g,b,0,12)
     for z,r in [(10.6,4.6),(11.4,3.9),(12.2,3.2)]:
@@ -84,7 +89,7 @@ def build_ten():
         z=.8 if y==1 else 13.2;g.cylinder((x,y,z),2.4,.5,'finance_copper',48)
         band(g,x,y,z+.28,2.2,2.2,.075,'finance_lamp',48)
     for x,y in [(-5,4),(5,4),(-4,-15),(4,-15)]:flower_box(g,x,y,1.8)
-    cafe_tables(g,[(-20,-17),(-24,-17),(4,-10)]);street_bench(g,8,-17);street_bench(g,-3,19)
+    cafe_tables(g,[(-20,-17),(-24,-17),(4,-10)]);street_bench(g,8,-19);street_bench(g,-3,19)
     for x,y in [(-21,-1),(-9,-1),(9,1),(20,1),(-5,12),(5,12)]:g.cylinder((x,y,.75),.23,.4,'metal',12)
     g.emit(root,'final_city');bake_batches(root)
     hologram(root,'orchid_projection',(0,1,5),2.1)
@@ -95,10 +100,10 @@ def build_ten():
     # Dedicated facade ribbons provide a coordinated light show without touching warm windows.
     show=empty('crown_light_ribbons',root,financeLightShow=True)
     ribbons=Geometry()
-    for cx,cy,rx,ry,top in [(-14,8.5,7.7,9,50),(14,10,7.3,7.7,39)]:
+    for cx,cy,rx,ry,top in [(-14,8.5,7.2,8.5,50),(14,10,6.8,7.2,39)]:
         for j in range(8):
             a=j*TAU/8
-            ribbons.rod((cx+rx*math.cos(a),cy+ry*math.sin(a),7),(cx+rx*math.cos(a),cy+ry*math.sin(a),top),.035,'glass_finance_mint',6)
+            line(ribbons,[(cx+(rx+.47)*math.cos(a),cy+(ry+.47)*math.sin(a),6),(cx+(rx+1.25)*math.cos(a),cy+(ry+1.25)*math.sin(a),top*.5),(cx+(rx+.47)*math.cos(a),cy+(ry+.47)*math.sin(a),top)],.035,'glass_finance_mint',6)
     ribbons.emit(show,'crown_ribbon')
     # Detach the show's materials from both holograms even when their base palette matches.
     for child in show.children:
