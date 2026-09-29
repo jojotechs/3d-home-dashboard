@@ -1,0 +1,179 @@
+{
+  "pauseBefore": {
+    "activities": {
+      "completed": 3,
+      "districts": [
+        "finance"
+      ],
+      "visitors": [
+        {
+          "carrying": false,
+          "district": "finance",
+          "id": 0,
+          "place": null,
+          "position": [
+            -82.703,
+            41,
+            0.51
+          ],
+          "state": "leaving",
+          "visible": true
+        },
+        {
+          "carrying": true,
+          "district": "finance",
+          "id": 27,
+          "place": "co-op",
+          "position": [
+            -71,
+            53.921,
+            0.51
+          ],
+          "state": "walking",
+          "visible": true
+        }
+      ]
+    },
+    "level": 1,
+    "lights": 3,
+    "loading": false,
+    "night": 0,
+    "paused": true,
+    "requested": 1,
+    "seconds": 233.666
+  },
+  "pauseAfter": {
+    "activities": {
+      "completed": 3,
+      "districts": [
+        "finance"
+      ],
+      "visitors": [
+        {
+          "carrying": false,
+          "district": "finance",
+          "id": 0,
+          "place": null,
+          "position": [
+            -82.703,
+            41,
+            0.51
+          ],
+          "state": "leaving",
+          "visible": true
+        },
+        {
+          "carrying": true,
+          "district": "finance",
+          "id": 27,
+          "place": "co-op",
+          "position": [
+            -71,
+            53.921,
+            0.51
+          ],
+          "state": "walking",
+          "visible": true
+        }
+      ]
+    },
+    "level": 1,
+    "lights": 3,
+    "loading": false,
+    "night": 0.613,
+    "paused": true,
+    "requested": 1,
+    "seconds": 233.666
+  },
+  "lv2": {
+    "finance": {
+      "activities": {
+        "completed": 1,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 36,
+            "place": "market-cafe",
+            "position": [
+              -74.603,
+              37,
+              0.51
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 27,
+            "place": "savings",
+            "position": [
+              -91.363,
+              37,
+              0.51
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "level": 2,
+      "lights": 3,
+      "loading": false,
+      "night": 0,
+      "paused": false,
+      "requested": 2,
+      "seconds": 118.518
+    },
+    "fps": "60.0",
+    "geometries": "171",
+    "textures": "22"
+  },
+  "lv2Later": {
+    "activities": {
+      "completed": 1,
+      "districts": [
+        "finance"
+      ],
+      "visitors": [
+        {
+          "carrying": true,
+          "district": "finance",
+          "id": 36,
+          "place": null,
+          "position": [
+            -67.761,
+            37,
+            0.51
+          ],
+          "state": "leaving",
+          "visible": true
+        },
+        {
+          "carrying": false,
+          "district": "finance",
+          "id": 27,
+          "place": null,
+          "position": [
+            -92,
+            45.824,
+            0.51
+          ],
+          "state": "leaving",
+          "visible": true
+        }
+      ]
+    },
+    "level": 2,
+    "lights": 3,
+    "loading": false,
+    "night": 0,
+    "paused": false,
+    "requested": 2,
+    "seconds": 171.018
+  }
+}

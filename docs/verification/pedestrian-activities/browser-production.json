@@ -1,0 +1,221 @@
+{
+  "bundle": "/assets/index-ByYlGkTs.js",
+  "samples": [
+    {
+      "at": "2026-09-29T02:51:48.293Z",
+      "fps": "60.1",
+      "mobility": {
+        "activities": {
+          "completed": 0,
+          "districts": [
+            "finance"
+          ],
+          "visitors": []
+        },
+        "car": [
+          [
+            -7.26,
+            -87.5
+          ],
+          [
+            -100.42,
+            -84.5
+          ],
+          [
+            -36.56,
+            -83.69
+          ]
+        ],
+        "cars": 24,
+        "elapsed": 79.02,
+        "paused": false,
+        "pedestrians": 40,
+        "walkers": [
+          [
+            -110.4,
+            51.44
+          ],
+          [
+            -110.4,
+            -32.89
+          ],
+          [
+            4.09,
+            -24.4
+          ]
+        ]
+      },
+      "scene": {
+        "activities": {
+          "completed": 0,
+          "districts": [
+            "finance"
+          ],
+          "visitors": []
+        },
+        "level": 2,
+        "lights": 3,
+        "loading": false,
+        "night": 0,
+        "paused": false,
+        "requested": 2,
+        "seconds": 31.349
+      }
+    },
+    {
+      "at": "2026-09-29T02:52:23.125Z",
+      "fps": "59.5",
+      "scene": {
+        "activities": {
+          "completed": 0,
+          "districts": [
+            "finance"
+          ],
+          "visitors": [
+            {
+              "carrying": false,
+              "district": "finance",
+              "id": 36,
+              "place": "market-cafe",
+              "position": [
+                -70.005,
+                37,
+                0.51
+              ],
+              "state": "entering",
+              "visible": true
+            },
+            {
+              "carrying": false,
+              "district": "finance",
+              "id": 9,
+              "place": "flower-stall",
+              "position": [
+                -76.626,
+                38.408,
+                0.51
+              ],
+              "state": "entering",
+              "visible": true
+            }
+          ]
+        },
+        "level": 2,
+        "lights": 3,
+        "loading": false,
+        "night": 0,
+        "paused": false,
+        "requested": 2,
+        "seconds": 65.997
+      }
+    },
+    {
+      "at": "2026-09-29T02:52:59.363Z",
+      "fps": "60.0",
+      "scene": {
+        "activities": {
+          "completed": 1,
+          "districts": [
+            "finance"
+          ],
+          "visitors": [
+            {
+              "carrying": true,
+              "district": "finance",
+              "id": 36,
+              "place": null,
+              "position": [
+                -59.12,
+                44.5,
+                0.51
+              ],
+              "state": "leaving",
+              "visible": true
+            },
+            {
+              "carrying": false,
+              "district": "finance",
+              "id": 0,
+              "place": "fruit-stall",
+              "position": [
+                -79.781,
+                41.5,
+                0.51
+              ],
+              "state": "entering",
+              "visible": true
+            }
+          ]
+        },
+        "level": 2,
+        "lights": 3,
+        "loading": false,
+        "night": 0,
+        "paused": false,
+        "requested": 2,
+        "seconds": 102.264
+      }
+    },
+    {
+      "at": "2026-09-29T02:53:29.101Z",
+      "mobility": {
+        "activities": {
+          "completed": 1,
+          "districts": [
+            "finance"
+          ],
+          "visitors": []
+        },
+        "car": [
+          [
+            -73.32,
+            87.5
+          ],
+          [
+            112.5,
+            -50.65
+          ],
+          [
+            -71.95,
+            29.5
+          ]
+        ],
+        "cars": 24,
+        "elapsed": 180.23,
+        "paused": false,
+        "pedestrians": 40,
+        "walkers": [
+          [
+            -60.75,
+            31.6
+          ],
+          [
+            -68.83,
+            -82.4
+          ],
+          [
+            6.27,
+            24.4
+          ]
+        ]
+      },
+      "scene": {
+        "activities": {
+          "completed": 1,
+          "districts": [
+            "finance"
+          ],
+          "visitors": []
+        },
+        "level": 1,
+        "lights": 3,
+        "loading": false,
+        "night": 0,
+        "paused": false,
+        "requested": 1,
+        "seconds": 15.033
+      }
+    }
+  ],
+  "logs": []
+}
