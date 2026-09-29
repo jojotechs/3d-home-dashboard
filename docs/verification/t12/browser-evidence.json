@@ -1,0 +1,228 @@
+{
+  "views": [
+    {
+      "label": "browser-lv9-day",
+      "data": {
+        "averageFps": "58.7",
+        "cameraZoom": "1.943",
+        "daylight": "{\"hour\":13,\"phase\":\"午后\",\"lights\":true,\"night\":0,\"sun\":[-3.63,357.2,126.03],\"sunIntensity\":2.941,\"sky\":\"86ccce\",\"windowMaterials\":2,\"lanterns\":82}",
+        "financeLevel": "9",
+        "financeScene": "{\"requested\":9,\"loading\":false,\"level\":9,\"seconds\":14.084,\"paused\":false,\"night\":0,\"lights\":4,\"atmosphere\":{\"beams\":4,\"flights\":2,\"holograms\":1,\"carriers\":[{\"name\":\"bloom_air_ad\",\"position\":[3.45,19,16.519]},{\"name\":\"bloom_sky_ad\",\"position\":[-11.095,31,14.272]}],\"lit\":false},\"activities\":{\"districts\":[\"finance\"],\"completed\":0,\"visitors\":[]}}",
+        "mobility": "{\"activities\":{\"districts\":[\"finance\"],\"completed\":0,\"visitors\":[]},\"cars\":24,\"pedestrians\":40,\"elapsed\":14.1,\"car\":[[-115.5,-46.92],[112.5,-76.7],[-115.5,-60.06]],\"walkers\":[[-64.36,31.6],[-41.6,-25.16],[12.56,24.4]],\"paused\":false}",
+        "renderCalls": "211",
+        "renderGeometries": "176",
+        "renderTextures": "11",
+        "renderTriangles": "2169641",
+        "testid": "city-canvas",
+        "transport": "{\"status\":{\"air\":{\"phase\":\"waiting\",\"label\":\"候班中\",\"active\":false,\"preview\":false,\"queued\":0,\"parked\":3,\"total\":3,\"detail\":\"\",\"variant\":null,\"eventKey\":null,\"tripIds\":[],\"members\":\"\",\"destination\":\"\"},\"rail\":{\"phase\":\"waiting\",\"label\":\"候班中\",\"active\":false,\"preview\":false,\"queued\":0,\"parked\":2,\"total\":2,\"detail\":\"\",\"variant\":null,\"eventKey\":null,\"tripIds\":[],\"members\":\"\",\"destination\":\"\"}},\"actors\":{\"air\":[{\"slot\":0,\"position\":[-36,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":0},{\"slot\":1,\"position\":[0,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":0},{\"slot\":2,\"position\":[36,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":0}],\"rail\":[{\"slot\":0,\"position\":[0,0,-11.2],\"visible\":true,\"heading\":0,\"cabinMaterials\":1,\"cabinLight\":0},{\"slot\":1,\"position\":[0,0,-4.8],\"visible\":true,\"heading\":0,\"cabinMaterials\":1,\"cabinLight\":0}]}}",
+        "viewportWidth": "1280",
+        "visibleGroups": "[\"work_car_a\",\"work_car_b\",\"chore_group_0\",\"plot_0_slot_0\",\"plot_0_slot_1\",\"plot_0_slot_2\",\"plot_0_slot_3\",\"plot_0_slot_4\",\"plot_0_slot_5\",\"plot_0_slot_6\",\"plot_1_slot_0\",\"plot_1_slot_1\",\"plot_1_slot_2\",\"plot_1_slot_3\",\"plot_1_slot_4\",\"plot_1_slot_5\",\"plot_1_slot_6\",\"plot_1_slot_7\",\"plot_1_slot_8\",\"plot_2_slot_0\",\"plot_2_slot_1\",\"plot_2_slot_2\",\"plot_2_slot_3\",\"plot_2_slot_4\",\"plot_2_slot_5\",\"plot_2_slot_6\",\"plot_2_slot_7\",\"plot_3_slot_0\",\"plot_3_slot_1\",\"plot_3_slot_2\",\"plot_3_slot_3\",\"plot_3_slot_4\",\"plot_3_slot_5\",\"plot_3_slot_6\",\"plot_3_slot_7\",\"plot_3_slot_8\",\"plot_3_slot_9\",\"plot_4_slot_0\",\"plot_4_slot_1\",\"plot_4_slot_2\",\"plot_4_slot_3\",\"plot_4_slot_4\",\"plot_5_slot_0\",\"plot_5_slot_1\",\"plot_5_slot_2\",\"plot_5_slot_3\",\"plot_5_slot_4\",\"plot_5_slot_5\",\"health_court\",\"health_gym\",\"health_loop\",\"health_play\",\"health_service\",\"health_yoga\",\"home_activity\",\"home_children\",\"home_dining\",\"home_gazebo\",\"home_grill\",\"learning_level_2\",\"learning_level_3\"]"
+      }
+    },
+    {
+      "label": "browser-lv9-night",
+      "data": {
+        "averageFps": "56.0",
+        "cameraZoom": "1.648",
+        "daylight": "{\"hour\":13,\"phase\":\"午后\",\"lights\":true,\"night\":0,\"sun\":[-3.63,357.2,126.03],\"sunIntensity\":2.941,\"sky\":\"86ccce\",\"windowMaterials\":2,\"lanterns\":82}",
+        "financeLevel": "9",
+        "financeScene": "{\"requested\":9,\"loading\":false,\"level\":9,\"seconds\":20.45,\"paused\":false,\"night\":0,\"lights\":4,\"atmosphere\":{\"beams\":4,\"flights\":2,\"holograms\":1,\"carriers\":[{\"name\":\"bloom_air_ad\",\"position\":[-5.462,19,16.545]},{\"name\":\"bloom_sky_ad\",\"position\":[-2.186,31,14.491]}],\"lit\":false},\"activities\":{\"districts\":[\"finance\"],\"completed\":0,\"visitors\":[]}}",
+        "mobility": "{\"activities\":{\"districts\":[\"finance\"],\"completed\":0,\"visitors\":[]},\"cars\":24,\"pedestrians\":40,\"elapsed\":20.45,\"car\":[[-115.5,-75.52],[85.72,-84.5],[-111.14,-87.48]],\"walkers\":[[-68.15,31.6],[-41.6,-29.92],[6.51,24.4]],\"paused\":false}",
+        "renderCalls": "267",
+        "renderGeometries": "176",
+        "renderTextures": "11",
+        "renderTriangles": "2227063",
+        "testid": "city-canvas",
+        "transport": "{\"status\":{\"air\":{\"phase\":\"waiting\",\"label\":\"候班中\",\"active\":false,\"preview\":false,\"queued\":0,\"parked\":3,\"total\":3,\"detail\":\"\",\"variant\":null,\"eventKey\":null,\"tripIds\":[],\"members\":\"\",\"destination\":\"\"},\"rail\":{\"phase\":\"waiting\",\"label\":\"候班中\",\"active\":false,\"preview\":false,\"queued\":0,\"parked\":2,\"total\":2,\"detail\":\"\",\"variant\":null,\"eventKey\":null,\"tripIds\":[],\"members\":\"\",\"destination\":\"\"}},\"actors\":{\"air\":[{\"slot\":0,\"position\":[-36,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":0.6972979329117458},{\"slot\":1,\"position\":[0,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":0.6972979329117458},{\"slot\":2,\"position\":[36,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":0.6972979329117458}],\"rail\":[{\"slot\":0,\"position\":[0,0,-11.2],\"visible\":true,\"heading\":0,\"cabinMaterials\":1,\"cabinLight\":0.6972979329117458},{\"slot\":1,\"position\":[0,0,-4.8],\"visible\":true,\"heading\":0,\"cabinMaterials\":1,\"cabinLight\":0.6972979329117458}]}}",
+        "viewportWidth": "1280",
+        "visibleGroups": "[\"work_car_a\",\"work_car_b\",\"chore_group_0\",\"plot_0_slot_0\",\"plot_0_slot_1\",\"plot_0_slot_2\",\"plot_0_slot_3\",\"plot_0_slot_4\",\"plot_0_slot_5\",\"plot_0_slot_6\",\"plot_1_slot_0\",\"plot_1_slot_1\",\"plot_1_slot_2\",\"plot_1_slot_3\",\"plot_1_slot_4\",\"plot_1_slot_5\",\"plot_1_slot_6\",\"plot_1_slot_7\",\"plot_1_slot_8\",\"plot_2_slot_0\",\"plot_2_slot_1\",\"plot_2_slot_2\",\"plot_2_slot_3\",\"plot_2_slot_4\",\"plot_2_slot_5\",\"plot_2_slot_6\",\"plot_2_slot_7\",\"plot_3_slot_0\",\"plot_3_slot_1\",\"plot_3_slot_2\",\"plot_3_slot_3\",\"plot_3_slot_4\",\"plot_3_slot_5\",\"plot_3_slot_6\",\"plot_3_slot_7\",\"plot_3_slot_8\",\"plot_3_slot_9\",\"plot_4_slot_0\",\"plot_4_slot_1\",\"plot_4_slot_2\",\"plot_4_slot_3\",\"plot_4_slot_4\",\"plot_5_slot_0\",\"plot_5_slot_1\",\"plot_5_slot_2\",\"plot_5_slot_3\",\"plot_5_slot_4\",\"plot_5_slot_5\",\"health_court\",\"health_gym\",\"health_loop\",\"health_play\",\"health_service\",\"health_yoga\",\"home_activity\",\"home_children\",\"home_dining\",\"home_gazebo\",\"home_grill\",\"learning_level_2\",\"learning_level_3\"]"
+      }
+    },
+    {
+      "label": "browser-lv9-close-paused",
+      "data": {
+        "averageFps": "56.0",
+        "cameraZoom": "1.648",
+        "daylight": "{\"hour\":22,\"phase\":\"夜晚\",\"lights\":true,\"night\":1,\"sun\":[-117.02,230.81,-123.32],\"sunIntensity\":0.143,\"sky\":\"1c3351\",\"windowMaterials\":2,\"lanterns\":82}",
+        "financeLevel": "9",
+        "financeScene": "{\"requested\":9,\"loading\":false,\"level\":9,\"seconds\":31.349,\"paused\":false,\"night\":1,\"lights\":4,\"atmosphere\":{\"beams\":4,\"flights\":2,\"holograms\":1,\"carriers\":[{\"name\":\"bloom_air_ad\",\"position\":[-20.693,19,17.349]},{\"name\":\"bloom_sky_ad\",\"position\":[13.068,31,14.176]}],\"lit\":true},\"activities\":{\"districts\":[\"finance\"],\"completed\":0,\"visitors\":[{\"id\":0,\"district\":\"finance\",\"state\":\"entering\",\"place\":\"maison\",\"visible\":true,\"carrying\":false,\"position\":[-76,34.253,0.52]}]}}",
+        "mobility": "{\"activities\":{\"districts\":[\"finance\"],\"completed\":0,\"visitors\":[{\"id\":0,\"district\":\"finance\",\"state\":\"entering\",\"place\":\"maison\",\"visible\":true,\"carrying\":false,\"position\":[-76,33.748,0.541]}]},\"cars\":24,\"pedestrians\":40,\"elapsed\":31.37,\"car\":[[-78.48,-87.5],[26.65,-84.5],[-59.66,-87.5]],\"walkers\":[[-76,33.75],[-41.6,-42.93],[-3.91,24.4]],\"paused\":false}",
+        "renderCalls": "302",
+        "renderGeometries": "184",
+        "renderTextures": "22",
+        "renderTriangles": "2240020",
+        "testid": "city-canvas",
+        "transport": "{\"status\":{\"air\":{\"phase\":\"waiting\",\"label\":\"候班中\",\"active\":false,\"preview\":false,\"queued\":0,\"parked\":3,\"total\":3,\"detail\":\"\",\"variant\":null,\"eventKey\":null,\"tripIds\":[],\"members\":\"\",\"destination\":\"\"},\"rail\":{\"phase\":\"waiting\",\"label\":\"候班中\",\"active\":false,\"preview\":false,\"queued\":0,\"parked\":2,\"total\":2,\"detail\":\"\",\"variant\":null,\"eventKey\":null,\"tripIds\":[],\"members\":\"\",\"destination\":\"\"}},\"actors\":{\"air\":[{\"slot\":0,\"position\":[-36,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":1.5499999999999945},{\"slot\":1,\"position\":[0,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":1.5499999999999945},{\"slot\":2,\"position\":[36,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":1.5499999999999945}],\"rail\":[{\"slot\":0,\"position\":[0,0,-11.2],\"visible\":true,\"heading\":0,\"cabinMaterials\":1,\"cabinLight\":1.5499999999999945},{\"slot\":1,\"position\":[0,0,-4.8],\"visible\":true,\"heading\":0,\"cabinMaterials\":1,\"cabinLight\":1.5499999999999945}]}}",
+        "viewportWidth": "1280",
+        "visibleGroups": "[\"work_car_a\",\"work_car_b\",\"chore_group_0\",\"plot_0_slot_0\",\"plot_0_slot_1\",\"plot_0_slot_2\",\"plot_0_slot_3\",\"plot_0_slot_4\",\"plot_0_slot_5\",\"plot_0_slot_6\",\"plot_1_slot_0\",\"plot_1_slot_1\",\"plot_1_slot_2\",\"plot_1_slot_3\",\"plot_1_slot_4\",\"plot_1_slot_5\",\"plot_1_slot_6\",\"plot_1_slot_7\",\"plot_1_slot_8\",\"plot_2_slot_0\",\"plot_2_slot_1\",\"plot_2_slot_2\",\"plot_2_slot_3\",\"plot_2_slot_4\",\"plot_2_slot_5\",\"plot_2_slot_6\",\"plot_2_slot_7\",\"plot_3_slot_0\",\"plot_3_slot_1\",\"plot_3_slot_2\",\"plot_3_slot_3\",\"plot_3_slot_4\",\"plot_3_slot_5\",\"plot_3_slot_6\",\"plot_3_slot_7\",\"plot_3_slot_8\",\"plot_3_slot_9\",\"plot_4_slot_0\",\"plot_4_slot_1\",\"plot_4_slot_2\",\"plot_4_slot_3\",\"plot_4_slot_4\",\"plot_5_slot_0\",\"plot_5_slot_1\",\"plot_5_slot_2\",\"plot_5_slot_3\",\"plot_5_slot_4\",\"plot_5_slot_5\",\"health_court\",\"health_gym\",\"health_loop\",\"health_play\",\"health_service\",\"health_yoga\",\"home_activity\",\"home_children\",\"home_dining\",\"home_gazebo\",\"home_grill\",\"learning_level_2\",\"learning_level_3\"]"
+      }
+    },
+    {
+      "label": "browser-lv9-rear-night",
+      "data": {
+        "averageFps": "56.7",
+        "cameraZoom": "1.848",
+        "daylight": "{\"hour\":22,\"phase\":\"夜晚\",\"lights\":true,\"night\":1,\"sun\":[-117.02,230.81,-123.32],\"sunIntensity\":0.143,\"sky\":\"1c3351\",\"windowMaterials\":2,\"lanterns\":82}",
+        "financeLevel": "9",
+        "financeScene": "{\"requested\":9,\"loading\":false,\"level\":9,\"seconds\":31.633,\"paused\":true,\"night\":1,\"lights\":4,\"atmosphere\":{\"beams\":4,\"flights\":2,\"holograms\":1,\"carriers\":[{\"name\":\"bloom_air_ad\",\"position\":[-21.086,19,17.403]},{\"name\":\"bloom_sky_ad\",\"position\":[13.464,31,14.155]}],\"lit\":true},\"activities\":{\"districts\":[\"finance\"],\"completed\":0,\"visitors\":[{\"id\":0,\"district\":\"finance\",\"state\":\"entering\",\"place\":\"maison\",\"visible\":true,\"carrying\":false,\"position\":[-76,34.547,0.52]}]}}",
+        "mobility": "{\"activities\":{\"districts\":[\"finance\"],\"completed\":0,\"visitors\":[{\"id\":0,\"district\":\"finance\",\"state\":\"entering\",\"place\":\"maison\",\"visible\":true,\"carrying\":false,\"position\":[-76,34.547,0.52]}]},\"cars\":24,\"pedestrians\":40,\"elapsed\":32.18,\"car\":[[-74.17,-87.5],[22.23,-84.5],[-55.81,-87.5]],\"walkers\":[[-76,34.55],[-41.6,-43.9],[-4.19,24.4]],\"paused\":true}",
+        "renderCalls": "268",
+        "renderGeometries": "184",
+        "renderTextures": "22",
+        "renderTriangles": "2215588",
+        "testid": "city-canvas",
+        "transport": "{\"status\":{\"air\":{\"phase\":\"waiting\",\"label\":\"候班中\",\"active\":false,\"preview\":false,\"queued\":0,\"parked\":3,\"total\":3,\"detail\":\"\",\"variant\":null,\"eventKey\":null,\"tripIds\":[],\"members\":\"\",\"destination\":\"\"},\"rail\":{\"phase\":\"waiting\",\"label\":\"候班中\",\"active\":false,\"preview\":false,\"queued\":0,\"parked\":2,\"total\":2,\"detail\":\"\",\"variant\":null,\"eventKey\":null,\"tripIds\":[],\"members\":\"\",\"destination\":\"\"}},\"actors\":{\"air\":[{\"slot\":0,\"position\":[-36,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":1.5499999999999992},{\"slot\":1,\"position\":[0,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":1.5499999999999992},{\"slot\":2,\"position\":[36,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":1.5499999999999992}],\"rail\":[{\"slot\":0,\"position\":[0,0,-11.2],\"visible\":true,\"heading\":0,\"cabinMaterials\":1,\"cabinLight\":1.5499999999999992},{\"slot\":1,\"position\":[0,0,-4.8],\"visible\":true,\"heading\":0,\"cabinMaterials\":1,\"cabinLight\":1.5499999999999992}]}}",
+        "viewportWidth": "1280",
+        "visibleGroups": "[\"work_car_a\",\"work_car_b\",\"chore_group_0\",\"plot_0_slot_0\",\"plot_0_slot_1\",\"plot_0_slot_2\",\"plot_0_slot_3\",\"plot_0_slot_4\",\"plot_0_slot_5\",\"plot_0_slot_6\",\"plot_1_slot_0\",\"plot_1_slot_1\",\"plot_1_slot_2\",\"plot_1_slot_3\",\"plot_1_slot_4\",\"plot_1_slot_5\",\"plot_1_slot_6\",\"plot_1_slot_7\",\"plot_1_slot_8\",\"plot_2_slot_0\",\"plot_2_slot_1\",\"plot_2_slot_2\",\"plot_2_slot_3\",\"plot_2_slot_4\",\"plot_2_slot_5\",\"plot_2_slot_6\",\"plot_2_slot_7\",\"plot_3_slot_0\",\"plot_3_slot_1\",\"plot_3_slot_2\",\"plot_3_slot_3\",\"plot_3_slot_4\",\"plot_3_slot_5\",\"plot_3_slot_6\",\"plot_3_slot_7\",\"plot_3_slot_8\",\"plot_3_slot_9\",\"plot_4_slot_0\",\"plot_4_slot_1\",\"plot_4_slot_2\",\"plot_4_slot_3\",\"plot_4_slot_4\",\"plot_5_slot_0\",\"plot_5_slot_1\",\"plot_5_slot_2\",\"plot_5_slot_3\",\"plot_5_slot_4\",\"plot_5_slot_5\",\"health_court\",\"health_gym\",\"health_loop\",\"health_play\",\"health_service\",\"health_yoga\",\"home_activity\",\"home_children\",\"home_dining\",\"home_gazebo\",\"home_grill\",\"learning_level_2\",\"learning_level_3\"]"
+      }
+    },
+    {
+      "label": "browser-lv9-rear-day",
+      "data": {
+        "averageFps": "60.0",
+        "cameraZoom": "1.648",
+        "daylight": "{\"hour\":13,\"phase\":\"午后\",\"lights\":true,\"night\":0,\"sun\":[-3.63,357.2,126.03],\"sunIntensity\":2.941,\"sky\":\"86ccce\",\"windowMaterials\":2,\"lanterns\":82}",
+        "financeLevel": "9",
+        "financeScene": "{\"requested\":9,\"loading\":false,\"level\":9,\"seconds\":31.633,\"paused\":true,\"night\":0,\"lights\":4,\"atmosphere\":{\"beams\":4,\"flights\":2,\"holograms\":1,\"carriers\":[{\"name\":\"bloom_air_ad\",\"position\":[-21.086,19,17.403]},{\"name\":\"bloom_sky_ad\",\"position\":[13.464,31,14.155]}],\"lit\":false},\"activities\":{\"districts\":[\"finance\"],\"completed\":0,\"visitors\":[{\"id\":0,\"district\":\"finance\",\"state\":\"entering\",\"place\":\"maison\",\"visible\":true,\"carrying\":false,\"position\":[-76,34.547,0.52]}]}}",
+        "mobility": "{\"activities\":{\"districts\":[\"finance\"],\"completed\":0,\"visitors\":[{\"id\":0,\"district\":\"finance\",\"state\":\"entering\",\"place\":\"maison\",\"visible\":true,\"carrying\":false,\"position\":[-76,34.547,0.52]}]},\"cars\":24,\"pedestrians\":40,\"elapsed\":32.18,\"car\":[[-74.17,-87.5],[22.23,-84.5],[-55.81,-87.5]],\"walkers\":[[-76,34.55],[-41.6,-43.9],[-4.19,24.4]],\"paused\":true}",
+        "renderCalls": "259",
+        "renderGeometries": "184",
+        "renderTextures": "22",
+        "renderTriangles": "2221955",
+        "testid": "city-canvas",
+        "transport": "{\"status\":{\"air\":{\"phase\":\"waiting\",\"label\":\"候班中\",\"active\":false,\"preview\":false,\"queued\":0,\"parked\":3,\"total\":3,\"detail\":\"\",\"variant\":null,\"eventKey\":null,\"tripIds\":[],\"members\":\"\",\"destination\":\"\"},\"rail\":{\"phase\":\"waiting\",\"label\":\"候班中\",\"active\":false,\"preview\":false,\"queued\":0,\"parked\":2,\"total\":2,\"detail\":\"\",\"variant\":null,\"eventKey\":null,\"tripIds\":[],\"members\":\"\",\"destination\":\"\"}},\"actors\":{\"air\":[{\"slot\":0,\"position\":[-36,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":1.5110769790517902e-29},{\"slot\":1,\"position\":[0,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":1.5110769790517902e-29},{\"slot\":2,\"position\":[36,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":1.5110769790517902e-29}],\"rail\":[{\"slot\":0,\"position\":[0,0,-11.2],\"visible\":true,\"heading\":0,\"cabinMaterials\":1,\"cabinLight\":1.5110769790517902e-29},{\"slot\":1,\"position\":[0,0,-4.8],\"visible\":true,\"heading\":0,\"cabinMaterials\":1,\"cabinLight\":1.5110769790517902e-29}]}}",
+        "viewportWidth": "1280",
+        "visibleGroups": "[\"work_car_a\",\"work_car_b\",\"chore_group_0\",\"plot_0_slot_0\",\"plot_0_slot_1\",\"plot_0_slot_2\",\"plot_0_slot_3\",\"plot_0_slot_4\",\"plot_0_slot_5\",\"plot_0_slot_6\",\"plot_1_slot_0\",\"plot_1_slot_1\",\"plot_1_slot_2\",\"plot_1_slot_3\",\"plot_1_slot_4\",\"plot_1_slot_5\",\"plot_1_slot_6\",\"plot_1_slot_7\",\"plot_1_slot_8\",\"plot_2_slot_0\",\"plot_2_slot_1\",\"plot_2_slot_2\",\"plot_2_slot_3\",\"plot_2_slot_4\",\"plot_2_slot_5\",\"plot_2_slot_6\",\"plot_2_slot_7\",\"plot_3_slot_0\",\"plot_3_slot_1\",\"plot_3_slot_2\",\"plot_3_slot_3\",\"plot_3_slot_4\",\"plot_3_slot_5\",\"plot_3_slot_6\",\"plot_3_slot_7\",\"plot_3_slot_8\",\"plot_3_slot_9\",\"plot_4_slot_0\",\"plot_4_slot_1\",\"plot_4_slot_2\",\"plot_4_slot_3\",\"plot_4_slot_4\",\"plot_5_slot_0\",\"plot_5_slot_1\",\"plot_5_slot_2\",\"plot_5_slot_3\",\"plot_5_slot_4\",\"plot_5_slot_5\",\"health_court\",\"health_gym\",\"health_loop\",\"health_play\",\"health_service\",\"health_yoga\",\"home_activity\",\"home_children\",\"home_dining\",\"home_gazebo\",\"home_grill\",\"learning_level_2\",\"learning_level_3\"]"
+      }
+    },
+    {
+      "label": "browser-lv9-far",
+      "data": {
+        "averageFps": "60.0",
+        "cameraZoom": "1.648",
+        "daylight": "{\"hour\":13,\"phase\":\"午后\",\"lights\":true,\"night\":0,\"sun\":[-3.63,357.2,126.03],\"sunIntensity\":2.941,\"sky\":\"86ccce\",\"windowMaterials\":2,\"lanterns\":82}",
+        "financeLevel": "9",
+        "financeScene": "{\"requested\":9,\"loading\":false,\"level\":9,\"seconds\":31.633,\"paused\":true,\"night\":0,\"lights\":4,\"atmosphere\":{\"beams\":4,\"flights\":2,\"holograms\":1,\"carriers\":[{\"name\":\"bloom_air_ad\",\"position\":[-21.086,19,17.403]},{\"name\":\"bloom_sky_ad\",\"position\":[13.464,31,14.155]}],\"lit\":false},\"activities\":{\"districts\":[\"finance\"],\"completed\":0,\"visitors\":[{\"id\":0,\"district\":\"finance\",\"state\":\"entering\",\"place\":\"maison\",\"visible\":true,\"carrying\":false,\"position\":[-76,34.547,0.52]}]}}",
+        "mobility": "{\"activities\":{\"districts\":[\"finance\"],\"completed\":0,\"visitors\":[{\"id\":0,\"district\":\"finance\",\"state\":\"entering\",\"place\":\"maison\",\"visible\":true,\"carrying\":false,\"position\":[-76,34.547,0.52]}]},\"cars\":24,\"pedestrians\":40,\"elapsed\":32.18,\"car\":[[-74.17,-87.5],[22.23,-84.5],[-55.81,-87.5]],\"walkers\":[[-76,34.55],[-41.6,-43.9],[-4.19,24.4]],\"paused\":true}",
+        "renderCalls": "259",
+        "renderGeometries": "184",
+        "renderTextures": "22",
+        "renderTriangles": "2221955",
+        "testid": "city-canvas",
+        "transport": "{\"status\":{\"air\":{\"phase\":\"waiting\",\"label\":\"候班中\",\"active\":false,\"preview\":false,\"queued\":0,\"parked\":3,\"total\":3,\"detail\":\"\",\"variant\":null,\"eventKey\":null,\"tripIds\":[],\"members\":\"\",\"destination\":\"\"},\"rail\":{\"phase\":\"waiting\",\"label\":\"候班中\",\"active\":false,\"preview\":false,\"queued\":0,\"parked\":2,\"total\":2,\"detail\":\"\",\"variant\":null,\"eventKey\":null,\"tripIds\":[],\"members\":\"\",\"destination\":\"\"}},\"actors\":{\"air\":[{\"slot\":0,\"position\":[-36,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":7.137822235210006e-30},{\"slot\":1,\"position\":[0,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":7.137822235210006e-30},{\"slot\":2,\"position\":[36,0,14],\"visible\":true,\"heading\":1.5707963267948966,\"cabinMaterials\":1,\"cabinLight\":7.137822235210006e-30}],\"rail\":[{\"slot\":0,\"position\":[0,0,-11.2],\"visible\":true,\"heading\":0,\"cabinMaterials\":1,\"cabinLight\":7.137822235210006e-30},{\"slot\":1,\"position\":[0,0,-4.8],\"visible\":true,\"heading\":0,\"cabinMaterials\":1,\"cabinLight\":7.137822235210006e-30}]}}",
+        "viewportWidth": "1280",
+        "visibleGroups": "[\"work_car_a\",\"work_car_b\",\"chore_group_0\",\"plot_0_slot_0\",\"plot_0_slot_1\",\"plot_0_slot_2\",\"plot_0_slot_3\",\"plot_0_slot_4\",\"plot_0_slot_5\",\"plot_0_slot_6\",\"plot_1_slot_0\",\"plot_1_slot_1\",\"plot_1_slot_2\",\"plot_1_slot_3\",\"plot_1_slot_4\",\"plot_1_slot_5\",\"plot_1_slot_6\",\"plot_1_slot_7\",\"plot_1_slot_8\",\"plot_2_slot_0\",\"plot_2_slot_1\",\"plot_2_slot_2\",\"plot_2_slot_3\",\"plot_2_slot_4\",\"plot_2_slot_5\",\"plot_2_slot_6\",\"plot_2_slot_7\",\"plot_3_slot_0\",\"plot_3_slot_1\",\"plot_3_slot_2\",\"plot_3_slot_3\",\"plot_3_slot_4\",\"plot_3_slot_5\",\"plot_3_slot_6\",\"plot_3_slot_7\",\"plot_3_slot_8\",\"plot_3_slot_9\",\"plot_4_slot_0\",\"plot_4_slot_1\",\"plot_4_slot_2\",\"plot_4_slot_3\",\"plot_4_slot_4\",\"plot_5_slot_0\",\"plot_5_slot_1\",\"plot_5_slot_2\",\"plot_5_slot_3\",\"plot_5_slot_4\",\"plot_5_slot_5\",\"health_court\",\"health_gym\",\"health_loop\",\"health_play\",\"health_service\",\"health_yoga\",\"home_activity\",\"home_children\",\"home_dining\",\"home_gazebo\",\"home_grill\",\"learning_level_2\",\"learning_level_3\"]"
+      }
+    }
+  ],
+  "pause": [
+    {
+      "activities": {
+        "completed": 0,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": "maison",
+            "position": [
+              -76,
+              34.547,
+              0.52
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "atmosphere": {
+        "beams": 4,
+        "carriers": [
+          {
+            "name": "bloom_air_ad",
+            "position": [
+              -21.086,
+              19,
+              17.403
+            ]
+          },
+          {
+            "name": "bloom_sky_ad",
+            "position": [
+              13.464,
+              31,
+              14.155
+            ]
+          }
+        ],
+        "flights": 2,
+        "holograms": 1,
+        "lit": true
+      },
+      "level": 9,
+      "lights": 4,
+      "loading": false,
+      "night": 1,
+      "paused": true,
+      "requested": 9,
+      "seconds": 31.633
+    },
+    {
+      "activities": {
+        "completed": 0,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": "maison",
+            "position": [
+              -76,
+              34.547,
+              0.52
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "atmosphere": {
+        "beams": 4,
+        "carriers": [
+          {
+            "name": "bloom_air_ad",
+            "position": [
+              -21.086,
+              19,
+              17.403
+            ]
+          },
+          {
+            "name": "bloom_sky_ad",
+            "position": [
+              13.464,
+              31,
+              14.155
+            ]
+          }
+        ],
+        "flights": 2,
+        "holograms": 1,
+        "lit": true
+      },
+      "level": 9,
+      "lights": 4,
+      "loading": false,
+      "night": 1,
+      "paused": true,
+      "requested": 9,
+      "seconds": 31.633
+    }
+  ]
+}
