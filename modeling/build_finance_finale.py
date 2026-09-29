@@ -80,7 +80,9 @@ def build_ten():
         roof_garden(g,x,10.3,top,.7,.7)
     # Layered central pavilion and planted stepped public terraces.
     b=Geometry();ellipse(b,4.6,5,.52,5,'finance_limestone');ellipse(b,4.2,4.6,5.52,4.4,'glass_finance_teal');ellipse(b,5.1,5.5,10,.4,'cream');transfer(g,b,0,12)
-    for z,r in [(10.6,4.6),(11.4,3.9),(12.2,3.2)]:
+    for bottom,top,r in [(10.4,11.1,4.9),(11.1,11.9,4.2),(11.9,13,3.5)]:
+        tier=Geometry();ellipse(tier,r,r,bottom,top-bottom,'finance_limestone');transfer(g,tier,0,12)
+    for z,r in [(11.1,4.6),(11.9,3.9),(13,3.2)]:
         band(g,0,12,z,r,r,.3,'cream',48)
         for i in range(12):
             a=i*TAU/12;g.ball((r*math.cos(a),12+r*math.sin(a),z+.25),(.5,.5,.32),'leaf2',2)
