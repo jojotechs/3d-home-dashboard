@@ -6,13 +6,13 @@ const up=new THREE.Vector3(0,1,0);
 function flight(node) {
   const points=node.userData.route.map(point),lengths=points.map((p,i)=>p.distanceTo(points[(i+1)%points.length]));
   const total=lengths.reduce((a,b)=>a+b,0);
-  return seconds=>{
+  return {update(seconds){
     let distance=(seconds*node.userData.speed+(node.userData.offset??0))%total,index=0;
     while(distance>lengths[index])distance-=lengths[index++];
     const a=points[index],b=points[(index+1)%points.length];
     node.position.copy(a).lerp(b,distance/lengths[index]);
     node.rotation.y=Math.atan2(-(b.z-a.z),b.x-a.x);
-  };
+  },snapshot:()=>({name:node.name,position:node.position.toArray().map(v=>+v.toFixed(3))})};
 }
 
 function beam(root,spec,index) {
@@ -58,7 +58,7 @@ export function createFinanceAtmosphere(root) {
   });
   let lit=false;
   return {
-    update(seconds,night){lit=night>.005;beams.forEach(update=>update(seconds,night));flights.forEach(update=>update(seconds));holograms.forEach(update=>update(seconds,night));},
-    snapshot:()=>({beams:beams.length,flights:flights.length,holograms:holograms.length,lit}),
+    update(seconds,night){lit=night>.005;beams.forEach(update=>update(seconds,night));flights.forEach(f=>f.update(seconds));holograms.forEach(update=>update(seconds,night));},
+    snapshot:()=>({beams:beams.length,flights:flights.length,holograms:holograms.length,carriers:flights.map(f=>f.snapshot()),lit}),
   };
 }
