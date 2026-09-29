@@ -99,9 +99,11 @@ def build_ten():
     show=empty('crown_light_ribbons',root,financeLightShow=True)
     ribbons=Geometry()
     for cx,cy,rx,ry,top in [(-14,8.5,7.2,8.5,50),(14,10,6.8,7.2,39)]:
+        band(ribbons,cx,cy,top+1.31,rx+1,ry+1,.11,'metro_gold',64)
+        band(ribbons,cx,cy,top+3.51,rx+.3,ry+.3,.1,'glass_finance_mint',64)
         for j in range(8):
             a=j*TAU/8
-            line(ribbons,[(cx+(rx+.47)*math.cos(a),cy+(ry+.47)*math.sin(a),6),(cx+(rx+1.25)*math.cos(a),cy+(ry+1.25)*math.sin(a),top*.5),(cx+(rx+.47)*math.cos(a),cy+(ry+.47)*math.sin(a),top)],.035,'glass_finance_mint',6)
+            line(ribbons,[(cx+(rx+.47)*math.cos(a),cy+(ry+.47)*math.sin(a),17),(cx+(rx+1.25)*math.cos(a),cy+(ry+1.25)*math.sin(a),top*.5),(cx+(rx+.47)*math.cos(a),cy+(ry+.47)*math.sin(a),top)],.085,'glass_finance_mint',6)
     ribbons.emit(show,'crown_ribbon')
     # Detach the show's materials from both holograms even when their base palette matches.
     for child in show.children:

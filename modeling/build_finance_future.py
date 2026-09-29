@@ -10,8 +10,9 @@ def build_nine():
     root=level_root(9,metropolitan_anchors(9))
     root['financeEffects']={'beams':[{'from':[x,y,.9],'to':[x,y+2,z],'radius':1.4,'color':'#adeadd' if i%2 else '#ffe0ad','sweep':[1.2,0,0],'period':18,'phase':i*math.pi/2} for i,(x,y,z) in enumerate([(-23,-2,19),(-8,-.8,19),(8,2,20),(21,2,20)])]}
     g=Geometry();civic_ground(g)
-    b=Geometry();faceted_tower(b,18,18,57,'SOLSTICE');transfer(g,b,-15,8)
-    b=Geometry();faceted_tower(b,17,14,45,'MERIDIAN');transfer(g,b,14,10)
+    skyline_lights=Geometry()
+    for x,y,w,d,height,label,tint in [(-15,8,18,18,57,'SOLSTICE','metro_jade'),(14,10,17,14,45,'MERIDIAN','metro_gold')]:
+        b=Geometry();lights=Geometry();faceted_tower(b,lights,w,d,height,label,tint);transfer(g,b,x,y);transfer(skyline_lights,lights,x,y)
     metropolitan_frontage(g,9);central_house(g,9)
     # Inhabitable bridge between sky courts, with enclosed gallery and planted edge.
     g.box((0,3.7,23),(16,5,.55),'cream',bevel=.18)
@@ -26,6 +27,7 @@ def build_nine():
     rooftop_projection(g,root,'maison_roof_projection',7.8,-8.5,32,'metro_jade','MAISON / SKY')
     g.emit(root,'future_city');bake_batches(root)
     metropolitan_accents(root,9)
+    emit_accents(root,'folded_crown_lighting',skyline_lights)
     hologram(root,'bloom_projection',(0,4,5),2.1)
     flyer(root,'bloom_air_ad',oval_route(0,-19.5,22,24,.25))
     flyer(root,'bloom_sky_ad',oval_route(0,-19.5,48,24,.25),offset=42)

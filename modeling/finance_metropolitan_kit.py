@@ -89,7 +89,6 @@ def central_house(g,level):
 
 def metropolitan_accents(root,level):
     # Keep these materials outside the opaque batched geometry and warm window category.
-    node=empty('metropolitan_sign_lighting',root,financeAccent=True)
     g=Geometry();depth=level+2;front=-10-depth/2
     for i,(x,height) in enumerate(zip(FRONT_X,FRONT_HEIGHTS[level])):
         tint=['metro_jade','metro_coral','metro_gold'][i%3] if level>=9 else 'finance_sign'
@@ -117,7 +116,12 @@ def metropolitan_accents(root,level):
     # Central walk lights are small in-ground fixtures, independent of advertising.
     for x in [-2.2,2.2]:
         for y in range(-20,4,3):g.box((x,y,.535),(.14,.65,.035),'finance_sign')
-    g.emit(node,'street_signs')
+    emit_accents(root,'metropolitan_sign_lighting',g)
+
+
+def emit_accents(root,name,g):
+    node=empty(name,root,financeAccent=True)
+    g.emit(node,name)
     for child in node.children:
         for i,mat in enumerate(child.data.materials):child.data.materials[i]=mat.copy()
 

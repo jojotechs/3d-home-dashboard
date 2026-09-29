@@ -43,7 +43,7 @@ def oval_route(x,y,z,rx,ry):
     return [[x+rx*math.cos(i*TAU/64),y+ry*math.sin(i*TAU/64),z] for i in range(64)]
 
 
-def faceted_tower(g,w,d,height,label):
+def faceted_tower(g,lights,w,d,height,label,tint):
     stone_base(g,w,d,6,label)
     # Angular vertical fins and an open two-storey sky court divide the rich facade.
     curtain_block(g,w-.8,d-.8,6,22,'glass_finance_ink')
@@ -62,6 +62,11 @@ def faceted_tower(g,w,d,height,label):
     g.mesh(corners+ridge,[(0,1,5,4),(1,2,5),(2,3,4,5),(3,0,4)],'glass_finance_mint')
     for i in range(4):g.rod(corners[i],ridge[0 if i in [0,3] else 1],.12,'finance_bronze',8)
     g.rod(*ridge,.12,'finance_bronze',8)
+    # Roof lighting follows the actual folded roof seams, not an unrelated outline.
+    for i in range(4):
+        a=corners[i];b=corners[(i+1)%4]
+        lights.rod((a[0],a[1],a[2]+.1),(b[0],b[1],b[2]+.1),.065,tint,8)
+    lights.rod((ridge[0][0],ridge[0][1],ridge[0][2]+.1),(ridge[1][0],ridge[1][1],ridge[1][2]+.1),.065,tint,8)
     for side in [-1,1]:
         yy=side*(d/2-.75)
         for x in [-w*.35,0,w*.35]:
