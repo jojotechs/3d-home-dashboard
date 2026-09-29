@@ -1,0 +1,196 @@
+{
+  "household": "a3318304-bfc3-45c7-97d9-8c4d14564192",
+  "role": "isolated household administrator",
+  "email": "family-city-t08-015ba47e@example.com",
+  "currentMinor": "200000000",
+  "version": "36",
+  "entries": [
+    {
+      "name": "T08 街角储蓄",
+      "amount_minor": "200000000"
+    }
+  ],
+  "history": [
+    {
+      "saved_at": "2026-09-22T09:43:28.069696+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "999999"
+    },
+    {
+      "saved_at": "2026-09-22T09:51:16.688926+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "1000000"
+    },
+    {
+      "saved_at": "2026-09-22T09:58:14.829979+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "999999"
+    },
+    {
+      "saved_at": "2026-09-22T10:25:10.532689+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "1000000"
+    },
+    {
+      "saved_at": "2026-09-22T10:28:46.986187+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "999999"
+    },
+    {
+      "saved_at": "2026-09-22T11:20:23.861423+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "1000000"
+    },
+    {
+      "saved_at": "2026-09-29T02:53:13.039048+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "999999"
+    },
+    {
+      "saved_at": "2026-09-29T06:54:51.095398+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "3000000"
+    },
+    {
+      "saved_at": "2026-09-29T06:58:56.740644+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "8000000"
+    },
+    {
+      "saved_at": "2026-09-29T07:04:03.460216+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "7999999"
+    },
+    {
+      "saved_at": "2026-09-29T07:09:05.957183+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "8000000"
+    },
+    {
+      "saved_at": "2026-09-29T07:10:43.473678+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "2999999"
+    },
+    {
+      "saved_at": "2026-09-29T07:10:56.323061+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "999999"
+    },
+    {
+      "saved_at": "2026-09-29T08:24:18.674954+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "15000000"
+    },
+    {
+      "saved_at": "2026-09-29T08:28:17.899219+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "30000000"
+    },
+    {
+      "saved_at": "2026-09-29T08:32:46.922573+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "29999999"
+    },
+    {
+      "saved_at": "2026-09-29T08:33:47.046745+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "50000000"
+    },
+    {
+      "saved_at": "2026-09-29T08:37:56.440602+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "80000000"
+    },
+    {
+      "saved_at": "2026-09-29T08:48:04.463937+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "79999999"
+    },
+    {
+      "saved_at": "2026-09-29T08:49:28.68298+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "30000000"
+    },
+    {
+      "saved_at": "2026-09-29T08:50:08.496799+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "15000000"
+    },
+    {
+      "saved_at": "2026-09-29T08:51:05.56348+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "30000000"
+    },
+    {
+      "saved_at": "2026-09-29T08:54:53.025277+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "80000000"
+    },
+    {
+      "saved_at": "2026-09-29T08:55:22.798163+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "79999999"
+    },
+    {
+      "saved_at": "2026-09-29T08:55:44.575161+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "29999999"
+    },
+    {
+      "saved_at": "2026-09-29T09:03:41.021325+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "120000000"
+    },
+    {
+      "saved_at": "2026-09-29T09:08:12.977313+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "119999999"
+    },
+    {
+      "saved_at": "2026-09-29T09:08:22.583246+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "120000000"
+    },
+    {
+      "saved_at": "2026-09-29T09:16:41.018146+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "200000000"
+    },
+    {
+      "saved_at": "2026-09-29T09:18:48.542191+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "250000000"
+    },
+    {
+      "saved_at": "2026-09-29T09:19:49.813945+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "199999999"
+    },
+    {
+      "saved_at": "2026-09-29T09:20:21.877342+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "250000000"
+    },
+    {
+      "saved_at": "2026-09-29T09:21:54.067897+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "999999"
+    },
+    {
+      "saved_at": "2026-09-29T10:06:48.806177+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "80000000"
+    },
+    {
+      "saved_at": "2026-09-29T10:09:29.878157+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "120000000"
+    },
+    {
+      "saved_at": "2026-09-29T10:11:51.332917+00:00",
+      "actor_name": "历史验收管理员",
+      "net_savings_minor": "200000000"
+    }
+  ],
+  "checkedAt": "2026-09-29T10:14:51.904Z"
+}

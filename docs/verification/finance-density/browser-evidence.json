@@ -1,0 +1,2263 @@
+[
+  {
+    "name": "local-lv8-day",
+    "calls": 246,
+    "finance": {
+      "activities": {
+        "completed": 2,
+        "districts": [
+          "finance"
+        ],
+        "visitors": []
+      },
+      "atmosphere": {
+        "accents": 1,
+        "beams": 4,
+        "carriers": [],
+        "flights": 0,
+        "holograms": 0,
+        "lightShow": 0,
+        "lit": false
+      },
+      "level": 8,
+      "lights": 8,
+      "loading": false,
+      "night": 0,
+      "paused": false,
+      "requested": 8,
+      "seconds": 41.071
+    },
+    "fps": 50.2,
+    "mobility": {
+      "activities": {
+        "completed": 2,
+        "districts": [
+          "finance"
+        ],
+        "visitors": []
+      },
+      "car": [
+        [
+          115.5,
+          -44.01
+        ],
+        [
+          -107.05,
+          84.5
+        ],
+        [
+          -115.5,
+          -73.75
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 158.14,
+      "paused": false,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -79.72,
+          31.6
+        ],
+        [
+          -91.01,
+          -82.4
+        ],
+        [
+          24.41,
+          -24.4
+        ]
+      ]
+    },
+    "triangles": 2384991
+  },
+  {
+    "name": "local-lv8-night",
+    "calls": 281,
+    "finance": {
+      "activities": {
+        "completed": 3,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": null,
+            "position": [
+              -76,
+              43.958,
+              0.52
+            ],
+            "state": "leaving",
+            "visible": true
+          }
+        ]
+      },
+      "atmosphere": {
+        "accents": 1,
+        "beams": 4,
+        "carriers": [],
+        "flights": 0,
+        "holograms": 0,
+        "lightShow": 0,
+        "lit": true
+      },
+      "level": 8,
+      "lights": 8,
+      "loading": false,
+      "night": 1,
+      "paused": false,
+      "requested": 8,
+      "seconds": 157.408
+    },
+    "fps": 43.7,
+    "mobility": {
+      "activities": {
+        "completed": 3,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": null,
+            "position": [
+              -76,
+              46.17,
+              0.52
+            ],
+            "state": "leaving",
+            "visible": true
+          }
+        ]
+      },
+      "car": [
+        [
+          -59.15,
+          -87.5
+        ],
+        [
+          -112.5,
+          -16.79
+        ],
+        [
+          -36.5,
+          -34.94
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 272.26,
+      "paused": false,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -76,
+          46.17
+        ],
+        [
+          -110.4,
+          20.64
+        ],
+        [
+          -31.75,
+          24.4
+        ]
+      ]
+    },
+    "triangles": 2397964
+  },
+  {
+    "name": "local-lv9-night",
+    "calls": 313,
+    "finance": {
+      "activities": {
+        "completed": 1,
+        "districts": [
+          "finance"
+        ],
+        "visitors": []
+      },
+      "atmosphere": {
+        "accents": 4,
+        "beams": 4,
+        "carriers": [
+          {
+            "name": "bloom_air_ad",
+            "position": [
+              -20.171,
+              22,
+              19.635
+            ]
+          },
+          {
+            "name": "bloom_sky_ad",
+            "position": [
+              21.828,
+              48,
+              19.603
+            ]
+          }
+        ],
+        "flights": 2,
+        "holograms": 2,
+        "lightShow": 0,
+        "lit": true
+      },
+      "level": 9,
+      "lights": 8,
+      "loading": false,
+      "night": 1,
+      "paused": false,
+      "requested": 9,
+      "seconds": 105.617
+    },
+    "fps": 44.8,
+    "mobility": {
+      "activities": {
+        "completed": 1,
+        "districts": [
+          "finance"
+        ],
+        "visitors": []
+      },
+      "car": [
+        [
+          115.5,
+          15.54
+        ],
+        [
+          -112.5,
+          -60.01
+        ],
+        [
+          -115.5,
+          -40.21
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 106.45,
+      "paused": false,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -54.35,
+          31.6
+        ],
+        [
+          -41.6,
+          21.58
+        ],
+        [
+          34.4,
+          -8.31
+        ]
+      ]
+    },
+    "triangles": 2407980
+  },
+  {
+    "name": "local-lv10-night",
+    "calls": 283,
+    "finance": {
+      "activities": {
+        "completed": 1,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": "projection",
+            "position": [
+              -76,
+              37.737,
+              0.52
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "atmosphere": {
+        "accents": 4,
+        "beams": 6,
+        "carriers": [
+          {
+            "name": "orchid_air_ad",
+            "position": [
+              -10.78,
+              22,
+              19.277
+            ]
+          },
+          {
+            "name": "orchid_crown_ad",
+            "position": [
+              15.24,
+              56,
+              19.307
+            ]
+          },
+          {
+            "name": "orchid_sky_ad",
+            "position": [
+              4.77,
+              49,
+              19.745
+            ]
+          }
+        ],
+        "flights": 3,
+        "holograms": 4,
+        "lightShow": 1,
+        "lit": true
+      },
+      "level": 10,
+      "lights": 9,
+      "loading": false,
+      "night": 1,
+      "paused": false,
+      "requested": 10,
+      "seconds": 24.847
+    },
+    "fps": 29.7,
+    "mobility": {
+      "activities": {
+        "completed": 1,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": "projection",
+            "position": [
+              -76,
+              37.789,
+              0.52
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "car": [
+        [
+          55.25,
+          87.5
+        ],
+        [
+          -104.62,
+          84.5
+        ],
+        [
+          -36.5,
+          -75.66
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 133.11,
+      "paused": false,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -76,
+          37.79
+        ],
+        [
+          -41.6,
+          -0.03
+        ],
+        [
+          34.4,
+          21.56
+        ]
+      ]
+    },
+    "triangles": 2389490
+  },
+  {
+    "name": "local-lv10-paused",
+    "calls": 335,
+    "finance": {
+      "activities": {
+        "completed": 2,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 0,
+            "place": null,
+            "position": [
+              -75.857,
+              31.6,
+              0.72
+            ],
+            "state": "leaving",
+            "visible": true
+          },
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 9,
+            "place": "tea-house",
+            "position": [
+              -81.564,
+              36.5,
+              0.52
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 36,
+            "place": "maison",
+            "position": [
+              -68.2,
+              39.15,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          }
+        ]
+      },
+      "atmosphere": {
+        "accents": 4,
+        "beams": 6,
+        "carriers": [
+          {
+            "name": "orchid_air_ad",
+            "position": [
+              -1.417,
+              22,
+              19.749
+            ]
+          },
+          {
+            "name": "orchid_crown_ad",
+            "position": [
+              -20.572,
+              56,
+              19.372
+            ]
+          },
+          {
+            "name": "orchid_sky_ad",
+            "position": [
+              7.427,
+              49,
+              19.262
+            ]
+          }
+        ],
+        "flights": 3,
+        "holograms": 4,
+        "lightShow": 1,
+        "lit": true
+      },
+      "level": 10,
+      "lights": 9,
+      "loading": false,
+      "night": 1,
+      "paused": false,
+      "requested": 10,
+      "seconds": 119.014
+    },
+    "fps": 40.8,
+    "mobility": {
+      "activities": {
+        "completed": 2,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 0,
+            "place": null,
+            "position": [
+              -76,
+              33.749,
+              0.541
+            ],
+            "state": "leaving",
+            "visible": true
+          },
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 9,
+            "place": "tea-house",
+            "position": [
+              -83.8,
+              36.929,
+              0.52
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 36,
+            "place": "maison",
+            "position": [
+              -68.2,
+              39.15,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          }
+        ]
+      },
+      "car": [
+        [
+          -23.46,
+          -87.5
+        ],
+        [
+          -30.81,
+          -84.5
+        ],
+        [
+          -36.5,
+          -16.16
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 225.05,
+      "paused": false,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -76,
+          33.75
+        ],
+        [
+          -41.6,
+          -80.81
+        ],
+        [
+          -34.4,
+          -11.84
+        ]
+      ]
+    },
+    "triangles": 2443592
+  },
+  {
+    "name": "local-lv10-lights-off-held",
+    "calls": 294,
+    "finance": {
+      "activities": {
+        "completed": 2,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 0,
+            "place": null,
+            "position": [
+              -75.822,
+              31.6,
+              0.72
+            ],
+            "state": "leaving",
+            "visible": true
+          },
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 9,
+            "place": "tea-house",
+            "position": [
+              -81.523,
+              36.5,
+              0.52
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 36,
+            "place": "maison",
+            "position": [
+              -68.2,
+              39.15,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          }
+        ]
+      },
+      "atmosphere": {
+        "accents": 4,
+        "beams": 6,
+        "carriers": [
+          {
+            "name": "orchid_air_ad",
+            "position": [
+              -1.417,
+              22,
+              19.749
+            ]
+          },
+          {
+            "name": "orchid_crown_ad",
+            "position": [
+              -20.572,
+              56,
+              19.372
+            ]
+          },
+          {
+            "name": "orchid_sky_ad",
+            "position": [
+              7.427,
+              49,
+              19.262
+            ]
+          }
+        ],
+        "flights": 3,
+        "holograms": 4,
+        "lightShow": 1,
+        "lit": false
+      },
+      "level": 10,
+      "lights": 9,
+      "loading": false,
+      "night": 0,
+      "paused": true,
+      "requested": 10,
+      "seconds": 119.014
+    },
+    "fps": 40.9,
+    "mobility": {
+      "activities": {
+        "completed": 2,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 0,
+            "place": null,
+            "position": [
+              -75.822,
+              31.6,
+              0.72
+            ],
+            "state": "leaving",
+            "visible": true
+          },
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 9,
+            "place": "tea-house",
+            "position": [
+              -81.523,
+              36.5,
+              0.52
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 36,
+            "place": "maison",
+            "position": [
+              -68.2,
+              39.15,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          }
+        ]
+      },
+      "car": [
+        [
+          -11.18,
+          -87.5
+        ],
+        [
+          -41.9,
+          -84.5
+        ],
+        [
+          -36.5,
+          -4.9
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 227.28,
+      "paused": true,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -75.82,
+          31.6
+        ],
+        [
+          -42.3,
+          -82.4
+        ],
+        [
+          -34.4,
+          -14.6
+        ]
+      ]
+    },
+    "triangles": 2430507
+  },
+  {
+    "name": "local-lv10-lights-on-held",
+    "calls": 293,
+    "finance": {
+      "activities": {
+        "completed": 2,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 0,
+            "place": null,
+            "position": [
+              -75.822,
+              31.6,
+              0.72
+            ],
+            "state": "leaving",
+            "visible": true
+          },
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 9,
+            "place": "tea-house",
+            "position": [
+              -81.523,
+              36.5,
+              0.52
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 36,
+            "place": "maison",
+            "position": [
+              -68.2,
+              39.15,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          }
+        ]
+      },
+      "atmosphere": {
+        "accents": 4,
+        "beams": 6,
+        "carriers": [
+          {
+            "name": "orchid_air_ad",
+            "position": [
+              -1.417,
+              22,
+              19.749
+            ]
+          },
+          {
+            "name": "orchid_crown_ad",
+            "position": [
+              -20.572,
+              56,
+              19.372
+            ]
+          },
+          {
+            "name": "orchid_sky_ad",
+            "position": [
+              7.427,
+              49,
+              19.262
+            ]
+          }
+        ],
+        "flights": 3,
+        "holograms": 4,
+        "lightShow": 1,
+        "lit": true
+      },
+      "level": 10,
+      "lights": 9,
+      "loading": false,
+      "night": 1,
+      "paused": true,
+      "requested": 10,
+      "seconds": 119.014
+    },
+    "fps": 26.8,
+    "mobility": {
+      "activities": {
+        "completed": 2,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 0,
+            "place": null,
+            "position": [
+              -75.822,
+              31.6,
+              0.72
+            ],
+            "state": "leaving",
+            "visible": true
+          },
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 9,
+            "place": "tea-house",
+            "position": [
+              -81.523,
+              36.5,
+              0.52
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 36,
+            "place": "maison",
+            "position": [
+              -68.2,
+              39.15,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          }
+        ]
+      },
+      "car": [
+        [
+          -11.18,
+          -87.5
+        ],
+        [
+          -41.9,
+          -84.5
+        ],
+        [
+          -36.5,
+          -4.9
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 227.28,
+      "paused": true,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -75.82,
+          31.6
+        ],
+        [
+          -42.3,
+          -82.4
+        ],
+        [
+          -34.4,
+          -14.6
+        ]
+      ]
+    },
+    "triangles": 2404432
+  },
+  {
+    "name": "local-lv10-day",
+    "calls": 206,
+    "finance": {
+      "activities": {
+        "completed": 2,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 0,
+            "place": null,
+            "position": [
+              -75.822,
+              31.6,
+              0.72
+            ],
+            "state": "leaving",
+            "visible": true
+          },
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 9,
+            "place": "tea-house",
+            "position": [
+              -81.523,
+              36.5,
+              0.52
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 36,
+            "place": "maison",
+            "position": [
+              -68.2,
+              39.15,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          }
+        ]
+      },
+      "atmosphere": {
+        "accents": 4,
+        "beams": 6,
+        "carriers": [
+          {
+            "name": "orchid_air_ad",
+            "position": [
+              -1.417,
+              22,
+              19.749
+            ]
+          },
+          {
+            "name": "orchid_crown_ad",
+            "position": [
+              -20.572,
+              56,
+              19.372
+            ]
+          },
+          {
+            "name": "orchid_sky_ad",
+            "position": [
+              7.427,
+              49,
+              19.262
+            ]
+          }
+        ],
+        "flights": 3,
+        "holograms": 4,
+        "lightShow": 1,
+        "lit": false
+      },
+      "level": 10,
+      "lights": 9,
+      "loading": false,
+      "night": 0,
+      "paused": true,
+      "requested": 10,
+      "seconds": 119.014
+    },
+    "fps": 30.8,
+    "mobility": {
+      "activities": {
+        "completed": 2,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 0,
+            "place": null,
+            "position": [
+              -75.822,
+              31.6,
+              0.72
+            ],
+            "state": "leaving",
+            "visible": true
+          },
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 9,
+            "place": "tea-house",
+            "position": [
+              -81.523,
+              36.5,
+              0.52
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 36,
+            "place": "maison",
+            "position": [
+              -68.2,
+              39.15,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          }
+        ]
+      },
+      "car": [
+        [
+          -11.18,
+          -87.5
+        ],
+        [
+          -41.9,
+          -84.5
+        ],
+        [
+          -36.5,
+          -4.9
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 227.28,
+      "paused": true,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -75.82,
+          31.6
+        ],
+        [
+          -42.3,
+          -82.4
+        ],
+        [
+          -34.4,
+          -14.6
+        ]
+      ]
+    },
+    "triangles": 2302053
+  },
+  {
+    "name": "production-lv10-night",
+    "calls": 295,
+    "finance": {
+      "activities": {
+        "completed": 0,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 36,
+            "place": null,
+            "position": [
+              -71.898,
+              54,
+              0.52
+            ],
+            "state": "leaving",
+            "visible": true
+          }
+        ]
+      },
+      "atmosphere": {
+        "accents": 4,
+        "beams": 6,
+        "carriers": [
+          {
+            "name": "orchid_air_ad",
+            "position": [
+              9.716,
+              22,
+              19.728
+            ]
+          },
+          {
+            "name": "orchid_crown_ad",
+            "position": [
+              -16.305,
+              56,
+              19.683
+            ]
+          },
+          {
+            "name": "orchid_sky_ad",
+            "position": [
+              -3.705,
+              49,
+              19.253
+            ]
+          }
+        ],
+        "flights": 3,
+        "holograms": 4,
+        "lightShow": 2,
+        "lit": true
+      },
+      "level": 10,
+      "lights": 9,
+      "loading": false,
+      "night": 1,
+      "paused": false,
+      "requested": 10,
+      "seconds": 58.379
+    },
+    "fps": 26.6,
+    "mobility": {
+      "activities": {
+        "completed": 0,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 36,
+            "place": null,
+            "position": [
+              -71.931,
+              54,
+              0.52
+            ],
+            "state": "leaving",
+            "visible": true
+          }
+        ]
+      },
+      "car": [
+        [
+          104.39,
+          -87.5
+        ],
+        [
+          -21.84,
+          84.5
+        ],
+        [
+          -77.51,
+          29.5
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 68.81,
+      "paused": false,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -48.6,
+          31.6
+        ],
+        [
+          -53.44,
+          -82.4
+        ],
+        [
+          -10.1,
+          24.4
+        ]
+      ]
+    },
+    "triangles": 2405456
+  },
+  {
+    "name": "production-lv10-reverse-night",
+    "calls": 303,
+    "finance": {
+      "activities": {
+        "completed": 1,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 27,
+            "place": "tea-house",
+            "position": [
+              -53.2,
+              39.15,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": "east-lobby",
+            "position": [
+              -76,
+              42.716,
+              0.52
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "atmosphere": {
+        "accents": 4,
+        "beams": 6,
+        "carriers": [
+          {
+            "name": "orchid_air_ad",
+            "position": [
+              -6.832,
+              22,
+              19.26
+            ]
+          },
+          {
+            "name": "orchid_crown_ad",
+            "position": [
+              19.188,
+              56,
+              19.35
+            ]
+          },
+          {
+            "name": "orchid_sky_ad",
+            "position": [
+              0.822,
+              49,
+              19.75
+            ]
+          }
+        ],
+        "flights": 3,
+        "holograms": 4,
+        "lightShow": 2,
+        "lit": true
+      },
+      "level": 10,
+      "lights": 9,
+      "loading": false,
+      "night": 1,
+      "paused": false,
+      "requested": 10,
+      "seconds": 90.613
+    },
+    "fps": 29.4,
+    "mobility": {
+      "activities": {
+        "completed": 1,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 27,
+            "place": "tea-house",
+            "position": [
+              -53.2,
+              39.15,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": "east-lobby",
+            "position": [
+              -76,
+              40.339,
+              0.52
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "car": [
+        [
+          115.5,
+          77.81
+        ],
+        [
+          112.5,
+          31.61
+        ],
+        [
+          -102.26,
+          -87.5
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 99.03,
+      "paused": false,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -76,
+          40.34
+        ],
+        [
+          -86.59,
+          -82.4
+        ],
+        [
+          -34.4,
+          17.07
+        ]
+      ]
+    },
+    "triangles": 2407296
+  },
+  {
+    "name": "production-lv10-day",
+    "calls": 262,
+    "finance": {
+      "activities": {
+        "completed": 1,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 27,
+            "place": "bookshop",
+            "position": [
+              -79.695,
+              36.5,
+              0.52
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": "east-lobby",
+            "position": [
+              -62,
+              56.2,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          }
+        ]
+      },
+      "atmosphere": {
+        "accents": 4,
+        "beams": 6,
+        "carriers": [
+          {
+            "name": "orchid_air_ad",
+            "position": [
+              -6.715,
+              22,
+              19.74
+            ]
+          },
+          {
+            "name": "orchid_crown_ad",
+            "position": [
+              -15.275,
+              56,
+              19.307
+            ]
+          },
+          {
+            "name": "orchid_sky_ad",
+            "position": [
+              12.725,
+              49,
+              19.288
+            ]
+          }
+        ],
+        "flights": 3,
+        "holograms": 4,
+        "lightShow": 2,
+        "lit": false
+      },
+      "level": 10,
+      "lights": 9,
+      "loading": false,
+      "night": 0,
+      "paused": false,
+      "requested": 10,
+      "seconds": 115.23
+    },
+    "fps": 30.4,
+    "mobility": {
+      "activities": {
+        "completed": 1,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": true,
+            "district": "finance",
+            "id": 27,
+            "place": "bookshop",
+            "position": [
+              -76.002,
+              36.5,
+              0.52
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": "east-lobby",
+            "position": [
+              -62,
+              54.688,
+              0.52
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "car": [
+        [
+          -13.7,
+          87.5
+        ],
+        [
+          81.84,
+          -84.5
+        ],
+        [
+          -36.5,
+          -21.11
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 122.7,
+      "paused": false,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -62,
+          54.69
+        ],
+        [
+          -110.4,
+          -80.5
+        ],
+        [
+          -34.4,
+          -9.3
+        ]
+      ]
+    },
+    "triangles": 2394211
+  },
+  {
+    "name": "production-lv9-downgrade",
+    "calls": 198,
+    "finance": {
+      "activities": {
+        "completed": 1,
+        "districts": [
+          "finance"
+        ],
+        "visitors": []
+      },
+      "atmosphere": {
+        "accents": 6,
+        "beams": 4,
+        "carriers": [
+          {
+            "name": "bloom_air_ad",
+            "position": [
+              -2.992,
+              22,
+              19.252
+            ]
+          },
+          {
+            "name": "bloom_sky_ad",
+            "position": [
+              -3.019,
+              48,
+              19.748
+            ]
+          }
+        ],
+        "flights": 2,
+        "holograms": 2,
+        "lightShow": 0,
+        "lit": false
+      },
+      "level": 9,
+      "lights": 8,
+      "loading": false,
+      "night": 0,
+      "paused": false,
+      "requested": 9,
+      "seconds": 19.283
+    },
+    "fps": 41.2,
+    "mobility": {
+      "activities": {
+        "completed": 1,
+        "districts": [
+          "finance"
+        ],
+        "visitors": []
+      },
+      "car": [
+        [
+          -115.5,
+          49.17
+        ],
+        [
+          -64.74,
+          -84.5
+        ],
+        [
+          -109.65,
+          29.5
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 146.58,
+      "paused": false,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -98.86,
+          31.6
+        ],
+        [
+          -110.4,
+          -54.15
+        ],
+        [
+          -24.69,
+          -24.4
+        ]
+      ]
+    },
+    "triangles": 2087609
+  },
+  {
+    "name": "production-lv7-baseline-night",
+    "calls": 281,
+    "finance": {
+      "activities": {
+        "completed": 1,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 18,
+            "place": "heritage-bank",
+            "position": [
+              -88.746,
+              35.4,
+              0.52
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "atmosphere": {
+        "accents": 0,
+        "beams": 4,
+        "carriers": [],
+        "flights": 0,
+        "holograms": 0,
+        "lightShow": 0,
+        "lit": true
+      },
+      "level": 7,
+      "lights": 4,
+      "loading": false,
+      "night": 1,
+      "paused": false,
+      "requested": 7,
+      "seconds": 37.984
+    },
+    "fps": 55.1,
+    "mobility": {
+      "activities": {
+        "completed": 1,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 18,
+            "place": "heritage-bank",
+            "position": [
+              -88.188,
+              35.4,
+              0.52
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "car": [
+        [
+          -50.53,
+          -87.5
+        ],
+        [
+          -79.11,
+          84.5
+        ],
+        [
+          -36.5,
+          -55.19
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 186.9,
+      "paused": false,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -110.4,
+          66.43
+        ],
+        [
+          -110.4,
+          -8.24
+        ],
+        [
+          15.88,
+          -24.4
+        ]
+      ]
+    },
+    "triangles": 1994668
+  },
+  {
+    "name": "production-lv10-optimized-night",
+    "calls": 249,
+    "finance": {
+      "activities": {
+        "completed": 5,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 27,
+            "place": "maison",
+            "position": [
+              -68.2,
+              39.15,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": "tea-house",
+            "position": [
+              -76,
+              33.779,
+              0.538
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "atmosphere": {
+        "accents": 4,
+        "beams": 4,
+        "carriers": [
+          {
+            "name": "orchid_air_ad",
+            "position": [
+              1.008,
+              22,
+              19.251
+            ]
+          },
+          {
+            "name": "orchid_crown_ad",
+            "position": [
+              20.981,
+              56,
+              19.621
+            ]
+          },
+          {
+            "name": "orchid_sky_ad",
+            "position": [
+              -7.018,
+              49,
+              19.739
+            ]
+          }
+        ],
+        "flights": 3,
+        "holograms": 4,
+        "lightShow": 2,
+        "lit": true
+      },
+      "level": 10,
+      "lights": 5,
+      "loading": false,
+      "night": 1,
+      "paused": false,
+      "requested": 10,
+      "seconds": 222.185
+    },
+    "fps": 42.4,
+    "mobility": {
+      "activities": {
+        "completed": 5,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 27,
+            "place": "maison",
+            "position": [
+              -68.2,
+              39.15,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": "tea-house",
+            "position": [
+              -76,
+              32.108,
+              0.678
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "car": [
+        [
+          -56.97,
+          -87.5
+        ],
+        [
+          -98.13,
+          84.5
+        ],
+        [
+          -99.8,
+          29.5
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 629.71,
+      "paused": false,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -76,
+          32.11
+        ],
+        [
+          -41.6,
+          -27.33
+        ],
+        [
+          2.28,
+          -24.4
+        ]
+      ]
+    },
+    "triangles": 2136958
+  },
+  {
+    "name": "production-lv10-optimized-front-night",
+    "calls": 289,
+    "finance": {
+      "activities": {
+        "completed": 6,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": "tea-house",
+            "position": [
+              -53.2,
+              39.15,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 36,
+            "place": "cafe",
+            "position": [
+              -76.62,
+              36.5,
+              0.52
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "atmosphere": {
+        "accents": 4,
+        "beams": 4,
+        "carriers": [
+          {
+            "name": "orchid_air_ad",
+            "position": [
+              2.01,
+              22,
+              19.749
+            ]
+          },
+          {
+            "name": "orchid_crown_ad",
+            "position": [
+              -23.995,
+              56,
+              19.499
+            ]
+          },
+          {
+            "name": "orchid_sky_ad",
+            "position": [
+              4,
+              49,
+              19.254
+            ]
+          }
+        ],
+        "flights": 3,
+        "holograms": 4,
+        "lightShow": 2,
+        "lit": true
+      },
+      "level": 10,
+      "lights": 5,
+      "loading": false,
+      "night": 1,
+      "paused": false,
+      "requested": 10,
+      "seconds": 258.634
+    },
+    "fps": 44.7,
+    "mobility": {
+      "activities": {
+        "completed": 6,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": "tea-house",
+            "position": [
+              -53.2,
+              39.15,
+              0.52
+            ],
+            "state": "inside",
+            "visible": false
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 36,
+            "place": "cafe",
+            "position": [
+              -76,
+              35.87,
+              0.52
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "car": [
+        [
+          115.5,
+          -45.93
+        ],
+        [
+          76.61,
+          84.5
+        ],
+        [
+          -114.76,
+          -85.64
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 666.36,
+      "paused": false,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -53.2,
+          39.15
+        ],
+        [
+          -41.6,
+          -69.72
+        ],
+        [
+          34.4,
+          -20.38
+        ]
+      ]
+    },
+    "triangles": 2405156
+  },
+  {
+    "name": "production-lv10-optimized-reloaded",
+    "calls": 243,
+    "finance": {
+      "activities": {
+        "completed": 0,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": "florist",
+            "position": [
+              -84.056,
+              54,
+              0.52
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 18,
+            "place": "atelier",
+            "position": [
+              -91.3,
+              37.704,
+              0.52
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 36,
+            "place": "cafe",
+            "position": [
+              -82.053,
+              36.5,
+              0.52
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "atmosphere": {
+        "accents": 4,
+        "beams": 4,
+        "carriers": [
+          {
+            "name": "orchid_air_ad",
+            "position": [
+              -6.168,
+              22,
+              19.741
+            ]
+          },
+          {
+            "name": "orchid_crown_ad",
+            "position": [
+              -15.822,
+              56,
+              19.312
+            ]
+          },
+          {
+            "name": "orchid_sky_ad",
+            "position": [
+              12.178,
+              49,
+              19.285
+            ]
+          }
+        ],
+        "flights": 3,
+        "holograms": 4,
+        "lightShow": 2,
+        "lit": true
+      },
+      "level": 10,
+      "lights": 5,
+      "loading": false,
+      "night": 1,
+      "paused": false,
+      "requested": 10,
+      "seconds": 47.034
+    },
+    "fps": 49.1,
+    "mobility": {
+      "activities": {
+        "completed": 0,
+        "districts": [
+          "finance"
+        ],
+        "visitors": [
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 0,
+            "place": "florist",
+            "position": [
+              -84.035,
+              54,
+              0.52
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 18,
+            "place": "atelier",
+            "position": [
+              -91.3,
+              37.723,
+              0.52
+            ],
+            "state": "walking",
+            "visible": true
+          },
+          {
+            "carrying": false,
+            "district": "finance",
+            "id": 36,
+            "place": "cafe",
+            "position": [
+              -82.07,
+              36.5,
+              0.52
+            ],
+            "state": "entering",
+            "visible": true
+          }
+        ]
+      },
+      "car": [
+        [
+          43.93,
+          -87.5
+        ],
+        [
+          112.5,
+          7.91
+        ],
+        [
+          -36.5,
+          -37.87
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 47.42,
+      "paused": false,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -84.03,
+          54
+        ],
+        [
+          -84.88,
+          24.4
+        ],
+        [
+          -34.4,
+          20.83
+        ]
+      ]
+    },
+    "triangles": 2315862
+  },
+  {
+    "name": "production-restored-lv1",
+    "calls": 173,
+    "finance": {
+      "activities": {
+        "completed": 0,
+        "districts": [
+          "finance"
+        ],
+        "visitors": []
+      },
+      "atmosphere": {
+        "accents": 0,
+        "beams": 0,
+        "carriers": [],
+        "flights": 0,
+        "holograms": 0,
+        "lightShow": 0,
+        "lit": true
+      },
+      "level": 1,
+      "lights": 3,
+      "loading": false,
+      "night": 1,
+      "paused": false,
+      "requested": 1,
+      "seconds": 12.834
+    },
+    "fps": 60.1,
+    "mobility": {
+      "activities": {
+        "completed": 0,
+        "districts": [
+          "finance"
+        ],
+        "visitors": []
+      },
+      "car": [
+        [
+          115.5,
+          -78.23
+        ],
+        [
+          112.5,
+          -52.11
+        ],
+        [
+          -39.8,
+          29.35
+        ]
+      ],
+      "cars": 24,
+      "elapsed": 59.62,
+      "paused": false,
+      "pedestrians": 40,
+      "walkers": [
+        [
+          -90.36,
+          31.6
+        ],
+        [
+          -71.61,
+          24.4
+        ],
+        [
+          -26.34,
+          24.4
+        ]
+      ]
+    },
+    "triangles": 1922066
+  }
+]

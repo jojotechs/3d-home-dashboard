@@ -1,0 +1,34 @@
+{
+  "7": {
+    "coverage_above_m2": {
+      "6": 978.5,
+      "15": 652.5,
+      "30": 301.0
+    },
+    "skyline_volume_proxy_m3": 23736.4
+  },
+  "8": {
+    "coverage_above_m2": {
+      "6": 872.0,
+      "15": 542.0,
+      "30": 298.0
+    },
+    "skyline_volume_proxy_m3": 19191.8
+  },
+  "9": {
+    "coverage_above_m2": {
+      "6": 859.5,
+      "15": 621.5,
+      "30": 497.0
+    },
+    "skyline_volume_proxy_m3": 29219.1
+  },
+  "10": {
+    "coverage_above_m2": {
+      "6": 922.0,
+      "15": 511.0,
+      "30": 511.0
+    },
+    "skyline_volume_proxy_m3": 28440.0
+  }
+}

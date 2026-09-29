@@ -29,7 +29,7 @@ for level in [7,8,9,10]:
                 if height>=int(threshold):coverage[threshold]+=.25
             if height>=6:volume+=height*.25
     report[level]={'coverage_above_m2':coverage,'skyline_volume_proxy_m3':round(volume,1)}
-out=ROOT/'exports/finance-density-validation.json';out.write_text(json.dumps(report,indent=2))
+out=ROOT/'exports/finance-density-validation.json';out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2))
 print('FINANCE_DENSITY',json.dumps(report),flush=True)
 for level in [8,9,10]:
     for height in ['6','15']:

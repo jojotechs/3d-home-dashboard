@@ -1,0 +1,24 @@
+{
+  "canvas": {
+    "width": 1625,
+    "height": 954
+  },
+  "environment": "Production in-app browser on the current Mac; real running traffic and pedestrians; manual preview at 22:00. Browser dataset.averageFps samples, not cross-device benchmarks.",
+  "before": {
+    "commit": "bd22f89",
+    "level7Night": 55.1,
+    "level10Night": [
+      26.6,
+      29.4
+    ]
+  },
+  "after": {
+    "commit": "80d1120",
+    "level10Night": [
+      42.4,
+      44.7
+    ],
+    "level10AfterReloadWithBookExpanded": 49.1
+  },
+  "browserWarningOrErrorLogs": []
+}
