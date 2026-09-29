@@ -3,6 +3,7 @@ import assets from '../../modeling/finance-levels.json' with {type:'json'};
 import {createLightPoolMaterial} from '../CityLighting.mjs';
 import activityPlans from '../../modeling/finance-activities.json' with {type:'json'};
 import {DistrictActivities} from '../activities/DistrictActivities.mjs';
+import {createFinanceAtmosphere} from './FinanceAtmosphere.mjs';
 
 function disposeTree(root) {
   root.removeFromParent();
@@ -45,6 +46,7 @@ function activate(gltf,level,activities,origin) {
   const geometry=new THREE.PlaneGeometry(2,2);geometry.rotateX(-Math.PI/2);
   const pools=new THREE.InstancedMesh(geometry,poolMat,anchors.length);pools.frustumCulled=false;pools.name='finance_light_pools';
   const dummy=new THREE.Object3D();anchors.forEach((a,i)=>{dummy.position.set(a.x,.53,-a.y);dummy.scale.set(3.4,1,3.4);dummy.updateMatrix();pools.setMatrixAt(i,dummy.matrix);});district.add(pools);
+  const atmosphere=createFinanceAtmosphere(district);
   let seconds=0, night=0, paused=true;
   function update(dt,lighting,isPaused) {
     night=lighting;paused=isPaused;
@@ -52,11 +54,12 @@ function activate(gltf,level,activities,origin) {
     lamps.forEach(m=>{m.emissiveIntensity=night*(m.name.startsWith('finance_lamp')?2.4:.9);});
     lights.forEach((l,i)=>{l.intensity=night*anchors[i].power;});
     pools.visible=night>.005;poolMat.uniforms.opacity.value=night*.22;
+    atmosphere.update(seconds,night);
   }
   // Publish activity places only after the complete model has activated successfully.
   const unregister=activities?.register(new DistrictActivities({id:'finance',origin,
     routeIndex:activityPlans.routeIndex,entrance:activityPlans.entrance,...activityPlans.levels[level]}));
-  return {root,update,dispose(){unregister?.();disposeTree(root);},snapshot:()=>({level,seconds:+seconds.toFixed(3),paused,night:+night.toFixed(3),lights:lights.length,activities:activities?.snapshot()??null})};
+  return {root,update,dispose(){unregister?.();disposeTree(root);},snapshot:()=>({level,seconds:+seconds.toFixed(3),paused,night:+night.toFixed(3),lights:lights.length,atmosphere:atmosphere.snapshot(),activities:activities?.snapshot()??null})};
 }
 
 /** Load only the requested level. Late responses never reattach an obsolete level. */

@@ -12,8 +12,12 @@ for level,plan in plans['levels'].items():
     bpy.ops.import_scene.gltf(filepath=str(ROOT/f'public/models/finance/level-{level}.glb'))
     root=bpy.data.objects[f'finance_level_{level}']
     vertices=[];faces=[]
-    for o in root.children:
+    for o in root.children_recursive:
         if o.type!='MESH':continue
+        parent=o.parent;moving=False
+        while parent and parent!=root:
+            moving=moving or bool(parent.get('financeMotion'));parent=parent.parent
+        if moving:continue
         offset=len(vertices);vertices.extend([o.matrix_world@v.co for v in o.data.vertices])
         faces.extend([tuple(offset+i for i in p.vertices) for p in o.data.polygons])
     geometry=BVHTree.FromPolygons(vertices,faces)

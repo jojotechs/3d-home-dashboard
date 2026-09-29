@@ -61,7 +61,7 @@ test('neighbourhood upgrades and downgrades replace the whole active street and 
   const district=mountFinanceDistrict(parent,{loadAsync:async url=>{
     const level=Number(url.match(/level-(\d+)\.glb$/)[1]),next=asset(level);loaded.push(next);return next.gltf;
   }},{activities,origin:[-76,56,0],onReady(){},onChange(){},onError:assert.fail});
-  for(const level of [2,3,4,3,1]){
+  for(const level of [2,3,4,5,6,5,4,1]){
     await district.setLevel(level);district.update(1,1,false);
     assert.equal(district.snapshot().level,level);assert.equal(parent.children.length,1);
     assert.deepEqual(activities.snapshot().visitors,[]);
@@ -80,4 +80,18 @@ test('a failed model activation cannot publish activity places for an invisible 
   await district.setLevel(1);
   assert.equal(errors.length,1);assert.deepEqual(activities.snapshot().districts,[]);
   assert.deepEqual(broken.disposed(),[1,1]);district.dispose();
+});
+
+test('landmark facade lighting follows night and is removed on downgrade',async()=>{
+  const parent=new THREE.Group(),high=asset(8),low=asset(5);
+  high.root.userData.financeEffects={beams:[{from:[0,0,.8],to:[0,1,12],radius:1.4,color:'#fce3ae'}]};
+  const district=mountFinanceDistrict(parent,{loadAsync:async url=>url.endsWith('8.glb')?high.gltf:low.gltf},{onReady(){},onChange(){},onError:assert.fail});
+  await district.setLevel(8);district.update(1,1,false);
+  assert.equal(district.snapshot().atmosphere.beams,1);
+  assert.equal(district.snapshot().atmosphere.lit,true);
+  district.update(30,0,true);assert.equal(district.snapshot().seconds,1);
+  assert.equal(district.snapshot().atmosphere.lit,false);
+  await district.setLevel(5);district.update(1,1,false);
+  assert.equal(district.snapshot().atmosphere.beams,0);assert.deepEqual(high.disposed(),[1,1]);
+  district.dispose();assert.equal(parent.children.length,0);
 });

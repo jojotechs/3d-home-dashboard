@@ -32,7 +32,13 @@ for level in args.levels:
             if mat.name.startswith(('finance_window','finance_lamp')):
                 bs=mat.node_tree.nodes.get('Principled BSDF');bs.inputs['Emission Color'].default_value=(1,.57,.22,1);bs.inputs['Emission Strength'].default_value=(2.4 if mat.name.startswith('finance_lamp') else .9) if night else 0
         for view,pos in [('south',(48,-73,65)),('north',(-48,73,65))]:
-            cam.location=pos;cam.rotation_euler=(Vector((0,0,2))-cam.location).to_track_quat('-Z','Y').to_euler()
+            points=[o.matrix_world@Vector(c) for o in root.children_recursive if o.type=='MESH' for c in o.bound_box]
+            target=Vector((0,0,max(p.z for p in points)/2))
+            cam.location=target+Vector(pos);cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler()
+            rotation=cam.rotation_euler.to_matrix().transposed()
+            projected=[rotation@(p-target) for p in points]
+            width=max(p.x for p in projected)-min(p.x for p in projected);height=max(p.y for p in projected)-min(p.y for p in projected)
+            cam.data.ortho_scale=max(width,height*1100/820)*1.14
             scene.render.filepath=str(OUT/f'level-{level}-{view}-{"night" if night else "day"}.png');bpy.ops.render.render(write_still=True)
             if not night and view=='south':
                 scene.render.resolution_x=240;scene.render.resolution_y=180

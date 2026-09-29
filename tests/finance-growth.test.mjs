@@ -32,7 +32,7 @@ test('saved Lv.1 and Lv.2 select their own models regardless of the historical p
   assert.equal(high.modelLevel,2);
   assert.equal(high.modelReady,true);
   assert.equal(financeProjection(financeGrowth('1000000',history),1).modelLevel,1);
-  assert.equal(financeProjection(financeGrowth('15000000',history)).modelReady,false);
+  assert.equal(financeProjection(financeGrowth('120000000',history)).modelReady,false);
 });
 
 test('saved neighbourhood thresholds and previews select independent Lv.3–4 assets, then downgrade from the current book', () => {
@@ -46,4 +46,20 @@ test('saved neighbourhood thresholds and previews select independent Lv.3–4 as
   const growth=financeGrowth('1000000',[]);
   assert.deepEqual(financeProjection(growth,4),{actualLevel:2,displayLevel:4,isPreview:true,achieved:false,modelLevel:4,modelReady:true});
   assert.equal(financeProjection(growth).modelLevel,2,'Leaving preview restores the saved book');
+});
+
+
+test('regional centre savings select Lv.5–6 and fall back immediately below their thresholds', () => {
+  const history=[{snapshot:{net_savings_minor:'30000000'}}];
+  for(const [amount,level] of [['15000000',5],['30000000',6],['29999999',5],['14999999',4]]){
+    const projection=financeProjection(financeGrowth(amount,history));
+    assert.equal(projection.modelLevel,level);assert.equal(projection.modelReady,true);
+  }
+});
+
+
+test('the mature core uses independent Lv.7–8 geometry while current savings can return to Lv.6', () => {
+  const history=[{snapshot:{net_savings_minor:'80000000'}}];
+  for(const [amount,level] of [['50000000',7],['80000000',8],['79999999',7],['49999999',6]])
+    assert.equal(financeProjection(financeGrowth(amount,history)).modelLevel,level);
 });

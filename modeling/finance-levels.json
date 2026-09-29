@@ -1,9 +1,37 @@
 {
   "coordinateSpace": "district_local_blender_metres",
   "levels": {
-    "1": {"url": "/models/finance/level-1.glb", "height": 9},
-    "2": {"url": "/models/finance/level-2.glb", "height": 13},
-    "3": {"url": "/models/finance/level-3.glb", "height": 16},
-    "4": {"url": "/models/finance/level-4.glb", "height": 20}
+    "1": {
+      "url": "/models/finance/level-1.glb",
+      "height": 9
+    },
+    "2": {
+      "url": "/models/finance/level-2.glb",
+      "height": 13
+    },
+    "3": {
+      "url": "/models/finance/level-3.glb",
+      "height": 16
+    },
+    "4": {
+      "url": "/models/finance/level-4.glb",
+      "height": 20
+    },
+    "5": {
+      "url": "/models/finance/level-5.glb",
+      "height": 25
+    },
+    "6": {
+      "url": "/models/finance/level-6.glb",
+      "height": 32
+    },
+    "7": {
+      "url": "/models/finance/level-7.glb",
+      "height": 58
+    },
+    "8": {
+      "url": "/models/finance/level-8.glb",
+      "height": 55
+    }
   }
 }
