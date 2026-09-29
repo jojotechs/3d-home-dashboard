@@ -36,6 +36,10 @@
     "9": {
       "url": "/models/finance/level-9.glb",
       "height": 58
+    },
+    "10": {
+      "url": "/models/finance/level-10.glb",
+      "height": 59
     }
   }
 }

@@ -39,14 +39,14 @@ for level in args.levels:
             if mat.name.startswith(('finance_window','finance_lamp')):
                 bs=mat.node_tree.nodes.get('Principled BSDF');bs.inputs['Emission Color'].default_value=(1,.57,.22,1);bs.inputs['Emission Strength'].default_value=(2.4 if mat.name.startswith('finance_lamp') else .9) if night else 0
         for node in root.children_recursive:
-            if not node.get('financeHologram'):continue
+            if not (node.get('financeHologram') or node.get('financeLightShow')):continue
             for child in node.children_recursive:
                 if child.type!='MESH':continue
                 for mat in child.data.materials:
                     bs=mat.node_tree.nodes.get('Principled BSDF')
                     bs.inputs['Emission Color'].default_value=bs.inputs['Base Color'].default_value
                     bs.inputs['Emission Strength'].default_value=1.9 if night else 0
-                    bs.inputs['Alpha'].default_value=.62 if night else .36
+                    if node.get('financeHologram'):bs.inputs['Alpha'].default_value=.62 if night else .36
         for view,pos in [('south',(48,-73,65)),('north',(-48,73,65))]:
             points=[o.matrix_world@Vector(c) for o in root.children_recursive if o.type=='MESH' for c in o.bound_box]
             target=Vector((0,0,max(p.z for p in points)/2))

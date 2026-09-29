@@ -30,16 +30,19 @@ function beam(root,spec,index) {
     direction.copy(target.position).sub(mesh.position);const length=direction.length();
     mesh.quaternion.setFromUnitVectors(up,direction.normalize());mesh.scale.set(spec.radius,length,spec.radius);
     mesh.visible=night>.005;material.opacity=night*.055;
-    light.angle=Math.atan2(spec.radius,length)*1.7;light.intensity=night*220;
+    light.angle=Math.atan2(spec.radius,length)*1.7;light.intensity=night*220*(1-(spec.pulse??0)*.5*(1-Math.sin(seconds*Math.PI/10+(spec.phase??0))));
   };
 }
 
 /** Each effect consumes the same owned visual clock; no business clock or background ticker. */
 export function createFinanceAtmosphere(root) {
   const beams=(root.userData.financeEffects?.beams??[]).map((spec,i)=>beam(root,spec,i));
-  const flights=[],holograms=[];
+  const flights=[],holograms=[],ribbons=[];
   root.traverse(node=>{
     if(node.userData.financeMotion==='fly')flights.push(flight(node));
+    if(node.userData.financeLightShow){
+      node.traverse(o=>{if(o.isMesh)(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>ribbons.push(m));});
+    }
     if(node.userData.financeHologram){
       const materials=new Set();
       node.traverse(o=>{if(o.isMesh){
@@ -58,7 +61,7 @@ export function createFinanceAtmosphere(root) {
   });
   let lit=false;
   return {
-    update(seconds,night){lit=night>.005;beams.forEach(update=>update(seconds,night));flights.forEach(f=>f.update(seconds));holograms.forEach(update=>update(seconds,night));},
-    snapshot:()=>({beams:beams.length,flights:flights.length,holograms:holograms.length,carriers:flights.map(f=>f.snapshot()),lit}),
+    update(seconds,night){lit=night>.005;beams.forEach(update=>update(seconds,night));flights.forEach(f=>f.update(seconds));holograms.forEach(update=>update(seconds,night));ribbons.forEach(m=>{m.emissive.copy(m.color);m.emissiveIntensity=night*(1.1+.5*Math.sin(seconds*Math.PI/10));});},
+    snapshot:()=>({beams:beams.length,flights:flights.length,holograms:holograms.length,carriers:flights.map(f=>f.snapshot()),lightShow:ribbons.length,lit}),
   };
 }

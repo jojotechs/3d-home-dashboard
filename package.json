@@ -35,7 +35,9 @@
     "model:verify-activities": "bash modeling/run-blender.sh modeling/verify_activity_routes.py",
     "model:finance-regional": "bash modeling/run-blender.sh modeling/build_finance_regional.py",
     "model:finance-landmarks": "bash modeling/run-blender.sh modeling/build_finance_landmarks.py",
-    "model:finance-future": "bash modeling/run-blender.sh modeling/build_finance_future.py"
+    "model:finance-future": "bash modeling/run-blender.sh modeling/build_finance_future.py",
+    "model:finance-finale": "bash modeling/run-blender.sh modeling/build_finance_finale.py",
+    "model:verify-finance-airspace": "bash modeling/run-blender.sh modeling/verify_finance_airspace.py"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

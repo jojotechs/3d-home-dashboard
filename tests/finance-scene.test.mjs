@@ -61,7 +61,7 @@ test('neighbourhood upgrades and downgrades replace the whole active street and 
   const district=mountFinanceDistrict(parent,{loadAsync:async url=>{
     const level=Number(url.match(/level-(\d+)\.glb$/)[1]),next=asset(level);loaded.push(next);return next.gltf;
   }},{activities,origin:[-76,56,0],onReady(){},onChange(){},onError:assert.fail});
-  for(const level of [2,3,4,5,6,5,4,1]){
+  for(const level of [2,3,4,5,6,9,10,9,5,4,1]){
     await district.setLevel(level);district.update(1,1,false);
     assert.equal(district.snapshot().level,level);assert.equal(parent.children.length,1);
     assert.deepEqual(activities.snapshot().visitors,[]);
@@ -116,4 +116,17 @@ test('future advertising uses only the district visual clock and is disposed com
   const oldPosition=flyer.position.clone();await district.setLevel(8);district.update(100,1,false);
   assert.equal(parent.getObjectByName('finance_flyer'),undefined);assert.deepEqual(flyer.position,oldPosition);
   assert.equal(district.snapshot().atmosphere.flights,0);assert.deepEqual(high.disposed(),[1,1]);district.dispose();
+});
+
+
+test('finale facade light show freezes with the visual clock and respects the light switch',async()=>{
+  const parent=new THREE.Group(),high=asset(10),low=asset(1);
+  const ribbons=new THREE.Mesh(new THREE.PlaneGeometry(),new THREE.MeshStandardMaterial({color:'#adffdf'}));
+  ribbons.userData.financeLightShow=true;high.root.add(ribbons);
+  const district=mountFinanceDistrict(parent,{loadAsync:async url=>url.endsWith('10.glb')?high.gltf:low.gltf},{onReady(){},onChange(){},onError:assert.fail});
+  await district.setLevel(10);district.update(1,1,false);const light=ribbons.material.emissiveIntensity;
+  assert.ok(light>0);district.update(100,1,true);assert.equal(ribbons.material.emissiveIntensity,light);
+  district.update(2,0,true);assert.equal(ribbons.material.emissiveIntensity,0);
+  await district.setLevel(1);district.update(10,1,false);assert.equal(district.snapshot().atmosphere.lightShow,0);
+  assert.equal(ribbons.material.emissiveIntensity,0);district.dispose();
 });

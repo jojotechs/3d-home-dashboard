@@ -69,3 +69,10 @@ test('future district enters at exactly 1.2 million and leaves one cent below',(
   assert.equal(financeProjection(financeGrowth('120000000',history)).modelLevel,9);
   assert.equal(financeProjection(financeGrowth('119999999',history)).modelLevel,8);
 });
+
+test('the final skyline keeps exact amounts above maximum and downgrades below two million',()=>{
+  const history=[{snapshot:{net_savings_minor:'250000000'}}];
+  for(const [amount,level] of [['200000000',10],['250000000',10],['199999999',9],['999999',1]])
+    assert.equal(financeProjection(financeGrowth(amount,history)).modelLevel,level);
+  assert.equal(financeGrowth('250000000',history).nextLevel,null);
+});
