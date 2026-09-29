@@ -2,15 +2,24 @@
 from finance_urban_kit import *
 
 
-def hologram(root,name,position,radius=2,phase=0):
+def hologram(root,name,position,radius=2,phase=0,tint='glass_finance_mint',label='CITY / BLOOM'):
     # Open spatial logo with orbit rings, a diamond and lettering: no billboard image plane.
     node=empty(name,root,financeHologram=True,phase=phase);node.location=position
     g=Geometry()
     for z,r in [(-1.7,radius),(0,radius*.72),(1.7,radius*.42)]:
-        line(g,[(r*math.cos(i*TAU/48),r*math.sin(i*TAU/48),z) for i in range(49)],.035,'glass_finance_mint',6)
+        line(g,[(r*math.cos(i*TAU/48),r*math.sin(i*TAU/48),z) for i in range(49)],.065,tint,6)
     for a in [0,math.pi/2,math.pi,math.pi*1.5]:
-        line(g,[(0,0,1.6),(radius*.55*math.cos(a),radius*.55*math.sin(a),0),(0,0,-1.5)],.045,'glass_finance_mint',6)
-    text_mesh(g,'CITY / BLOOM',(0,-radius-.1,-2.4),.38,'glass_finance_mint');g.emit(node,name)
+        line(g,[(0,0,1.6),(radius*.55*math.cos(a),radius*.55*math.sin(a),0),(0,0,-1.5)],.075,tint,6)
+    text_mesh(g,label,(0,-radius-.1,-2.4),.5,tint);g.emit(node,name)
+
+
+def rooftop_projection(g,root,name,x,y,roof,tint,label):
+    # Four roof-fixed struts hold a projection deck above the building's service equipment.
+    for xx in [-2,2]:
+        for yy in [-1.7,1.7]:g.rod((x+xx,y+yy,roof),(x+xx,y+yy,roof+1.8),.065,'finance_bronze',8)
+    g.cylinder((x,y,roof+1.8),2.8,.22,'finance_copper',48)
+    band(g,x,y,roof+1.94,2.5,2.5,.08,'finance_lamp',48)
+    hologram(root,name,(x,y,roof+5),2.6,tint=tint,label=label)
 
 
 def flyer(root,name,route,offset=0):
@@ -45,7 +54,8 @@ def faceted_tower(g,w,d,height,label):
     curtain_block(g,w-1.8,d-1.8,26,height-5,'glass_finance_teal')
     for x in [-w/2+.6,w/2-.6]:
         for side in [-1,1]:
-            line(g,[(x,side*d/2,6),(x*1.1,side*(d/2-.3),21),(x*.85,side*(d/2-1),height-5),(x*.5,side*(d/2-2),height)],.14,'finance_bronze',8)
+            ridge=(-w*.18,0,height) if x<0 else (w*.18,1,height-1.2)
+            line(g,[(x,side*d/2,6),(x*1.1,side*(d/2-.3),21),(x*.85,side*(d/2-1),height-5),ridge],.14,'finance_bronze',8)
     # Origami glazed crown with a diagonal ridge, closed facets and metal seams.
     corners=[(-w/2+1,-d/2+1,height-5),(w/2-1,-d/2+1,height-5),(w/2-1,d/2-1,height-5),(-w/2+1,d/2-1,height-5)]
     ridge=[(-w*.18,0,height),(w*.18,1,height-1.2)]
@@ -56,12 +66,3 @@ def faceted_tower(g,w,d,height,label):
         yy=side*(d/2-.75)
         for x in [-w*.35,0,w*.35]:
             line(g,[(x-w*.12,yy,27),(x+w*.12,yy,(height+21)/2),(x-w*.12,yy,height-5)],.085,'finance_bronze',8)
-
-
-def luxury_pavilion(g,label):
-    stone_base(g,17,7,5,label);curtain_block(g,15.8,6.2,5,8.7,'glass_finance_ink')
-    terrace(g,0,0,8.9,17,7,False)
-    # Individual folded bronze roof ribbons sit above the roof garden.
-    for x in [-7,-5,-3,-1,1,3,5,7]:
-        line(g,[(x,-3.4,9),(x,-1,10.7),(x,1.5,11.2),(x,3.4,9.5)],.085,'finance_bronze',8)
-    roof_garden(g,0,2.8,9,14,1)

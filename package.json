@@ -37,6 +37,7 @@
     "model:finance-landmarks": "bash modeling/run-blender.sh modeling/build_finance_landmarks.py",
     "model:finance-future": "bash modeling/run-blender.sh modeling/build_finance_future.py",
     "model:finance-finale": "bash modeling/run-blender.sh modeling/build_finance_finale.py",
+    "model:verify-finance-density": "bash modeling/run-blender.sh modeling/verify_finance_density.py",
     "model:verify-finance-airspace": "bash modeling/run-blender.sh modeling/verify_finance_airspace.py"
   },
   "dependencies": {

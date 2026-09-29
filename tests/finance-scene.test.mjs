@@ -130,3 +130,20 @@ test('finale facade light show freezes with the visual clock and respects the li
   await district.setLevel(1);district.update(10,1,false);assert.equal(district.snapshot().atmosphere.lightShow,0);
   assert.equal(ribbons.material.emissiveIntensity,0);district.dispose();
 });
+
+test('street accent signs keep their own colours, follow the light switch and leave with their district',async()=>{
+  const parent=new THREE.Group(),high=asset(9),low=asset(7);
+  const signs=new THREE.Group();signs.userData.financeAccent=true;high.root.add(signs);
+  const jade=new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial({color:'#65d9bf'}));
+  const coral=new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial({color:'#ff9180'}));
+  signs.add(jade,coral);let disposed=0;coral.material.addEventListener('dispose',()=>disposed++);
+  const district=mountFinanceDistrict(parent,{loadAsync:async url=>url.endsWith('9.glb')?high.gltf:low.gltf},{onReady(){},onChange(){},onError:assert.fail});
+  await district.setLevel(9);district.update(1,1,false);
+  assert.ok(jade.material.emissiveIntensity>0);assert.ok(coral.material.emissiveIntensity>0);
+  assert.ok(jade.material.emissive.equals(jade.material.color));assert.ok(coral.material.emissive.equals(coral.material.color));
+  assert.ok(!jade.material.emissive.equals(coral.material.emissive));
+  const light=coral.material.emissiveIntensity;district.update(100,1,true);assert.equal(coral.material.emissiveIntensity,light);
+  district.update(1,0,true);assert.equal(jade.material.emissiveIntensity,0);assert.equal(high.material.emissiveIntensity,0);
+  await district.setLevel(7);district.update(1,1,false);assert.equal(disposed,1);assert.equal(coral.material.emissiveIntensity,0);
+  assert.equal(parent.getObjectById(signs.id),undefined);district.dispose();
+});

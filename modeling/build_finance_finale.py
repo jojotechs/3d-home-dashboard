@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from finance_future_kit import *
+from finance_metropolitan_kit import *
 
 
 def ellipse(g,rx,ry,z,h,mat,n=64):
@@ -10,11 +11,13 @@ def ellipse(g,rx,ry,z,h,mat,n=64):
     g.mesh(points,[tuple(reversed(range(n))),tuple(range(n,2*n))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)],mat)
 
 
-def observatory(g,rx,ry,height,label):
-    stone_base(g,rx*2+2,ry*2+1,6,label)
+def observatory(g,rx,ry,height,label,podium):
+    stone_base(g,*podium,7,label)
     body=height-8
-    ellipse(g,rx,ry,6,body-6,'glass_finance_ink')
-    for z in range(7,int(body),3):
+    curtain_block(g,podium[0]-.8,podium[1]-.8,7,17,'glass_finance_mint')
+    roof_garden(g,0,-podium[1]/2+.7,17.2,podium[0]-1.6,.7)
+    ellipse(g,rx,ry,17,body-17,'glass_finance_ink')
+    for z in range(19,int(body),3):
         band(g,0,0,z,rx+.12,ry+.12,.11,'cream',64)
         for i in range(32):
             a=i*TAU/32;b=a+TAU/32*.66
@@ -45,25 +48,13 @@ def observatory(g,rx,ry,height,label):
         line(g,[((rx+.32)*math.cos(a),(ry+.32)*math.sin(a),6),((rx+1.1)*math.cos(a),(ry+1.1)*math.sin(a),body*.5),((rx+.32)*math.cos(a),(ry+.32)*math.sin(a),body)],.13,'cream',8)
 
 
-def final_shop(g,label):
-    stone_base(g,18,7,5,label);curtain_block(g,16,6,5,9,'glass_finance_mint')
-    # Two garden decks and a row of separate curved copper roof vaults.
-    terrace(g,0,0,9.25,18,7,False)
-    for xx in [-6,-3,0,3,6]:
-        pts=[(xx,-3.5+7*i/12,10+1.8*math.sin(math.pi*i/12)) for i in range(13)]
-        line(g,pts,.12,'finance_copper',8)
-        g.mesh([(x+dx,y,z) for dx in [-1.2,1.2] for x,y,z in pts],[(i,i+1,i+14,i+13) for i in range(12)],'glass_finance_mint')
-    roof_garden(g,0,2.9,9.4,16,.7)
-
-
 def build_ten():
-    root=level_root(10,[(-18,-13,4),(18,-13,4),(0,0,5),(-14,-1,4),(14,1,4),(0,11,13)])
+    root=level_root(10,metropolitan_anchors(10)+[(0,9,28)])
     root['financeEffects']={'beams':[{'from':[x,y,.9],'to':[x,y+2,z],'radius':1.5,'color':'#b2eee4' if i%2 else '#ffe0b3','sweep':[1.5,0,0],'period':20,'phase':i*math.pi/3,'pulse':.3} for i,(x,y,z) in enumerate([(-21,-1,25),(-9,-1,25),(9,1,22),(20,1,22),(-5,12,30),(5,12,30)])]}
     g=Geometry();civic_ground(g)
-    b=Geometry();observatory(b,7.2,8.5,58,'CELESTIAL');transfer(g,b,-14,8.5)
-    b=Geometry();observatory(b,6.8,7.2,47,'PANORAMA');transfer(g,b,14,10)
-    for x,label in [(-18,'ORCHID / CAFE'),(18,'CROWN / ATELIER')]:
-        b=Geometry();final_shop(b,label);transfer(g,b,x,-9)
+    b=Geometry();observatory(b,7.2,8.5,58,'CELESTIAL',(20,19));transfer(g,b,-14,8.5)
+    b=Geometry();observatory(b,6.8,7.2,47,'PANORAMA',(19,18));transfer(g,b,14,10)
+    metropolitan_frontage(g,10)
     # Arch bridge has a walking surface, two load-bearing ribs, guardrails and planted landings.
     for i in range(24):
         x=-14+28*i/24;nx=-14+28*(i+1)/24;z=34+8*math.sin(math.pi*i/24);nz=34+8*math.sin(math.pi*(i+1)/24)
@@ -78,27 +69,32 @@ def build_ten():
         base=[(x-.35,9.95,heights[0]),(x+.35,9.95,heights[1]),(x+.35,10.65,heights[1]),(x-.35,10.65,heights[0])]
         g.mesh(base+[(xx,yy,top) for xx,yy,_ in base],[(0,3,2,1),(4,5,6,7),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7)],'cream')
         roof_garden(g,x,10.3,top,.7,.7)
-    # Layered central pavilion and planted stepped public terraces.
-    b=Geometry();ellipse(b,4.6,5,.52,5,'finance_limestone');ellipse(b,4.2,4.6,5.52,4.4,'glass_finance_teal');ellipse(b,5.1,5.5,10,.4,'cream');transfer(g,b,0,12)
-    for bottom,top,r in [(10.4,11.1,4.9),(11.1,11.9,4.2),(11.9,13,3.5)]:
-        tier=Geometry();ellipse(tier,r,r,bottom,top-bottom,'finance_limestone');transfer(g,tier,0,12)
-    for z,r in [(11.1,4.6),(11.9,3.9),(13,3.2)]:
-        band(g,0,12,z,r,r,.3,'cream',48)
-        for i in range(12):
-            a=i*TAU/12;g.ball((r*math.cos(a),12+r*math.sin(a),z+.25),(.5,.5,.32),'leaf2',2)
-    # Projector plinths and water garden leave a wide central approach and real shop entrances.
-    for x,y in [(0,1),(0,12)]:
-        z=.8 if y==1 else 13.2;g.cylinder((x,y,z),2.4,.5,'finance_copper',48)
+    # A substantial central rotunda fills the skyline below the preserved arch bridge.
+    b=Geometry();stone_base(b,7,10,6,'CITY SALON')
+    ellipse(b,3.5,5,6,24,'glass_finance_teal')
+    for z in range(7,30,3):
+        band(b,0,0,z,3.6,5.1,.14,'cream',48)
+        for j in range(20):
+            a=j*TAU/20;next_a=a+.16
+            if (j+z)%4!=0:
+                b.mesh([((3.515)*math.cos(c),(5.015)*math.sin(c),zz) for zz in [z+.4,z+2] for c in [a,next_a]],[(0,1,3,2)],'finance_window')
+    for bottom,top,rx,ry in [(30,31,3.8,5.3),(31,33,3.2,4.7),(33,35,2.6,4.1)]:
+        ellipse(b,rx,ry,bottom,top-bottom,'finance_limestone')
+        band(b,0,0,top,rx,ry,.18,'finance_bronze',48)
+    roof_garden(b,0,2.3,35,4,1.5);transfer(g,b,0,13)
+    for x,y,z in [(0,1,.8),(0,13,35.4)]:
+        g.cylinder((x,y,z),2.4,.5,'finance_copper',48)
         band(g,x,y,z+.28,2.2,2.2,.075,'finance_lamp',48)
-    for x,y in [(-5,4),(5,4),(-4,-15),(4,-15)]:flower_box(g,x,y,1.8)
-    cafe_tables(g,[(-20,-17),(-24,-17),(4,-10)]);street_bench(g,8,-19);street_bench(g,-3,19)
     for x,y in [(-21,-1),(-9,-1),(9,1),(20,1),(-5,12),(5,12)]:g.cylinder((x,y,.75),.23,.4,'metal',12)
+    rooftop_projection(g,root,'city_roof_projection',-22.8,-10,32,'metro_coral','CITY / LIVE')
+    rooftop_projection(g,root,'crown_roof_projection',7.8,-8.5,39,'metro_jade','CROWN / SKY')
     g.emit(root,'final_city');bake_batches(root)
+    metropolitan_accents(root,10)
     hologram(root,'orchid_projection',(0,1,5),2.1)
-    hologram(root,'sky_projection',(0,12,17),2.5,math.pi)
-    flyer(root,'orchid_air_ad',oval_route(0,-18,19,23,1.5))
-    flyer(root,'orchid_sky_ad',oval_route(0,-12.5,31,24,2),offset=42)
-    flyer(root,'orchid_crown_ad',oval_route(0,-9,43,23,2),offset=70)
+    hologram(root,'sky_projection',(0,13,38.5),2.5,math.pi)
+    flyer(root,'orchid_air_ad',oval_route(0,-19.5,22,24,.25))
+    flyer(root,'orchid_sky_ad',oval_route(0,-19.5,49,24,.25),offset=42)
+    flyer(root,'orchid_crown_ad',oval_route(0,-19.5,56,24,.25),offset=70)
     # Dedicated facade ribbons provide a coordinated light show without touching warm windows.
     show=empty('crown_light_ribbons',root,financeLightShow=True)
     ribbons=Geometry()

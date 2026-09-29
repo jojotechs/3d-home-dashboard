@@ -62,6 +62,8 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 
 ## Agent skills
 
+- Finance density correction (2026-09-29): Lv.8–10 looked less prosperous than Lv.7. Keep Lv.7 intact as the minimum visual baseline. Higher levels need denser, varied building groups, continuous occupied commercial frontages and stronger layered day/night atmosphere, informed by additional city-building game references. Avoid isolated twin towers in oversized empty plazas. Preserve metre scale, genuine pedestrian access and safe advertisement flight paths.
+
 - Pedestrian interaction feedback (2026-09-22): street pedestrians must interact with district facilities, beginning with finance (enter/leave, browse, shop and linger). Use scene-owned object composition and constructor injection: a shared pedestrian activity lifecycle consumes district-owned walkable graphs, entrances and activity places. Reuse the actual street people; later districts register their own providers. Activity is visual only and never changes financial records or achievements. Keep metre scale, pause/reduced-motion behavior and clean up visits/reservations when a district model is replaced.
 - Finance pedestrian activities (completed 2026-09-29): Lv.1–2 now reuse street pedestrians for facility visits, visible pauses, indoor visits and shopping bags. Later levels must provide matching activity graphs with their geometry; see `docs/agents/pedestrian-activities.md`. The 70-test suite, actual GLB clearance checks, cloud save/downgrade and production in-app-browser acceptance are recorded in `docs/verification/pedestrian-activities-results.md`.
 

@@ -2,7 +2,7 @@
 import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parent))
-from finance_urban_kit import *
+from finance_metropolitan_kit import *
 
 
 def approved_prosperous(root):
@@ -70,40 +70,22 @@ def level_eight(g):
     civic_ground(g)
     b=Geometry();garden_tower(b,19,17,[(19,17,16,0,0),(15,12,30,-1,2.5),(10,8,43,-2,4.5),(6,5,50,-2,5.5)],'AURORA HOUSE');transfer(g,b,-17,7)
     b=Geometry();garden_tower(b,18,16,[(18,16,13,0,0),(13,12,24,1,2),(9,8,35,2,4)],'SKY GARDENS');transfer(g,b,16,9)
-    # Boutique pavilion around a generous pedestrian square, with a faceted copper lantern.
-    b=Geometry();stone_base(b,13,7,5,'ATELIER');curtain_block(b,11,6,5,9,'glass_finance_teal');hipped_roof(b,12,7,9.2,2.2);transfer(g,b,-17,-10)
-    # Broad reflecting pool with individually modeled water steps and offset islands.
-    g.box((12,-9,.73),(15,8,.44),'cream',bevel=.22)
-    g.box((12,-9,.98),(14.4,7.4,.07),'water',bevel=.2)
-    for x,y,r in [(7,-8,1.25),(16,-10,1.65)]:
-        g.cylinder((x,y,1.15),r,.3,'finance_copper',24)
-        g.cylinder((x,y,1.8),r*.55,1,'cream',24)
-        band(g,x,y,2.31,r*.55,r*.55,.12,'finance_lamp',24)
-        for j in range(8):
-            a=j*TAU/8;line(g,[(x+r*.4*math.cos(a),y+r*.4*math.sin(a),2.3),(x+r*.8*math.cos(a),y+r*.8*math.sin(a),1.8),(x+r*1.2*math.cos(a),y+r*1.2*math.sin(a),1)],.025,'water',5)
-    # Transparent canopy marks the open central promenade, with slim structural branching.
-    for y in [-3,2,7]:
+    metropolitan_frontage(g,8);central_house(g,8)
+    # The narrow promenade passes under two glass roofs into the garden hall entrance.
+    for y in [-3,2]:
         for x in [-3,3]:
             g.rod((x,y,.52),(x,y,5.2),.07,'finance_bronze',8)
             g.rod((x,y,3.8),(x*.45,y,5.9),.055,'finance_bronze',8)
         g.box((0,y,5.95),(7,4.7,.12),'glass_finance_mint')
-    # The promenade's browsing stop faces an actual original sculpture and caption.
-    g.cylinder((0,11,1.05),1.1,1.05,'cream',24)
-    g.mesh([(0,11,3.8),(0,11,1.55),(-.9,11,2.7),(.9,11,2.7),(0,10.4,2.7),(0,11.6,2.7)],
-        [(0,2,4),(0,4,3),(0,3,5),(0,5,2),(1,4,2),(1,3,4),(1,5,3),(1,2,5)],'finance_bronze')
-    text_mesh(g,'CITY ARTS',(0,9.89,1.12),.23,'finance_copper')
-    cafe_tables(g,[(-17,-17),(-22,-17)])
-    street_bench(g,12,-15);street_bench(g,23,-8,math.pi/2)
-    digital_sign(g,16,.8,6,9,'AURORA / EXHIBITIONS')
-    for x,y in [(-6,-14),(3,-15),(26,-1)]:flower_box(g,x,y,2)
-    # Facade wash fixtures and ornamental light strips; the beam effects join this owned root.
+    g.box((27,-2,.73),(2.2,3,.44),'cream',bevel=.15)
+    g.box((27,-2,.98),(1.8,2.6,.07),'water',bevel=.12)
     for x,y in [(-25,-2),(-10,-2),(10,.6),(23,.6)]:
         g.cylinder((x,y,.7),.25,.3,'metal',12)
         g.ball((x,y,.88),(.15,.15,.07),'finance_lamp',2)
 
 
 def build_landmark(level):
-    root=level_root(level,[(-20,-16,4),(-2,-13,4),(20,-16,4),(10,2,4)])
+    root=level_root(level,[(-20,-16,4),(-2,-13,4),(20,-16,4),(10,2,4)] if level==7 else metropolitan_anchors(level))
     if level==7:approved_prosperous(root)
     root['financeEffects']={'beams':[
         {'from':[x,y,.88],'to':[x,y+1,z],'radius':1.25,'color':'#ffe0ab'}
@@ -113,8 +95,12 @@ def build_landmark(level):
     g=Geometry();(level_seven_additions if level==7 else level_eight)(g);g.emit(additions,'landmark_details');bake_batches(additions)
     for child in list(additions.children):child.parent=root
     bpy.data.objects.remove(additions,do_unlink=True)
+    if level==8:metropolitan_accents(root,8)
     export_level(root,level)
 
 
 if __name__=='__main__':
-    for level in [7,8]:build_landmark(level)
+    import argparse
+    parser=argparse.ArgumentParser();parser.add_argument('--levels',nargs='+',type=int,choices=[7,8],default=[7,8])
+    args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else [])
+    for level in args.levels:build_landmark(level)

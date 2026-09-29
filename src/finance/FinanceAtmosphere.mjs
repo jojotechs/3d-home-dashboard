@@ -37,9 +37,12 @@ function beam(root,spec,index) {
 /** Each effect consumes the same owned visual clock; no business clock or background ticker. */
 export function createFinanceAtmosphere(root) {
   const beams=(root.userData.financeEffects?.beams??[]).map((spec,i)=>beam(root,spec,i));
-  const flights=[],holograms=[],ribbons=[];
+  const flights=[],holograms=[],ribbons=[],accents=new Set();
   root.traverse(node=>{
     if(node.userData.financeMotion==='fly')flights.push(flight(node));
+    if(node.userData.financeAccent){
+      node.traverse(o=>{if(o.isMesh)(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>accents.add(m));});
+    }
     if(node.userData.financeLightShow){
       node.traverse(o=>{if(o.isMesh)(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>ribbons.push(m));});
     }
@@ -61,7 +64,7 @@ export function createFinanceAtmosphere(root) {
   });
   let lit=false;
   return {
-    update(seconds,night){lit=night>.005;beams.forEach(update=>update(seconds,night));flights.forEach(f=>f.update(seconds));holograms.forEach(update=>update(seconds,night));ribbons.forEach(m=>{m.emissive.copy(m.color);m.emissiveIntensity=night*(1.1+.5*Math.sin(seconds*Math.PI/10));});},
-    snapshot:()=>({beams:beams.length,flights:flights.length,holograms:holograms.length,carriers:flights.map(f=>f.snapshot()),lightShow:ribbons.length,lit}),
+    update(seconds,night){lit=night>.005;beams.forEach(update=>update(seconds,night));flights.forEach(f=>f.update(seconds));holograms.forEach(update=>update(seconds,night));ribbons.forEach(m=>{m.emissive.copy(m.color);m.emissiveIntensity=night*(1.1+.5*Math.sin(seconds*Math.PI/10));});accents.forEach(m=>{m.emissive.copy(m.color);m.emissiveIntensity=night*1.7;});},
+    snapshot:()=>({beams:beams.length,flights:flights.length,holograms:holograms.length,carriers:flights.map(f=>f.snapshot()),lightShow:ribbons.length,accents:accents.size,lit}),
   };
 }
