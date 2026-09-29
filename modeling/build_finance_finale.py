@@ -49,8 +49,8 @@ def observatory(g,rx,ry,height,label,podium):
 
 
 def build_ten():
-    root=level_root(10,metropolitan_anchors(10)+[(0,9,28)])
-    root['financeEffects']={'beams':[{'from':[x,y,.9],'to':[x,y+2,z],'radius':1.5,'color':'#b2eee4' if i%2 else '#ffe0b3','sweep':[1.5,0,0],'period':20,'phase':i*math.pi/3,'pulse':.3} for i,(x,y,z) in enumerate([(-21,-1,25),(-9,-1,25),(9,1,22),(20,1,22),(-5,12,30),(5,12,30)])]}
+    root=level_root(10,metropolitan_anchors(10))
+    root['financeEffects']={'beams':[{'from':[x,y,.9],'to':[x,y+2,z],'radius':1.5,'color':'#b2eee4' if i%2 else '#ffe0b3','sweep':[1.5,0,0],'period':20,'phase':i*math.pi/3,'pulse':.3} for i,(x,y,z) in enumerate([(-21,-1,25),(-9,-1,25),(9,1,22),(20,1,22)])]}
     g=Geometry();civic_ground(g)
     b=Geometry();observatory(b,7.2,8.5,58,'CELESTIAL',(20,19));transfer(g,b,-14,8.5)
     b=Geometry();observatory(b,6.8,7.2,47,'PANORAMA',(19,18));transfer(g,b,14,10)
@@ -85,7 +85,7 @@ def build_ten():
     for x,y,z in [(0,1,.8),(0,13,35.4)]:
         g.cylinder((x,y,z),2.4,.5,'finance_copper',48)
         band(g,x,y,z+.28,2.2,2.2,.075,'finance_lamp',48)
-    for x,y in [(-21,-1),(-9,-1),(9,1),(20,1),(-5,12),(5,12)]:g.cylinder((x,y,.75),.23,.4,'metal',12)
+    for x,y in [(-21,-1),(-9,-1),(9,1),(20,1)]:g.cylinder((x,y,.75),.23,.4,'metal',12)
     rooftop_projection(g,root,'city_roof_projection',-22.8,-10,32,'metro_coral','CITY / LIVE')
     rooftop_projection(g,root,'crown_roof_projection',7.8,-8.5,39,'metro_jade','CROWN / SKY')
     g.emit(root,'final_city');bake_batches(root)

@@ -128,4 +128,5 @@ def emit_accents(root,name,g):
 
 def metropolitan_anchors(level):
     front=-10-(level+2)/2
-    return [(x,front-1,4) for x in FRONT_X]+[(0,-7,4),(0,4,4)]
+    # Five shared pools cover the street; every added real light costs the whole city shader.
+    return [(x,front-1,4) for x in [-20,-8,8,20]]+[(0,4,4)]
