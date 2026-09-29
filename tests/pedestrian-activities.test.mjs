@@ -9,10 +9,10 @@ const provider=level=>new DistrictActivities({id:'finance',origin:[-76,56,0],rou
 const pedestrian=(id=0)=>({id,routeIndex:0,pose:{x:-76,y:31.6,dx:1,dy:0},speed:1.2,phase:0,visible:true});
 
 test('street pedestrians visit real places, stop, emerge with purchases and return continuously to their route',()=>{
-  for(const level of [1,2]){
+  for(const level of [1,2,3,4]){
     const activities=new PedestrianActivities({random:randomGenerator(11)});activities.register(provider(level));
     const sim=createMobility(72,0,40,{activities}),states=new Set(),places=new Set();let purchased=false;
-    for(let frame=0;frame<60*900;frame++){
+    for(let frame=0;frame<60*1800;frame++){
       const before=sim.people.map(p=>({...p.pose}));sim.step(1/60);
       for(const p of sim.people){
         assert.ok(Math.hypot(p.pose.x-before[p.id].x,p.pose.y-before[p.id].y)<.023,'No district/street teleport during normal visits');
@@ -52,7 +52,7 @@ test('a different district can inject a new activity without changing pedestrian
 });
 
 test('each finance place is reachable from the real sidewalk and all routes are finite',()=>{
-  for(const level of [1,2]){
+  for(const level of [1,2,3,4]){
     const district=provider(level),route=walkingRoutes[district.routeIndex];let closest=Infinity;
     for(let s=0;s<route.length;s+=.1){const p=sampleRoute(route,s);closest=Math.min(closest,Math.hypot(p.x-district.entry[0],p.y-district.entry[1]));}
     assert.ok(closest<.1);

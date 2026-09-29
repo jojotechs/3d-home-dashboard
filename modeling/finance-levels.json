@@ -2,6 +2,8 @@
   "coordinateSpace": "district_local_blender_metres",
   "levels": {
     "1": {"url": "/models/finance/level-1.glb", "height": 9},
-    "2": {"url": "/models/finance/level-2.glb", "height": 13}
+    "2": {"url": "/models/finance/level-2.glb", "height": 13},
+    "3": {"url": "/models/finance/level-3.glb", "height": 16},
+    "4": {"url": "/models/finance/level-4.glb", "height": 20}
   }
 }

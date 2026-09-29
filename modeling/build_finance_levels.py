@@ -268,4 +268,5 @@ def build(level):
     bpy.ops.export_scene.gltf(filepath=str(out),export_format='GLB',use_selection=True,export_extras=True,export_yup=True,export_animations=False,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=6,export_draco_position_quantization=16,export_draco_normal_quantization=12,export_draco_color_quantization=8)
     print('FINANCE_LEVEL_BUILT',level,out.stat().st_size,flush=True)
 
-for level in [1,2]:build(level)
+if __name__ == '__main__':
+    for level in [1,2]:build(level)

@@ -1,0 +1,22 @@
+{
+  "1": {
+    "samples": 2070,
+    "minimum_clearance_m": 0.2502495050430298,
+    "collisions": []
+  },
+  "2": {
+    "samples": 2787,
+    "minimum_clearance_m": 0.254909485578537,
+    "collisions": []
+  },
+  "3": {
+    "samples": 4293,
+    "minimum_clearance_m": 0.2973552644252777,
+    "collisions": []
+  },
+  "4": {
+    "samples": 4158,
+    "minimum_clearance_m": 0.3270100951194763,
+    "collisions": []
+  }
+}

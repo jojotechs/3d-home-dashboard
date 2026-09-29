@@ -1,10 +1,14 @@
 """Render actual re-imported delivered GLBs from opposing views, day/night and at 200px."""
-import bpy, math
+import bpy, math, argparse, sys
 from pathlib import Path
 from mathutils import Vector
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/'docs/verification/t08';OUT.mkdir(parents=True,exist_ok=True)
-for level in [1,2]:
+parser=argparse.ArgumentParser()
+parser.add_argument('--levels',type=int,nargs='+',default=[1,2])
+parser.add_argument('--output',default='docs/verification/t08')
+args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else [])
+OUT=ROOT/args.output;OUT.mkdir(parents=True,exist_ok=True)
+for level in args.levels:
     bpy.ops.wm.read_factory_settings(use_empty=True)
     bpy.ops.import_scene.gltf(filepath=str(ROOT/f'public/models/finance/level-{level}.glb'))
     root=bpy.data.objects[f'finance_level_{level}']

@@ -32,5 +32,18 @@ test('saved Lv.1 and Lv.2 select their own models regardless of the historical p
   assert.equal(high.modelLevel,2);
   assert.equal(high.modelReady,true);
   assert.equal(financeProjection(financeGrowth('1000000',history),1).modelLevel,1);
-  assert.equal(financeProjection(financeGrowth('3000000',history)).modelReady,false);
+  assert.equal(financeProjection(financeGrowth('15000000',history)).modelReady,false);
+});
+
+test('saved neighbourhood thresholds and previews select independent Lv.3–4 assets, then downgrade from the current book', () => {
+  const history=[{snapshot:{net_savings_minor:'8000000'}}];
+  for(const [amount,level] of [['3000000',3],['8000000',4],['7999999',3],['2999999',2]]){
+    const projection=financeProjection(financeGrowth(amount,history));
+    assert.equal(projection.modelLevel,level);
+    assert.equal(projection.modelReady,true);
+    assert.equal(projection.isPreview,false);
+  }
+  const growth=financeGrowth('1000000',[]);
+  assert.deepEqual(financeProjection(growth,4),{actualLevel:2,displayLevel:4,isPreview:true,achieved:false,modelLevel:4,modelReady:true});
+  assert.equal(financeProjection(growth).modelLevel,2,'Leaving preview restores the saved book');
 });

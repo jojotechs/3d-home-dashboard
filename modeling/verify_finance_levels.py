@@ -28,10 +28,14 @@ for level, spec in manifest['levels'].items():
     names={m.name for o in meshes for m in o.data.materials}
     assert any('finance_window' in n for n in names)
     assert any('finance_lamp' in n for n in names)
-    assert root['lightAnchors'] and actors
+    assert root['lightAnchors']
+    # New levels exclusively reuse city pedestrians; legacy Lv.1–2 actors remain hidden references.
+    assert actors if int(level)<=2 else not actors
     triangles=sum(sum(len(p.vertices)-2 for p in o.data.polygons) for o in meshes)
     report[level]={'bounds_m':bounds,'triangles':triangles,'meshes':len(meshes),'moving_customers':len(actors),'lights':len(root['lightAnchors']),'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
 assert report['2']['bounds_m'][2][1] > report['1']['bounds_m'][2][1]+2
+if '4' in report:
+    assert report['4']['bounds_m'][2][1] > report['3']['bounds_m'][2][1]+3
 (ROOT/'exports').mkdir(exist_ok=True)
 (ROOT/'exports/finance-level-validation.json').write_text(json.dumps(report,indent=2))
 print('FINANCE_LEVEL_VALIDATION',json.dumps(report),flush=True)

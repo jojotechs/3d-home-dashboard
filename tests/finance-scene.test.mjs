@@ -56,6 +56,23 @@ test('late model downloads cannot revive an obsolete level or attach after the s
   assert.equal(parent.children.length,0);assert.deepEqual(final.disposed(),[1,1]);assert.deepEqual(errors,[]);
 });
 
+test('neighbourhood upgrades and downgrades replace the whole active street and its visits',async()=>{
+  const parent=new THREE.Group(),activities=new PedestrianActivities({random:()=>0}),loaded=[];
+  const district=mountFinanceDistrict(parent,{loadAsync:async url=>{
+    const level=Number(url.match(/level-(\d+)\.glb$/)[1]),next=asset(level);loaded.push(next);return next.gltf;
+  }},{activities,origin:[-76,56,0],onReady(){},onChange(){},onError:assert.fail});
+  for(const level of [2,3,4,3,1]){
+    await district.setLevel(level);district.update(1,1,false);
+    assert.equal(district.snapshot().level,level);assert.equal(parent.children.length,1);
+    assert.deepEqual(activities.snapshot().visitors,[]);
+    assert.ok(activities.tryEnter({id:level,routeIndex:0,pose:{x:-76,y:31.6,dx:1,dy:0},speed:1.2,phase:0}));
+    assert.ok(loaded.at(-1).material.emissiveIntensity>0);
+    for(const old of loaded.slice(0,-1))assert.deepEqual(old.disposed(),[1,1]);
+  }
+  district.dispose();assert.equal(parent.children.length,0);assert.deepEqual(activities.snapshot().districts,[]);
+  assert.deepEqual(loaded.at(-1).disposed(),[1,1]);
+});
+
 test('a failed model activation cannot publish activity places for an invisible building',async()=>{
   const broken=asset(1),activities=new PedestrianActivities(),errors=[];
   delete broken.root.userData.lightAnchors;
