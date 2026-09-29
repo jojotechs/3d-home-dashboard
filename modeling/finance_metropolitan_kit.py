@@ -12,6 +12,12 @@ for key,colour in [('metro_jade','#61d6ca'),('metro_coral','#f69887'),('metro_go
 FRONT_X=[-22.8,-15.3,-7.8,7.8,15.3,22.8]
 FRONT_LABELS=['BOOKS','ATELIER','CAFE','MAISON','FLORA','CITY TEA']
 FRONT_HEIGHTS={8:[18,29,22,25,19,31],9:[25,35,28,32,24,37],10:[32,42,35,39,31,44]}
+FRONT_STYLES=[0,1,2,1,2,0]
+
+
+def setback_profile(w,d):
+    """Width, depth and centre offset shared by the upper body and attached signs."""
+    return w-1.3,d-3,1.5
 
 
 def street_block(g,w,d,height,label,style):
@@ -29,7 +35,8 @@ def street_block(g,w,d,height,label,style):
         roof_services(g,0,0,height,2.4,1.7)
     elif style==1:
         curtain_block(g,w,d,5,height-9,'glass_finance_teal')
-        upper=Geometry();curtain_block(upper,w-1.3,d-3,height-9,height,'glass_finance_mint','cream');transfer(g,upper,0,1.5)
+        upper_w,upper_d,offset=setback_profile(w,d)
+        upper=Geometry();curtain_block(upper,upper_w,upper_d,height-9,height,'glass_finance_mint','cream');transfer(g,upper,0,offset)
         terrace(g,0,-d/2+1.2,height-8.85,w,2.1,True)
         for x in [-w/2+.35,w/2-.35]:
             g.box((x,-d/2-.3,(height-4)/2),(.16,.26,height-14),'finance_bronze')
@@ -58,7 +65,7 @@ def street_block(g,w,d,height,label,style):
 def metropolitan_frontage(g,level):
     depth=level+2
     for i,(x,label,height) in enumerate(zip(FRONT_X,FRONT_LABELS,FRONT_HEIGHTS[level])):
-        b=Geometry();street_block(b,7,depth,height,label,[0,1,2,1,2,0][i]);transfer(g,b,x,-10)
+        b=Geometry();street_block(b,7,depth,height,label,FRONT_STYLES[i]);transfer(g,b,x,-10)
     # Warm street-level activity, kept to the edges of the 6 m central promenade.
     cafe_tables(g,[(-3,-12),(3,-7)],parasols=False)
     for x in [-3.7,3.7]:
@@ -96,7 +103,10 @@ def metropolitan_accents(root,level):
         g.box((x,front-.28,4.75),(6.8,.09,.12),tint)
         if level>=9:
             for zband in [14.5,height-4]:
-                g.box((x,front-.3,zband),(6.8,.09,.12),tint)
+                width,y=7,front
+                if FRONT_STYLES[i]==1 and zband>height-9:
+                    width,upper_d,offset=setback_profile(7,depth);y=-10+offset-upper_d/2
+                g.box((x,y-.3,zband),(width-.2,.09,.12),tint)
             # Vertical blade sign remains visible down the street and from the reverse view.
             for side in [-1,1]:
                 for zsign in [height-7,height-5,height-3]:
