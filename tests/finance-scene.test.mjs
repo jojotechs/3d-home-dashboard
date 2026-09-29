@@ -98,3 +98,21 @@ test('landmark facade lighting follows night and is removed on downgrade',async(
   assert.equal(district.snapshot().atmosphere.beams,0);assert.deepEqual(high.disposed(),[1,1]);
   district.dispose();assert.equal(parent.children.length,0);
 });
+
+test('future advertising uses only the district visual clock and is disposed completely on downgrade',async()=>{
+  const parent=new THREE.Group(),high=asset(9),low=asset(8);
+  high.root.userData.financeEffects={beams:[{from:[0,0,1],to:[0,2,20],radius:2,color:'#acffec',sweep:[2,0,0],period:12}]};
+  const flyer=new THREE.Group();flyer.name='finance_flyer';flyer.userData={financeMotion:'fly',route:[[-12,-18,20],[12,-18,20],[12,-16,20],[-12,-16,20]],speed:2};high.root.add(flyer);
+  const hologram=new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial());hologram.userData={financeHologram:true};high.root.add(hologram);
+  const district=mountFinanceDistrict(parent,{loadAsync:async url=>url.endsWith('9.glb')?high.gltf:low.gltf},{onReady(){},onChange(){},onError:assert.fail});
+  await district.setLevel(9);district.update(2,1,false);
+  const start=flyer.position.clone(),beam=parent.getObjectByName('finance_beam_0').quaternion.clone();
+  assert.equal(district.snapshot().atmosphere.flights,1);assert.equal(district.snapshot().atmosphere.holograms,1);
+  district.update(7,1,false);assert.ok(flyer.position.distanceTo(start)>1);assert.ok(beam.angleTo(parent.getObjectByName('finance_beam_0').quaternion)>.001);
+  const held=flyer.position.clone(),rotation=hologram.rotation.y;district.update(60,0,true);
+  assert.deepEqual(flyer.position,held);assert.equal(hologram.rotation.y,rotation);assert.equal(district.snapshot().seconds,9);
+  assert.equal(district.snapshot().atmosphere.lit,false);assert.equal(high.material.emissiveIntensity,0);
+  const oldPosition=flyer.position.clone();await district.setLevel(8);district.update(100,1,false);
+  assert.equal(parent.getObjectByName('finance_flyer'),undefined);assert.deepEqual(flyer.position,oldPosition);
+  assert.equal(district.snapshot().atmosphere.flights,0);assert.deepEqual(high.disposed(),[1,1]);district.dispose();
+});

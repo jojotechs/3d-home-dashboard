@@ -18,7 +18,7 @@ test('all ten finance levels compare exact cents and permit immediate multi-leve
   assert.equal(financeGrowth('9007199254740993',history).nextLevel,null);
   assert.equal(levelFeedback(7,6),'当前财务等级从 Lv.7 调整为 Lv.6。历史成果单独保留。');
   const growth=financeGrowth('46000000',history);
-  assert.deepEqual(financeProjection(growth,9),{actualLevel:6,displayLevel:9,isPreview:true,achieved:false,modelLevel:1,modelReady:false});
+  assert.deepEqual(financeProjection(growth,9),{actualLevel:6,displayLevel:9,isPreview:true,achieved:false,modelLevel:9,modelReady:true});
   assert.equal(financeProjection(growth).displayLevel,6);
   assert.equal(financeProjection(null,9),null);
 });
@@ -32,7 +32,7 @@ test('saved Lv.1 and Lv.2 select their own models regardless of the historical p
   assert.equal(high.modelLevel,2);
   assert.equal(high.modelReady,true);
   assert.equal(financeProjection(financeGrowth('1000000',history),1).modelLevel,1);
-  assert.equal(financeProjection(financeGrowth('120000000',history)).modelReady,false);
+  assert.equal(financeProjection(financeGrowth('120000000',history)).modelReady,true);
 });
 
 test('saved neighbourhood thresholds and previews select independent Lv.3–4 assets, then downgrade from the current book', () => {
@@ -62,4 +62,10 @@ test('the mature core uses independent Lv.7–8 geometry while current savings c
   const history=[{snapshot:{net_savings_minor:'80000000'}}];
   for(const [amount,level] of [['50000000',7],['80000000',8],['79999999',7],['49999999',6]])
     assert.equal(financeProjection(financeGrowth(amount,history)).modelLevel,level);
+});
+
+test('future district enters at exactly 1.2 million and leaves one cent below',()=>{
+  const history=[{snapshot:{net_savings_minor:'120000000'}}];
+  assert.equal(financeProjection(financeGrowth('120000000',history)).modelLevel,9);
+  assert.equal(financeProjection(financeGrowth('119999999',history)).modelLevel,8);
 });

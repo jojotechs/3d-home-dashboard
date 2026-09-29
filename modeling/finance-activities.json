@@ -497,6 +497,46 @@
         {"id": "exhibition", "node": "display", "action": "browsing", "dwell": [8, 18], "facing": [0, 1]},
         {"id": "cascades", "node": "cascades", "action": "watching", "dwell": [8, 18], "facing": [-7, 1]}
       ]
+    },
+    "9": {
+      "nodes": {
+        "street": [0, -24.4, 0.72],
+        "gate": [0, -22, 0.52],
+        "south": [0, -17, 0.52],
+        "west": [-12, -17, 0.52],
+        "cafeLane": [-17, -15, 0.52],
+        "cafeDoor": [-17, -13.3, 0.52],
+        "east": [17, -17, 0.52],
+        "shopDoor": [17, -13.3, 0.52],
+        "center": [0, -3, 0.52],
+        "coffeeLane": [0, -10, 0.52],
+        "terrace": [2.6, -10, 0.52],
+        "bankFront": [-15, -3, 0.52],
+        "bankDoor": [-15, -1.8, 0.52],
+        "gallery": [0, 3.4, 0.52]
+      },
+      "edges": [
+        ["street", "gate"],
+        ["gate", "south"],
+        ["south", "west"],
+        ["west", "cafeLane"],
+        ["cafeLane", "cafeDoor"],
+        ["south", "east"],
+        ["east", "shopDoor"],
+        ["south", "coffeeLane"],
+        ["coffeeLane", "center"],
+        ["coffeeLane", "terrace"],
+        ["center", "bankFront"],
+        ["bankFront", "bankDoor"],
+        ["center", "gallery"]
+      ],
+      "places": [
+        {"id": "cafe-terrace", "node": "terrace", "action": "coffee", "dwell": [6, 11], "facing": [1, 0]},
+        {"id": "bloom-cafe", "node": "cafeDoor", "action": "coffee", "indoor": true, "purchase": true, "dwell": [8, 14], "facing": [0, 1]},
+        {"id": "maison", "node": "shopDoor", "action": "shopping", "indoor": true, "purchase": true, "dwell": [8, 14], "facing": [0, 1]},
+        {"id": "solstice", "node": "bankDoor", "action": "banking", "indoor": true, "dwell": [8, 14], "facing": [0, 1]},
+        {"id": "bloom-exhibit", "node": "gallery", "action": "browsing", "dwell": [6, 11], "facing": [0, 1]}
+      ]
     }
   }
 }

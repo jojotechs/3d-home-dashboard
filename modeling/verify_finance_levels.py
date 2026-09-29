@@ -18,7 +18,7 @@ for level, spec in manifest['levels'].items():
     assert bounds[0][0] >= -30.05 and bounds[0][1] <= 30.05, bounds
     assert bounds[1][0] >= -22.05 and bounds[1][1] <= 22.05, bounds
     assert 0 <= bounds[2][0] and bounds[2][1] <= spec['height'] <= 60, bounds
-    actors = [o for o in root.children_recursive if o.get('financeMotion')]
+    actors = [o for o in root.children_recursive if o.get('financeMotion')=='walk']
     for actor in actors:
         verts=[o.matrix_world@v.co for o in actor.children_recursive if o.type=='MESH' for v in o.data.vertices]
         height=max(p.z for p in verts)-min(p.z for p in verts)
