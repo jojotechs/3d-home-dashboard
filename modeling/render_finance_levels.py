@@ -45,7 +45,7 @@ for level in args.levels:
                 for mat in child.data.materials:
                     bs=mat.node_tree.nodes.get('Principled BSDF')
                     bs.inputs['Emission Color'].default_value=bs.inputs['Base Color'].default_value
-                    bs.inputs['Emission Strength'].default_value=1.9 if night else .25
+                    bs.inputs['Emission Strength'].default_value=1.9 if night else 0
                     bs.inputs['Alpha'].default_value=.62 if night else .36
         for view,pos in [('south',(48,-73,65)),('north',(-48,73,65))]:
             points=[o.matrix_world@Vector(c) for o in root.children_recursive if o.type=='MESH' for c in o.bound_box]

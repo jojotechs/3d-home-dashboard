@@ -52,7 +52,7 @@ export function createFinanceAtmosphere(root) {
       const base=node.rotation.y,phase=node.userData.phase??0;
       holograms.push((seconds,night)=>{
         node.rotation.y=base+Math.sin(seconds*.3+phase)*.22;
-        materials.forEach(m=>{m.opacity=.36+night*.26;m.emissive.copy(m.color);m.emissiveIntensity=.25+night*1.65;});
+        materials.forEach(m=>{m.opacity=.36+night*.26;m.emissive.copy(m.color);m.emissiveIntensity=night*1.9;});
       });
     }
   });

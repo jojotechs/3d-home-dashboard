@@ -112,7 +112,7 @@ test('future advertising uses only the district visual clock and is disposed com
   district.update(7,1,false);assert.ok(flyer.position.distanceTo(start)>1);assert.ok(beam.angleTo(parent.getObjectByName('finance_beam_0').quaternion)>.001);
   const held=flyer.position.clone(),rotation=hologram.rotation.y;district.update(60,0,true);
   assert.deepEqual(flyer.position,held);assert.equal(hologram.rotation.y,rotation);assert.equal(district.snapshot().seconds,9);
-  assert.equal(district.snapshot().atmosphere.lit,false);assert.equal(high.material.emissiveIntensity,0);
+  assert.equal(district.snapshot().atmosphere.lit,false);assert.equal(high.material.emissiveIntensity,0);assert.equal(hologram.material.emissiveIntensity,0);
   const oldPosition=flyer.position.clone();await district.setLevel(8);district.update(100,1,false);
   assert.equal(parent.getObjectByName('finance_flyer'),undefined);assert.deepEqual(flyer.position,oldPosition);
   assert.equal(district.snapshot().atmosphere.flights,0);assert.deepEqual(high.disposed(),[1,1]);district.dispose();

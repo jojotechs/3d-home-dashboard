@@ -29,6 +29,7 @@ def build_nine():
     g.emit(root,'future_city');bake_batches(root)
     hologram(root,'bloom_projection',(0,7,5),2.1)
     flyer(root,'bloom_air_ad',oval_route(0,-18,19,23,1.5))
+    flyer(root,'bloom_sky_ad',oval_route(0,-12.5,31,24,2),offset=42)
     export_level(root,9)
 
 if __name__=='__main__':build_nine()
