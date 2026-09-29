@@ -44,9 +44,9 @@ export function createFinanceAtmosphere(root) {
       const materials=new Set();
       node.traverse(o=>{if(o.isMesh){
         o.castShadow=false;
-        o.material=(Array.isArray(o.material)?o.material:[o.material]).map(m=>{
+        (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{
           // Effect meshes are exported with their own materials; never touch warm window materials.
-          materials.add(m);m.transparent=true;m.depthWrite=false;m.side=THREE.DoubleSide;return m;
+          materials.add(m);m.transparent=true;m.depthWrite=false;m.side=THREE.DoubleSide;
         });
       }});
       const base=node.rotation.y,phase=node.userData.phase??0;

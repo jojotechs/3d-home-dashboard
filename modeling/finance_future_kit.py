@@ -27,7 +27,7 @@ def flyer(root,name,route,offset=0):
     for side in [-1,1]:
         f=Geometry();text_mesh(f,'BLOOM',(0,-.105,-1.02),.31,'finance_sign');transfer(g,f,rot=0 if side<0 else math.pi)
     for x in [-1.15,1.15]:g.box((x,0,-.85),(.035,.2,.85),'finance_lamp')
-    g.emit(node,name)
+    g.emit(node,name);bake_batches(node)
 
 
 def oval_route(x,y,z,rx,ry):

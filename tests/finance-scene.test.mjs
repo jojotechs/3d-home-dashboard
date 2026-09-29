@@ -107,6 +107,7 @@ test('future advertising uses only the district visual clock and is disposed com
   const district=mountFinanceDistrict(parent,{loadAsync:async url=>url.endsWith('9.glb')?high.gltf:low.gltf},{onReady(){},onChange(){},onError:assert.fail});
   await district.setLevel(9);district.update(2,1,false);
   const start=flyer.position.clone(),beam=parent.getObjectByName('finance_beam_0').quaternion.clone();
+  assert.equal(Array.isArray(hologram.material),false,'Single-primitive holograms must remain renderable without geometry groups');
   assert.equal(district.snapshot().atmosphere.flights,1);assert.equal(district.snapshot().atmosphere.holograms,1);
   district.update(7,1,false);assert.ok(flyer.position.distanceTo(start)>1);assert.ok(beam.angleTo(parent.getObjectByName('finance_beam_0').quaternion)>.001);
   const held=flyer.position.clone(),rotation=hologram.rotation.y;district.update(60,0,true);
