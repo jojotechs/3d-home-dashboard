@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "car_xyz_m": [
+    1.938,
+    4.381,
+    1.6214
+  ],
+  "pedestrian_xyz_m": [
+    0.7655,
+    0.389,
+    1.7
+  ],
+  "road_width_m": 6,
+  "actor_mesh_count": 7,
+  "checks": [
+    "compressed car matches existing family-car scale",
+    "pedestrian height is 1.7 m",
+    "separate articulated limb meshes survive export"
+  ]
+}

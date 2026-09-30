@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "checks": [
+    "car_a changes only its own group",
+    "one habit completion changes one slot",
+    "one chore completion changes one rubbish group",
+    "health and home levels strictly additive",
+    "finance uses exclusive complete development stages",
+    "six finance types and tier heights verified after GLB re-import",
+    "all districts and anchors survive GLB re-import",
+    "required dynamic nodes survive GLB re-import",
+    "mesh vertices present and transforms finite with positive scale"
+  ],
+  "imported_objects": 304,
+  "render_evidence_count": 16,
+  "browser_qa": "Whole-city browser QA is recorded in exports/browser-city-qa.json; finance v0.4 QA in exports/browser-finance-v4-qa.json; this script validates model structure"
+}

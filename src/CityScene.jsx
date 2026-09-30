@@ -94,6 +94,7 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
   function onUp(e){selectPointer(e);down=null;}
   renderer.domElement.addEventListener('pointerdown',onDown);renderer.domElement.addEventListener('pointermove',onMove);renderer.domElement.addEventListener('pointerup',onUp);
   controls.addEventListener('start',()=>{tween=null;});
+  let frame=0,metricFrames=0,metricStart=performance.now(),lastFrame=0;
   const draco=new DRACOLoader().setDecoderPath('/draco/');
   const assetReady=()=>{loaded++;if(loaded===4)latest.current.onReady();};
   new GLTFLoader().setDRACOLoader(draco).load('/models/city-lighting-v1.glb',gltf=>{if(disposed)return;try{lighting.attachRig(gltf);assetReady();}catch(error){latest.current.onError(error.message);}},undefined,error=>latest.current.onError(error.message||'灯光模型加载失败'));
@@ -106,7 +107,7 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
    financeDistrict=mountFinanceDistrict(financeRoot,new GLTFLoader().setDRACOLoader(draco),{
     activities,origin:[...districts.find(d=>d.id==='finance').center,0],
     onReady:assetReady,onError:message=>latest.current.onError(message),
-    onChange:()=>{renderer.shadowMap.needsUpdate=true;el.dataset.financeScene=JSON.stringify(financeDistrict.snapshot());},
+    onChange:()=>{renderer.shadowMap.needsUpdate=true;mobility?.refresh();metricFrames=0;metricStart=performance.now();delete el.dataset.sceneMetrics;el.dataset.financeScene=JSON.stringify(financeDistrict.snapshot());},
    });
    context.current.financeDistrict=financeDistrict;
    financeDistrict.setLevel(latest.current.financeProjection?.modelLevel??1);
@@ -129,9 +130,9 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
    focus(latest.current.selected,latest.current.mode);
    assetReady();
   },undefined,error=>latest.current.onError(error.message||'模型加载失败'));
-  let frame=0,metricStart=performance.now(),lastFrame=0;
   function render(t){
    if(disposed)return;raf=requestAnimationFrame(render);
+   if(document.hidden){lastFrame=0;metricFrames=0;metricStart=performance.now();return;}
    if(tween){const ratio=Math.min((t-tween.start)/(matchMedia('(prefers-reduced-motion: reduce)').matches?1:450),1);const q=ratio*ratio*(3-2*ratio);controls.target.lerpVectors(tween.fromTarget,tween.toTarget,q);camera.position.lerpVectors(tween.fromPosition,tween.toPosition,q);camera.zoom=THREE.MathUtils.lerp(tween.fromZoom,tween.toZoom,q);camera.updateProjectionMatrix();if(ratio===1)tween=null;}
    controls.target.x=THREE.MathUtils.clamp(controls.target.x,-160,325);controls.target.z=THREE.MathUtils.clamp(controls.target.z,-155,180);controls.update();
    const dt=lastFrame?Math.min(.05,(t-lastFrame)/1000):0;lastFrame=t;
@@ -142,7 +143,17 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
    if(frame%30===0){el.dataset.daylight=JSON.stringify(lighting.snapshot());if(financeDistrict)el.dataset.financeScene=JSON.stringify(financeDistrict.snapshot());}
    if(mobility&&!actorsPaused)mobility.update(dt);
    renderer.info.reset();composer.render();
-   if(frame>0&&frame%120===0){el.dataset.cameraZoom=camera.zoom.toFixed(3);el.dataset.viewportWidth=String(rect().width);if(mobility)el.dataset.mobility=JSON.stringify({...mobility.snapshot(),paused:latest.current.motionPaused});el.dataset.visibleGroups=JSON.stringify(dynamic.filter(o=>o.visible).map(o=>o.name));el.dataset.renderGeometries=String(renderer.info.memory.geometries);el.dataset.renderTextures=String(renderer.info.memory.textures);el.dataset.renderCalls=String(renderer.info.render.calls);el.dataset.renderTriangles=String(renderer.info.render.triangles);el.dataset.averageFps=(120000/(performance.now()-metricStart)).toFixed(1);metricStart=performance.now();}
+   if(++metricFrames>=60){
+    const finance=financeDistrict?.snapshot();
+    el.dataset.sceneMetrics=JSON.stringify({level:finance?.level??null,loading:finance?.loading??true,
+      fps:+(metricFrames*1000/(performance.now()-metricStart)).toFixed(1),
+      geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures,programs:renderer.info.programs.length,
+      calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,
+      width:el.clientWidth,height:el.clientHeight,pixelRatio:renderer.getPixelRatio(),
+      heapBytes:performance.memory?.usedJSHeapSize??null,lastLoad:finance?.lastLoad??null});
+    metricFrames=0;metricStart=performance.now();
+   }
+   if(frame>0&&frame%120===0){el.dataset.cameraZoom=camera.zoom.toFixed(3);el.dataset.viewportWidth=String(rect().width);if(mobility)el.dataset.mobility=JSON.stringify({...mobility.snapshot(),paused:latest.current.motionPaused});el.dataset.visibleGroups=JSON.stringify(dynamic.filter(o=>o.visible).map(o=>o.name));el.dataset.renderGeometries=String(renderer.info.memory.geometries);el.dataset.renderTextures=String(renderer.info.memory.textures);el.dataset.renderCalls=String(renderer.info.render.calls);el.dataset.renderTriangles=String(renderer.info.render.triangles);el.dataset.averageFps=el.dataset.sceneMetrics?String(JSON.parse(el.dataset.sceneMetrics).fps):'';}
    if(frame++%3===0&&model){const {width,height}=rect();const used=[];const pending=derived(latest.current.state).pending;
     const ordered=[...districts].sort((a,b)=>Number(b.id===latest.current.selected)-Number(a.id===latest.current.selected));
     for(const d of ordered){const item=labelEls.get(d.id);if(!item)continue;const anchor=model.getObjectByName('anchor_label_'+d.id);if(anchor)anchor.getWorldPosition(temp);else temp.set(d.center[0],d.height+2,-d.center[1]);temp.project(camera);

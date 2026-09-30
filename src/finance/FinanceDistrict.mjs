@@ -62,26 +62,43 @@ function activate(gltf,level,activities,origin) {
   return {root,update,dispose(){unregister?.();disposeTree(root);},snapshot:()=>({level,seconds:+seconds.toFixed(3),paused,night:+night.toFixed(3),lights:lights.length,atmosphere:atmosphere.snapshot(),activities:activities?.snapshot()??null})};
 }
 
-/** Load only the requested level. Late responses never reattach an obsolete level. */
+/** Keep one decoded level and at most one pending load. Rapid choices coalesce to the latest. */
 export function mountFinanceDistrict(parent,loader,{onReady,onError,onChange,activities,origin}) {
-  let active=null,requested=null,generation=0,disposed=false,ready=false;
-  async function setLevel(level) {
-    if(disposed||level===requested)return;
-    requested=level;const revision=++generation;
-    active?.dispose();active=null;onChange();
-    let gltf;
-    try {
-      const asset=assets.levels[level];if(!asset)throw Error('财务街景等级尚未提供。');
-      gltf=await loader.loadAsync(asset.url);
-      if(disposed||revision!==generation){disposeTree(gltf.scene);return;}
-      active=activate(gltf,level,activities,origin);parent.add(active.root);onChange();
-      if(!ready){ready=true;onReady();}
-    }catch(error){
-      if(gltf&&!active)disposeTree(gltf.scene);
-      if(!disposed&&revision===generation)onError(error.message||'财务街景加载失败，请重新载入。');
+  let active=null,requested=null,generation=0,disposed=false,ready=false,draining=false;
+  let completion=Promise.resolve(),pendingLevel=null,lastLoad=null,loadsStarted=0,modelsDisposed=0;
+  function releaseActive(){if(active){active.dispose();active=null;modelsDisposed++;}}
+  async function loadLatest() {
+    while(!disposed) {
+      const level=requested,revision=generation,start=performance.now();
+      pendingLevel=level;loadsStarted++;
+      let gltf;
+      try {
+        const asset=assets.levels[level];if(!asset)throw Error('财务街景等级尚未提供。');
+        gltf=await loader.loadAsync(asset.url);
+        const loadedAt=performance.now();
+        if(disposed||revision!==generation){disposeTree(gltf.scene);modelsDisposed++;}
+        else {
+          active=activate(gltf,level,activities,origin);parent.add(active.root);
+          lastLoad={level,loadDecodeMs:+(loadedAt-start).toFixed(2),activationMs:+(performance.now()-loadedAt).toFixed(2)};
+          onChange();
+          if(!ready){ready=true;onReady();}
+        }
+      }catch(error){
+        if(gltf&&!active){disposeTree(gltf.scene);modelsDisposed++;}
+        if(!disposed&&revision===generation)onError(error.message||'财务街景加载失败，请重新载入。');
+      }finally {pendingLevel=null;}
+      if(!disposed)onChange();
+      if(revision===generation)break;
     }
   }
+  function setLevel(level) {
+    if(disposed||(level===requested&&(active||draining)))return completion;
+    requested=level;generation++;
+    releaseActive();onChange();
+    if(!draining){draining=true;completion=loadLatest().finally(()=>{draining=false;});}
+    return completion;
+  }
   return {setLevel,update:(dt,night,paused)=>active?.update(dt,night,paused),
-    snapshot:()=>({requested,loading:!active,...active?.snapshot()}),
-    dispose(){disposed=true;generation++;active?.dispose();active=null;}};
+    snapshot:()=>({requested,loading:!active,pendingLoads:pendingLevel===null?0:1,pendingLevel,loadsStarted,modelsDisposed,lastLoad,...active?.snapshot()}),
+    dispose(){disposed=true;generation++;releaseActive();}};
 }

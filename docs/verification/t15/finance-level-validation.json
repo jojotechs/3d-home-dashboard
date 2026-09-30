@@ -1,0 +1,222 @@
+{
+  "1": {
+    "bounds_m": [
+      [
+        -30.0,
+        30.0
+      ],
+      [
+        -22.0,
+        22.0
+      ],
+      [
+        0.0,
+        8.301213264465332
+      ]
+    ],
+    "triangles": 164882,
+    "meshes": 3,
+    "moving_customers": 2,
+    "lights": 3,
+    "bytes": 1058924,
+    "sha256": "48feab33ce999e05bd520e08f6ccc371a6796149c31a9c2a450486c8861a7cb3"
+  },
+  "2": {
+    "bounds_m": [
+      [
+        -30.0,
+        30.0
+      ],
+      [
+        -22.0,
+        22.0
+      ],
+      [
+        0.0,
+        12.70954418182373
+      ]
+    ],
+    "triangles": 185028,
+    "meshes": 4,
+    "moving_customers": 3,
+    "lights": 3,
+    "bytes": 1099692,
+    "sha256": "37c7a458f7c9350ee3f84a31335c9b30883926b74aeca1dd6919d559676c39ba"
+  },
+  "3": {
+    "bounds_m": [
+      [
+        -30.0,
+        30.0
+      ],
+      [
+        -22.0,
+        22.0
+      ],
+      [
+        0.0,
+        13.868619918823242
+      ]
+    ],
+    "triangles": 209054,
+    "meshes": 1,
+    "moving_customers": 0,
+    "lights": 4,
+    "bytes": 1250460,
+    "sha256": "2d42bf7b72ce2fcd9f74f6bb9197cb844c620df6632fe9de7cdb3236efa7e932"
+  },
+  "4": {
+    "bounds_m": [
+      [
+        -30.0,
+        30.0
+      ],
+      [
+        -22.0,
+        22.0
+      ],
+      [
+        0.0,
+        19.6502628326416
+      ]
+    ],
+    "triangles": 213756,
+    "meshes": 1,
+    "moving_customers": 0,
+    "lights": 4,
+    "bytes": 1351556,
+    "sha256": "7fb20424f40a02bdc80d4a02dc00658efa6fe54a2f5b4e31b9d80e4dd89263fb"
+  },
+  "5": {
+    "bounds_m": [
+      [
+        -30.0,
+        30.0
+      ],
+      [
+        -22.0,
+        22.0
+      ],
+      [
+        0.0,
+        23.600072860717773
+      ]
+    ],
+    "triangles": 179806,
+    "meshes": 1,
+    "moving_customers": 0,
+    "lights": 4,
+    "bytes": 1101124,
+    "sha256": "43c24e9170da045dfeaccfe131c983f6c7b26fb8e278bb7ad9b14af7f1a03e0a"
+  },
+  "6": {
+    "bounds_m": [
+      [
+        -30.0,
+        30.0
+      ],
+      [
+        -22.0,
+        22.0
+      ],
+      [
+        0.0,
+        31.10015296936035
+      ]
+    ],
+    "triangles": 188980,
+    "meshes": 1,
+    "moving_customers": 0,
+    "lights": 4,
+    "bytes": 1094756,
+    "sha256": "2917ef70520327c03ac544302c1a0abff9d8791716877dbf4165b8ad0ed9272f"
+  },
+  "7": {
+    "bounds_m": [
+      [
+        -30.0,
+        30.0
+      ],
+      [
+        -22.0,
+        22.0
+      ],
+      [
+        0.0,
+        57.703922271728516
+      ]
+    ],
+    "triangles": 120024,
+    "meshes": 8,
+    "moving_customers": 0,
+    "lights": 4,
+    "bytes": 753808,
+    "sha256": "ab7c250b18bb1ca55496f7d5933f82618062dd3c4fd1453d2453d8cba9000f05"
+  },
+  "8": {
+    "bounds_m": [
+      [
+        -30.0,
+        30.0
+      ],
+      [
+        -22.0,
+        22.0
+      ],
+      [
+        0.0,
+        52.96498107910156
+      ]
+    ],
+    "triangles": 304136,
+    "meshes": 2,
+    "moving_customers": 0,
+    "lights": 5,
+    "bytes": 1686172,
+    "sha256": "c0b083ada7e4d42eeec801e35c6fc06df6530d5a82a757d3656839d9f09ca2f6"
+  },
+  "9": {
+    "bounds_m": [
+      [
+        -30.0,
+        30.0
+      ],
+      [
+        -22.0,
+        22.0
+      ],
+      [
+        0.0,
+        57.163814544677734
+      ]
+    ],
+    "triangles": 303756,
+    "meshes": 11,
+    "moving_customers": 0,
+    "lights": 5,
+    "bytes": 1746900,
+    "sha256": "2143553a9d6515b1f788257d959f1191c3894c9091cad85f69da4bfafc9f6d54"
+  },
+  "10": {
+    "bounds_m": [
+      [
+        -30.0,
+        30.0
+      ],
+      [
+        -22.0,
+        22.0
+      ],
+      [
+        0.0,
+        58.047149658203125
+      ]
+    ],
+    "triangles": 317670,
+    "meshes": 14,
+    "moving_customers": 0,
+    "lights": 5,
+    "bytes": 1868528,
+    "sha256": "d444fb7e127aeed32289bd855515cb6cbca5a65952b95708621a3e84eda98a34"
+  }
+}

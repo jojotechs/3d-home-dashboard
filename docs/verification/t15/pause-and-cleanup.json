@@ -1,0 +1,154 @@
+{
+  "lightsOff": {
+    "requested": 10,
+    "loading": false,
+    "pendingLoads": 0,
+    "pendingLevel": null,
+    "loadsStarted": 31,
+    "modelsDisposed": 30,
+    "lastLoad": {
+      "level": 10,
+      "loadDecodeMs": 125.5,
+      "activationMs": 0.4
+    },
+    "level": 10,
+    "seconds": 20.668,
+    "paused": true,
+    "night": 0,
+    "lights": 5,
+    "atmosphere": {
+      "beams": 4,
+      "flights": 3,
+      "holograms": 4,
+      "carriers": [
+        {
+          "name": "orchid_air_ad",
+          "position": [
+            -4.93,
+            22,
+            19.255
+          ]
+        },
+        {
+          "name": "orchid_crown_ad",
+          "position": [
+            21.09,
+            56,
+            19.381
+          ]
+        },
+        {
+          "name": "orchid_sky_ad",
+          "position": [
+            -1.081,
+            49,
+            19.749
+          ]
+        }
+      ],
+      "lightShow": 2,
+      "accents": 4,
+      "lit": false
+    },
+    "activities": {
+      "districts": [
+        "finance"
+      ],
+      "completed": 0,
+      "visitors": []
+    }
+  },
+  "lightsOn": {
+    "requested": 10,
+    "loading": false,
+    "pendingLoads": 0,
+    "pendingLevel": null,
+    "loadsStarted": 31,
+    "modelsDisposed": 30,
+    "lastLoad": {
+      "level": 10,
+      "loadDecodeMs": 125.5,
+      "activationMs": 0.4
+    },
+    "level": 10,
+    "seconds": 20.668,
+    "paused": true,
+    "night": 1,
+    "lights": 5,
+    "atmosphere": {
+      "beams": 4,
+      "flights": 3,
+      "holograms": 4,
+      "carriers": [
+        {
+          "name": "orchid_air_ad",
+          "position": [
+            -4.93,
+            22,
+            19.255
+          ]
+        },
+        {
+          "name": "orchid_crown_ad",
+          "position": [
+            21.09,
+            56,
+            19.381
+          ]
+        },
+        {
+          "name": "orchid_sky_ad",
+          "position": [
+            -1.081,
+            49,
+            19.749
+          ]
+        }
+      ],
+      "lightShow": 2,
+      "accents": 4,
+      "lit": true
+    },
+    "activities": {
+      "districts": [
+        "finance"
+      ],
+      "completed": 0,
+      "visitors": []
+    }
+  },
+  "low": {
+    "requested": 1,
+    "loading": false,
+    "pendingLoads": 0,
+    "pendingLevel": null,
+    "loadsStarted": 32,
+    "modelsDisposed": 31,
+    "lastLoad": {
+      "level": 1,
+      "loadDecodeMs": 163.8,
+      "activationMs": 0.5
+    },
+    "level": 1,
+    "seconds": 0,
+    "paused": true,
+    "night": 0,
+    "lights": 3,
+    "atmosphere": {
+      "beams": 0,
+      "flights": 0,
+      "holograms": 0,
+      "carriers": [],
+      "lightShow": 0,
+      "accents": 0,
+      "lit": false
+    },
+    "activities": {
+      "districts": [
+        "finance"
+      ],
+      "completed": 0,
+      "visitors": []
+    }
+  }
+}

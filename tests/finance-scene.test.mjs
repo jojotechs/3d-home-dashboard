@@ -47,13 +47,29 @@ test('late model downloads cannot revive an obsolete level or attach after the s
   const district=mountFinanceDistrict(parent,loader,{onReady(){},onChange(){},onError:e=>errors.push(e)});
   const first=asset(1),second=asset(2);
   const old=district.setLevel(2),current=district.setLevel(1);
-  pending.get('/models/finance/level-1.glb')(first.gltf);await current;
-  pending.get('/models/finance/level-2.glb')(second.gltf);await old;
+  pending.get('/models/finance/level-2.glb')(second.gltf);
+  await new Promise(resolve=>setImmediate(resolve));
+  pending.get('/models/finance/level-1.glb')(first.gltf);await Promise.all([current,old]);
   assert.equal(district.snapshot().level,1);assert.equal(parent.children.length,1);
   assert.deepEqual(second.disposed(),[1,1]);
   const final=asset(2),closing=district.setLevel(2);district.dispose();
   pending.get('/models/finance/level-2.glb')(final.gltf);await closing;
   assert.equal(parent.children.length,0);assert.deepEqual(final.disposed(),[1,1]);assert.deepEqual(errors,[]);
+});
+
+test('rapid guide selections bound pending decoding and skip superseded requests',async()=>{
+  const parent=new THREE.Group(),pending=[],loaded=[];
+  const district=mountFinanceDistrict(parent,{loadAsync:url=>new Promise(resolve=>{loaded.push(url);pending.push(resolve);})},{onReady(){},onChange(){},onError:assert.fail});
+  const first=district.setLevel(1);
+  district.setLevel(9);const latest=district.setLevel(10);
+  assert.equal(loaded.length,1,'Only one asset may be loading/decoding at a time');
+  const obsolete=asset(1);pending.shift()(obsolete.gltf);
+  await new Promise(resolve=>setImmediate(resolve));
+  assert.deepEqual(loaded,['/models/finance/level-1.glb','/models/finance/level-10.glb']);
+  assert.deepEqual(obsolete.disposed(),[1,1]);
+  const final=asset(10);pending.shift()(final.gltf);await Promise.all([first,latest]);
+  assert.equal(district.snapshot().level,10);assert.equal(parent.children.length,1);
+  district.dispose();assert.deepEqual(final.disposed(),[1,1]);
 });
 
 test('neighbourhood upgrades and downgrades replace the whole active street and its visits',async()=>{

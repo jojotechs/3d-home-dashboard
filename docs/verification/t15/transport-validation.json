@@ -1,0 +1,130 @@
+{
+  "status": "passed",
+  "actors": {
+    "transport_aircraft": {
+      "node": "transport_aircraft",
+      "meshes": 1,
+      "bounds_local_blender_m": [
+        [
+          -13.5161,
+          12.2059
+        ],
+        [
+          -12.9,
+          12.9012
+        ],
+        [
+          0.56,
+          8.0299
+        ]
+      ],
+      "dimensions_m": [
+        25.722,
+        25.8012,
+        7.469899999999999
+      ]
+    },
+    "transport_aircraft_2": {
+      "node": "transport_aircraft_2",
+      "meshes": 1,
+      "bounds_local_blender_m": [
+        [
+          -13.5161,
+          12.2059
+        ],
+        [
+          -12.9,
+          12.9012
+        ],
+        [
+          0.56,
+          8.0299
+        ]
+      ],
+      "dimensions_m": [
+        25.722,
+        25.8012,
+        7.469899999999999
+      ]
+    },
+    "transport_aircraft_3": {
+      "node": "transport_aircraft_3",
+      "meshes": 1,
+      "bounds_local_blender_m": [
+        [
+          -13.5161,
+          12.2059
+        ],
+        [
+          -12.9,
+          12.9011
+        ],
+        [
+          0.56,
+          8.0299
+        ]
+      ],
+      "dimensions_m": [
+        25.722,
+        25.801099999999998,
+        7.469899999999999
+      ]
+    },
+    "transport_train": {
+      "node": "transport_train",
+      "meshes": 1,
+      "bounds_local_blender_m": [
+        [
+          -26.3,
+          26.3
+        ],
+        [
+          -1.4499,
+          1.45
+        ],
+        [
+          1.23,
+          4.5498
+        ]
+      ],
+      "dimensions_m": [
+        52.6,
+        2.8998999999999997,
+        3.3198000000000003
+      ]
+    },
+    "transport_train_2": {
+      "node": "transport_train_2",
+      "meshes": 1,
+      "bounds_local_blender_m": [
+        [
+          -26.3,
+          26.3
+        ],
+        [
+          -1.4499,
+          1.45
+        ],
+        [
+          1.23,
+          4.5498
+        ]
+      ],
+      "dimensions_m": [
+        52.6,
+        2.8998999999999997,
+        3.3198000000000003
+      ]
+    }
+  },
+  "preserved": {
+    "exports/district_cars.glb": true,
+    "exports/district_chores.glb": true,
+    "exports/district_finance.glb": true,
+    "exports/district_habits.glb": true,
+    "exports/district_health.glb": true,
+    "exports/district_home.glb": true,
+    "exports/district_learning.glb": true,
+    "public/models/mobility.glb": true
+  }
+}

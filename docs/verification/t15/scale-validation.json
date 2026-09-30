@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "units": "metres",
+  "car_measured_vertices": {
+    "min": [
+      -0.969,
+      -2.2359999999999998,
+      0.8212000451087951
+    ],
+    "max": [
+      0.969,
+      2.145,
+      2.4426
+    ],
+    "size": [
+      1.938,
+      4.381,
+      1.621399954891205
+    ]
+  },
+  "adult_measured_vertices": {
+    "min": [
+      -0.4065128881931304,
+      -0.336,
+      0.4
+    ],
+    "max": [
+      0.4065128881931304,
+      0.20442671978473664,
+      2.101
+    ],
+    "size": [
+      0.8130257763862608,
+      0.5404267197847367,
+      1.701
+    ]
+  },
+  "two_way_road_width": 6,
+  "single_lane_width": 3,
+  "checks": [
+    "car fits in a 3 m lane",
+    "adult is within 1.65\u20131.85 m",
+    "vehicle dimensions are measured directly from the geometry builder"
+  ]
+}
