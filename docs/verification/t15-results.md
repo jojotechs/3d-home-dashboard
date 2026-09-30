@@ -27,4 +27,12 @@ MacBook Pro / Apple M3 Pro / 18 GB，Blender 4.5.7 LTS，Codex in-app browser。
 
 系统「减少动态」没有改变用户 OS 设置；自动减动态分支与手动暂停汇合到同一 actorsPaused 边界，该边界的时钟冻结由场景测试和浏览器手动暂停验证。不能把这描述为切换过真实系统偏好的 E2E。
 
-后续补记本票云端组合流程、审查与生产结果。
+## 云端组合与生产验收
+
+在 T14 创建的隔离家庭中，管理员从真实 UI 保存 2,000,000 元，版本 5/current Lv.10；进入图鉴依次预览 Lv.1/5/9/10，再保存 10,000 元，版本 6/current Lv.2。公开 get_finance_book 回读确认金额、五条历史和实际版本；预览没有创建额外更新。39 次加载/38 次释放、待加载为 0，降级后全息/飞行广告/光秀全部为 0，再回全城。见 `cloud-preview-cycle.json`、`cloud-after-cycle.json`、`cloud-return-overview.png`。
+
+生产部署 ac6de09（GitHub deployment 6750073468，success）在正式域名通过受邀成员会话验收：读取同一 Lv.2 云账，图鉴预览 Lv.10、夜景、暂停、返回 Lv.2 后效果清零，再恢复运动与北京时间并回全城。见 `production-lv10-night.png`、`production-cleanup.json`。原真实家庭未写入。
+
+## 审查
+
+规格轴无问题。标准轴发现后台 RAF 可能暂停，不能依赖隐藏帧来重置采样；ac6de09 改为 visibilitychange 独立重置视觉 dt 和采样窗口，卸载时清理监听。复核无剩余问题，typecheck 与场景 9/9 再次通过。没有操作用户的系统减动态偏好，相关限制如上。

@@ -1,0 +1,41 @@
+{
+  "household": "01bb469a-e87f-48bf-816b-35194e5cd74e",
+  "role": "isolated household administrator",
+  "email": "city-final-admin-349ff9a7@example.com",
+  "currentMinor": "1000000",
+  "version": "6",
+  "entries": [
+    {
+      "name": "图鉴验收储蓄",
+      "amount_minor": "1000000"
+    }
+  ],
+  "history": [
+    {
+      "saved_at": "2026-09-30T02:01:55.22951+00:00",
+      "actor_name": "图鉴验收管理员",
+      "net_savings_minor": "900000"
+    },
+    {
+      "saved_at": "2026-09-30T02:02:17.651336+00:00",
+      "actor_name": "图鉴验收管理员",
+      "net_savings_minor": "1000000"
+    },
+    {
+      "saved_at": "2026-09-30T02:10:07.456+00:00",
+      "actor_name": "图鉴验收成员",
+      "net_savings_minor": "3000000"
+    },
+    {
+      "saved_at": "2026-09-30T02:24:31.176424+00:00",
+      "actor_name": "图鉴验收管理员",
+      "net_savings_minor": "200000000"
+    },
+    {
+      "saved_at": "2026-09-30T02:29:41.997377+00:00",
+      "actor_name": "图鉴验收管理员",
+      "net_savings_minor": "1000000"
+    }
+  ],
+  "checkedAt": "2026-09-30T02:29:48.746Z"
+}

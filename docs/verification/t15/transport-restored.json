@@ -1,0 +1,100 @@
+{
+  "status": {
+    "air": {
+      "phase": "waiting",
+      "label": "候班中",
+      "active": false,
+      "preview": false,
+      "queued": 0,
+      "parked": 3,
+      "total": 3,
+      "detail": "",
+      "variant": null,
+      "eventKey": null,
+      "tripIds": [],
+      "members": "",
+      "destination": ""
+    },
+    "rail": {
+      "phase": "waiting",
+      "label": "候班中",
+      "active": false,
+      "preview": false,
+      "queued": 0,
+      "parked": 2,
+      "total": 2,
+      "detail": "",
+      "variant": null,
+      "eventKey": null,
+      "tripIds": [],
+      "members": "",
+      "destination": ""
+    }
+  },
+  "actors": {
+    "air": [
+      {
+        "slot": 0,
+        "position": [
+          -36,
+          0,
+          14
+        ],
+        "visible": true,
+        "heading": 1.5707963267948966,
+        "cabinMaterials": 1,
+        "cabinLight": 4.0069645528940564e-165
+      },
+      {
+        "slot": 1,
+        "position": [
+          0,
+          0,
+          14
+        ],
+        "visible": true,
+        "heading": 1.5707963267948966,
+        "cabinMaterials": 1,
+        "cabinLight": 4.0069645528940564e-165
+      },
+      {
+        "slot": 2,
+        "position": [
+          36,
+          0,
+          14
+        ],
+        "visible": true,
+        "heading": 1.5707963267948966,
+        "cabinMaterials": 1,
+        "cabinLight": 4.0069645528940564e-165
+      }
+    ],
+    "rail": [
+      {
+        "slot": 0,
+        "position": [
+          0,
+          0,
+          -11.2
+        ],
+        "visible": true,
+        "heading": 0,
+        "cabinMaterials": 1,
+        "cabinLight": 4.0069645528940564e-165
+      },
+      {
+        "slot": 1,
+        "position": [
+          0,
+          0,
+          -4.8
+        ],
+        "visible": true,
+        "heading": 0,
+        "cabinMaterials": 1,
+        "cabinLight": 4.0069645528940564e-165
+      }
+    ]
+  }
+}
