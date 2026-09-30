@@ -95,6 +95,8 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
   renderer.domElement.addEventListener('pointerdown',onDown);renderer.domElement.addEventListener('pointermove',onMove);renderer.domElement.addEventListener('pointerup',onUp);
   controls.addEventListener('start',()=>{tween=null;});
   let frame=0,metricFrames=0,metricStart=performance.now(),lastFrame=0;
+  function onVisibilityChange(){lastFrame=0;metricFrames=0;metricStart=performance.now();delete el.dataset.sceneMetrics;el.dataset.averageFps='';}
+  document.addEventListener('visibilitychange',onVisibilityChange);
   const draco=new DRACOLoader().setDecoderPath('/draco/');
   const assetReady=()=>{loaded++;if(loaded===4)latest.current.onReady();};
   new GLTFLoader().setDRACOLoader(draco).load('/models/city-lighting-v1.glb',gltf=>{if(disposed)return;try{lighting.attachRig(gltf);assetReady();}catch(error){latest.current.onError(error.message);}},undefined,error=>latest.current.onError(error.message||'灯光模型加载失败'));
@@ -132,7 +134,7 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
   },undefined,error=>latest.current.onError(error.message||'模型加载失败'));
   function render(t){
    if(disposed)return;raf=requestAnimationFrame(render);
-   if(document.hidden){lastFrame=0;metricFrames=0;metricStart=performance.now();return;}
+   if(document.hidden)return;
    if(tween){const ratio=Math.min((t-tween.start)/(matchMedia('(prefers-reduced-motion: reduce)').matches?1:450),1);const q=ratio*ratio*(3-2*ratio);controls.target.lerpVectors(tween.fromTarget,tween.toTarget,q);camera.position.lerpVectors(tween.fromPosition,tween.toPosition,q);camera.zoom=THREE.MathUtils.lerp(tween.fromZoom,tween.toZoom,q);camera.updateProjectionMatrix();if(ratio===1)tween=null;}
    controls.target.x=THREE.MathUtils.clamp(controls.target.x,-160,325);controls.target.z=THREE.MathUtils.clamp(controls.target.z,-155,180);controls.update();
    const dt=lastFrame?Math.min(.05,(t-lastFrame)/1000):0;lastFrame=t;
@@ -164,7 +166,7 @@ export function CityScene({financeProjection,realDay,state,previews,selected,mod
     }
    }
   }raf=requestAnimationFrame(render);
-  return()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();financeDistrict?.dispose();activities.dispose();mobility?.dispose();transport?.dispose();lighting.dispose();draco.dispose();ao.dispose();bloom.dispose();composer.dispose();renderer.dispose();const materials=new Set();model?.traverse(o=>{if(o.isMesh){o.geometry.dispose();(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>materials.add(m));}});materials.forEach(m=>m.dispose());outline.geometry.dispose();outline.material.dispose();el.replaceChildren();apiRef.current=null;context.current=null;};
+  return()=>{disposed=true;cancelAnimationFrame(raf);document.removeEventListener('visibilitychange',onVisibilityChange);observer.disconnect();controls.dispose();financeDistrict?.dispose();activities.dispose();mobility?.dispose();transport?.dispose();lighting.dispose();draco.dispose();ao.dispose();bloom.dispose();composer.dispose();renderer.dispose();const materials=new Set();model?.traverse(o=>{if(o.isMesh){o.geometry.dispose();(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>materials.add(m));}});materials.forEach(m=>m.dispose());outline.geometry.dispose();outline.material.dispose();el.replaceChildren();apiRef.current=null;context.current=null;};
  },[]);
  useEffect(()=>{const c=context.current;if(c){c.financeDistrict?.setLevel(financeProjection?.modelLevel??1);const anchor=c.model?.getObjectByName('anchor_label_finance');if(anchor)anchor.position.y=financeAssets.levels[financeProjection?.modelLevel??1].height+2;c.dynamic.forEach(o=>{o.visible=visibleForNode(o.userData,state,{...previews,finance:financeProjection?.modelLevel??1});});if(host.current)host.current.dataset.visibleGroups=JSON.stringify(c.dynamic.filter(o=>o.visible).map(o=>o.name));if(c.renderer)c.renderer.shadowMap.needsUpdate=true;}},[state,previews,realDay,financeProjection?.modelLevel]);
  useEffect(()=>{if(selected)context.current?.focus(selected,mode);else context.current?.focus(null);},[selected,mode,layoutKey,financeProjection?.modelLevel]);
