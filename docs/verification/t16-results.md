@@ -10,7 +10,7 @@
 
 - 通过真实管理员 Auth + 公开 get_finance_book **只读**核验真实家庭：0 条余额/负债、0 条历史、净储蓄 0、Lv.1；见 `t16/real-household-empty.json`。未读取/迁入旧本机演示金额，未在真实家庭运行写测试。
 - Supabase 项目 `ebffwcnodbusvmsgmnqg`，7 份本地/远程迁移逐一匹配；`invite-household` ACTIVE v1。必要 Edge 秘密名称齐全，只保存名称而不保存值，见 `migrations.json`、`server-config.json`。
-- 真实 Auth settings 确認公众注册关闭、email 提供方开启。CLI config diff 的已声明字段 update=0，包含正式回跳、关闭匿名、12 位密码、SMTP 主机/端口/发件人及中文恢复模板；10 项未声明远端配置保持原样。SMTP 密码被 API 掩码，不能从 diff 推断密钥值或声称本轮再次测了送达。见 `auth-config-diff.json`。
+- 真实 Auth settings 确认公众注册关闭、email 提供方开启。CLI config diff 的已声明字段 update=0，包含正式回跳、关闭匿名、12 位密码、SMTP 主机/端口/发件人及中文恢复模板；10 项未声明远端配置保持原样。SMTP 密码被 API 掩码，不能从 diff 推断密钥值或声称本轮再次测了送达。见 `auth-config-diff.json`。
 - 生产 JS 资源与本机构建文件名一致，并实际包含本项目的公开 Supabase 配置；第三方通知、Draco LICENSE、Lv.10 缩略图的正式 HTTP 内容逐字节匹配当前文件，见 `deployment.json`。
 - Git 跟踪的环境文件仅 `.env.example`；跟踪工作树与构建前端中未匹配到本机环境文件的密码/secret 原值。这个精确值扫描不等于覆盖所有潜在编码泄漏，见 `secret-scan.json`。没有提交秘密或真实财务数据，没有购买套餐。
 
@@ -47,6 +47,6 @@
 
 ## 审查与许可证
 
-T14 标准轴发现图鉴与场景可能使用不同版本的账本，75f9fe1 修复并完成双轴复核。T15 标准轴发现后台帧率窗口未独立重置，ac6de09 修复，双轴无剩余代码发现。最终交付文档待下述收尾审查登记。
+T14 标准轴发现图鉴与场景可能使用不同版本的账本，75f9fe1 修复并完成双轴复核。T15 标准轴发现后台帧率窗口未独立重置，ac6de09 修复，双轴无剩余代码发现。最终交付规格轴无发现；标准轴指出本地启动命令须固定到 Auth 允许的端口，维护文档已补为 5174 + strictPort，避免 Vite 自动改端口导致回跳无法复现。
 
 许可证独立 #1 已按用户选择 B 和姓名 zhanyi xu 落实并关闭：Family City Personal Use License 1.0，source-available；原始比较、贡献商业再授权与第三方边界见 ADR 0008 和根 LICENSE。没有把许可证选择混成新的财务功能。

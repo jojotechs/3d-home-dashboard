@@ -32,7 +32,7 @@
 
 ## 修改与复现
 
-安装依赖后，开发者使用本机 `.env.local` 的公开变量运行 `npm run dev`。执行代理应自行运行并在 **in-app browser** 验证，不使用用户 Chrome。邮件回跳测试优先正式域名；更换域名时同步 Auth allowlist、Site URL、邀请函数 APP_URL 与来源白名单。
+安装依赖后，开发者使用本机 `.env.local` 的公开变量运行 `npm run dev -- --host 127.0.0.1 --port 5174 --strictPort`，固定到已允许的本地回跳端口；端口被占用时直接报错，不自动切换。执行代理应自行运行并在 **in-app browser** 验证，不使用用户 Chrome。邮件回跳测试优先正式域名；更换域名时同步 Auth allowlist、Site URL、邀请函数 APP_URL 与来源白名单。
 
 ```sh
 npm ci
