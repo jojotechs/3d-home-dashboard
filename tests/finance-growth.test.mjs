@@ -1,6 +1,26 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {financeLevel, financeGrowth, financeProjection, levelFeedback} from '../src/finance/growth.mjs';
+import {financeLevel, financeGrowth, financeProjection, financeGuide, levelFeedback} from '../src/finance/growth.mjs';
+
+test('an empty household has a current base level and nine unmet previews without fabricated achievements', () => {
+  assert.deepEqual(financeGuide(null), []);
+  const guide=financeGuide({current:{net_savings_minor:'0'},history:[]});
+  assert.equal(guide.length,10);
+  assert.deepEqual(guide[0],{level:1,thresholdMinor:'0',remainingMinor:'0',status:'current',achieved:false});
+  assert.deepEqual(guide[1],{level:2,thresholdMinor:'1000000',remainingMinor:'1000000',status:'locked',achieved:false});
+  assert.equal(guide[9].remainingMinor,'200000000');
+});
+
+test('guide achievements survive a normal downgrade but relock after correcting the only historical peak', () => {
+  const book={current:{net_savings_minor:'1000000'},history:[{snapshot:{net_savings_minor:'80000000'}},{snapshot:{net_savings_minor:'1000000'}}]};
+  const before=JSON.stringify(book);
+  assert.deepEqual(financeGuide(book).map(entry=>entry.status),['achieved','current','achieved','achieved','achieved','achieved','achieved','achieved','locked','locked']);
+  assert.equal(financeGuide(book)[8].remainingMinor,'119000000');
+  for(let level=1;level<=10;level++)assert.equal(financeProjection(financeGrowth(book.current.net_savings_minor,book.history),level).modelLevel,level);
+  assert.equal(JSON.stringify(book),before,'Previews cannot alter the saved book');
+  const corrected={...book,history:[{snapshot:{net_savings_minor:'1000000'}},book.history[1]]};
+  assert.deepEqual(financeGuide(corrected).map(entry=>entry.status),['achieved','current','locked','locked','locked','locked','locked','locked','locked','locked']);
+});
 
 test('all ten finance levels compare exact cents and permit immediate multi-level downgrades', () => {
   const thresholds=['1000000','3000000','8000000','15000000','30000000','50000000','80000000','120000000','200000000'];

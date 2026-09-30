@@ -19,7 +19,21 @@ export function financeGrowth(currentMinor, history) {
     nextLevel:next === null ? null : currentLevel+1, nextMinor:next === null ? null : next.toString(),
     remainingMinor:next === null ? null : (next-BigInt(currentMinor)).toString()};
 }
-/** Only delivered per-level assets may be selected; legacy three-stage ranges are never reused. */
+/** Derive personal guide state only from an authorized, saved book. */
+export function financeGuide(book) {
+  if (!book) return [];
+  const growth=financeGrowth(book.current.net_savings_minor,book.history);
+  return thresholds.map((threshold,index)=>{
+    const level=index+1, achieved=growth.peakMinor!==null&&level<=growth.peakLevel;
+    const remaining=threshold-BigInt(book.current.net_savings_minor);
+    return {level,thresholdMinor:threshold.toString(),remainingMinor:level===1||remaining<0n?'0':remaining.toString(),
+      status:level===growth.currentLevel?'current':achieved?'achieved':'locked',achieved};
+  });
+}
+/** Only delivered per-level assets may be selected; legacy three-stage ranges are never reused.
+ * @param {ReturnType<typeof financeGrowth> | null} growth
+ * @param {number | null} previewLevel
+ */
 export function financeProjection(growth, previewLevel = null) {
   if (!growth) return null;
   const displayLevel = previewLevel ?? growth.currentLevel;

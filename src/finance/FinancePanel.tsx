@@ -8,6 +8,7 @@ import {formatRmb} from './money.mjs';
 import {FinanceList} from './FinanceList';
 import {FinanceHistory} from './FinanceHistory';
 import {FinanceGrowth} from './FinanceGrowth';
+import {FinanceGuide} from './FinanceGuide';
 import {FinanceCorrection} from './FinanceCorrection';
 import {financeLevel, levelFeedback} from './growth.mjs';
 import './finance.css';
@@ -15,11 +16,15 @@ import './finance.css';
 type ExitGuard = RefObject<((leave: () => void) => void) | null>;
 const time = (value: string) => new Date(value).toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'});
 
-export function FinancePanel({onAccessDenied, exitGuard, onBookRead}: {onAccessDenied: () => void; exitGuard: ExitGuard; onBookRead: (book: FinanceBook) => void}) {
+export function FinancePanel({onAccessDenied, exitGuard, onBookRead, previewLevel, onPreview, onLayout}: {
+  onAccessDenied: () => void; exitGuard: ExitGuard; onBookRead: (book: FinanceBook) => void;
+  previewLevel: number | null; onPreview: (level: number | null) => void;
+  onLayout: () => void;
+}) {
   const [correcting, setCorrecting] = useState<string | null>(null);
   const [book, setBook] = useState<FinanceBook | null>(null);
   const [feedback, setFeedback] = useState('');
-  const [view, setView] = useState<'current' | 'history'>('current');
+  const [view, setView] = useState<'current' | 'history' | 'guide'>('current');
   const [snapshot, setSnapshot] = useState<FinanceSnapshot | null>(null);
   const [rows, setRows] = useState<FinanceDraftRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -163,17 +168,19 @@ export function FinancePanel({onAccessDenied, exitGuard, onBookRead}: {onAccessD
     setError(''); setNotice('已采用该项云端记录，其他草稿仍保留。');
   }
   const locked = saving || loading || !!retry || needsCurrent;
+  function showView(next: typeof view) {setView(next);onLayout();if(next!=='guide')onPreview(null);}
   return <div className="finance-book">
     {loading && <p role="status">正在读取云端记录…</p>}
     {error && <p className="finance-error" role="alert">{error}</p>}
     {!loading && !snapshot && <button className="primary" onClick={() => void read(false)}>重新读取</button>}
     {snapshot && <>
-      <div className="finance-summary"><span className="eyebrow">{needsCurrent ? '上次已确认的储蓄净额' : '已保存的储蓄净额'}</span><strong className="net-worth">¥ {formatRmb(snapshot.net_savings_minor)}</strong>
+      {view!=='guide'&&<div className="finance-summary"><span className="eyebrow">{needsCurrent ? '上次已确认的储蓄净额' : '已保存的储蓄净额'}</span><strong className="net-worth">¥ {formatRmb(snapshot.net_savings_minor)}</strong>
         <small>{snapshot.saved_at ? `云端更新于 ${time(snapshot.saved_at)}（北京时间）` : '还没有财务记录，添加余额或负债开始记账。'}</small>
-      </div>
-      {book && !needsCurrent && <FinanceGrowth book={book}/>}
+      </div>}
+      {book && !needsCurrent && view!=='guide' && <FinanceGrowth book={book}/>}
       {feedback && !needsCurrent && <p className="finance-success" role="status">{feedback}</p>}
-      <nav className="finance-tabs" aria-label="财务视图"><button aria-pressed={view === 'current'} onClick={() => setView('current')}>当前账本{dirty ? ' · 有草稿' : ''}</button><button aria-pressed={view === 'history'} onClick={() => setView('history')}>历史与趋势</button></nav>
+      <nav className="finance-tabs" aria-label="财务视图"><button aria-pressed={view === 'current'} onClick={() => showView('current')}>当前账本{dirty ? ' · 有草稿' : ''}</button><button aria-pressed={view === 'history'} onClick={() => showView('history')}>历史与趋势</button><button disabled={needsCurrent} aria-pressed={view==='guide'} onClick={()=>showView('guide')}>成长图鉴</button></nav>
+      {view==='guide' && book && !needsCurrent && <FinanceGuide book={book} previewLevel={previewLevel} onPreview={onPreview} onRefresh={()=>void read(dirty)} refreshing={locked}/>}
       {view === 'history' && book && <FinanceHistory history={book.history} refreshing={saving || loading || !!retry} onRefresh={() => void read(dirty)} canCorrect={!dirty && !locked} onCorrect={setCorrecting}/>}
       <form hidden={view !== 'current'} className="finance-editor" onSubmit={event => {event.preventDefault(); void save();}}>
         {(conflict || unresolved > 0) && <div ref={reviewNotice} tabIndex={-1} className="finance-review" role="status">{conflict ? <><strong>有成员先更新了记录</strong><p>本次修改均未保存，输入仍保留。请读取最新记录，核对后再提交。</p></> : <p>还有 {unresolved} 项需要核对。选择采用云端记录，或保留你的修改后再保存。</p>}</div>}
