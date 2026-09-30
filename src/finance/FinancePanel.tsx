@@ -16,9 +16,10 @@ import './finance.css';
 type ExitGuard = RefObject<((leave: () => void) => void) | null>;
 const time = (value: string) => new Date(value).toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'});
 
-export function FinancePanel({onAccessDenied, exitGuard, onBookRead, previewLevel, onPreview, onLayout}: {
+export function FinancePanel({onAccessDenied, exitGuard, onBookRead, guideBook, previewLevel, onPreview, onLayout}: {
   onAccessDenied: () => void; exitGuard: ExitGuard; onBookRead: (book: FinanceBook) => void;
   previewLevel: number | null; onPreview: (level: number | null) => void;
+  guideBook: FinanceBook | null;
   onLayout: () => void;
 }) {
   const [correcting, setCorrecting] = useState<string | null>(null);
@@ -180,7 +181,7 @@ export function FinancePanel({onAccessDenied, exitGuard, onBookRead, previewLeve
       {book && !needsCurrent && view!=='guide' && <FinanceGrowth book={book}/>}
       {feedback && !needsCurrent && <p className="finance-success" role="status">{feedback}</p>}
       <nav className="finance-tabs" aria-label="财务视图"><button aria-pressed={view === 'current'} onClick={() => showView('current')}>当前账本{dirty ? ' · 有草稿' : ''}</button><button aria-pressed={view === 'history'} onClick={() => showView('history')}>历史与趋势</button><button disabled={needsCurrent} aria-pressed={view==='guide'} onClick={()=>showView('guide')}>成长图鉴</button></nav>
-      {view==='guide' && book && !needsCurrent && <FinanceGuide book={book} previewLevel={previewLevel} onPreview={onPreview} onRefresh={()=>void read(dirty)} refreshing={locked}/>}
+      {view==='guide' && guideBook && !needsCurrent && <FinanceGuide book={guideBook} previewLevel={previewLevel} onPreview={onPreview} onRefresh={()=>void read(dirty)} refreshing={locked}/>}
       {view === 'history' && book && <FinanceHistory history={book.history} refreshing={saving || loading || !!retry} onRefresh={() => void read(dirty)} canCorrect={!dirty && !locked} onCorrect={setCorrecting}/>}
       <form hidden={view !== 'current'} className="finance-editor" onSubmit={event => {event.preventDefault(); void save();}}>
         {(conflict || unresolved > 0) && <div ref={reviewNotice} tabIndex={-1} className="finance-review" role="status">{conflict ? <><strong>有成员先更新了记录</strong><p>本次修改均未保存，输入仍保留。请读取最新记录，核对后再提交。</p></> : <p>还有 {unresolved} 项需要核对。选择采用云端记录，或保留你的修改后再保存。</p>}</div>}
