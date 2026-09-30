@@ -1,0 +1,14 @@
+
+> family-city-dashboard@0.8.0 test:cloud:lists
+> node --env-file=.env.t02-test --test tests/cloud/finance-lists.test.mjs
+
+✔ hosted lists: two household accounts, atomic transfers, exact totals, retries, stale rejection and retained history (8670.473542ms)
+ℹ Verified household e48c920e-ba1c-421e-bab5-a8fc4d5ae3ac; two named operators, 30 prior snapshots retained.
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8753.066916

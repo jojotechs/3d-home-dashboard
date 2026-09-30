@@ -1,0 +1,14 @@
+
+> family-city-dashboard@0.8.0 test:cloud:household
+> node --env-file=.env.t03-test --test tests/cloud/household.test.mjs
+
+✔ hosted household boundary: independent member binding, administrator-only grants, revoked RLS and immutable attribution (12738.522125ms)
+ℹ Verified isolated household 9c1e3d35-2121-4922-a4dc-027773e8cc39; retained provenance after revocation, financial fixture retired.
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12859.687625

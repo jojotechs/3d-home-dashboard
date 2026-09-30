@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "config_schema": "https://supabase.com/docs/cli/config.schema.json",
+  "target": {
+    "project_ref": "ebffwcnodbusvmsgmnqg",
+    "local_scope": "base"
+  },
+  "scope": {
+    "present": [
+      "api",
+      "auth",
+      "database",
+      "pooler",
+      "realtime",
+      "storage"
+    ],
+    "missing": []
+  },
+  "changes": [
+    {
+      "path": [
+        "auth",
+        "email",
+        "max_frequency"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local": "1s",
+      "remote": "1m0s"
+    },
+    {
+      "path": [
+        "auth",
+        "email",
+        "otp_length"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local": 6,
+      "remote": 8
+    },
+    {
+      "path": [
+        "auth",
+        "mfa",
+        "totp",
+        "enroll_enabled"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local": false,
+      "remote": true
+    },
+    {
+      "path": [
+        "auth",
+        "mfa",
+        "totp",
+        "verify_enabled"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local": false,
+      "remote": true
+    },
+    {
+      "path": [
+        "auth",
+        "sms",
+        "twilio",
+        "enabled"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local": false,
+      "remote": true
+    },
+    {
+      "path": [
+        "db",
+        "pooler",
+        "default_pool_size"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local": 20,
+      "remote": 15
+    },
+    {
+      "path": [
+        "db",
+        "pooler",
+        "max_client_conn"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local": 100,
+      "remote": 200
+    },
+    {
+      "path": [
+        "storage",
+        "analytics",
+        "enabled"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local": false,
+      "remote": true
+    },
+    {
+      "path": [
+        "storage",
+        "analytics",
+        "max_namespaces"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local": null,
+      "remote": 10
+    },
+    {
+      "path": [
+        "storage",
+        "image_transformation",
+        "enabled"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local": null,
+      "remote": true
+    }
+  ],
+  "masked": [
+    [
+      "auth",
+      "email",
+      "smtp",
+      "pass"
+    ]
+  ],
+  "unmanaged": [],
+  "counts": {
+    "update": 0,
+    "remote_only": 10,
+    "local_only": 0,
+    "total": 10
+  },
+  "message": "10 config differences found. 1 credential value not compared (masked by the API): auth.email.smtp.pass."
+}

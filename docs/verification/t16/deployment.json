@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-09-30T02:38:01.294Z",
+  "url": "https://3d-home-dashboard.vercel.app",
+  "frontendAsset": "/assets/index-BtVfBpax.js",
+  "builtAssetMatches": true,
+  "configuredSupabaseProjectMatches": true,
+  "files": [
+    {
+      "path": "/third-party-notices.txt",
+      "status": 200,
+      "bytes": 274505,
+      "sha256": "50af32d254a3b363aea94c14f98942921864e8a68bb3df3f77eb61e4452173fe"
+    },
+    {
+      "path": "/draco/LICENSE",
+      "status": 200,
+      "bytes": 13898,
+      "sha256": "d3709b0fb4b8a94bbb1d02b8a2e484f258b0d9c5c5a01f940391f3fe662cd1a4"
+    },
+    {
+      "path": "/models/finance/previews/level-10.png",
+      "status": 200,
+      "bytes": 68036,
+      "sha256": "dfd2a172dddaf7bc37429f79523e54bb363b55d1a154ea0b30c8b3db1601669e"
+    }
+  ]
+}

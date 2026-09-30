@@ -1,0 +1,13 @@
+
+> family-city-dashboard@0.8.0 test:cloud
+> node --env-file=.env.cloud-test --test tests/cloud/finance.test.mjs
+
+✔ hosted finance: login, exact save, retry, isolated read, conflict, authorization and logout (6579.86525ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6658.508125

@@ -1,0 +1,14 @@
+
+> family-city-dashboard@0.8.0 test:cloud:corrections
+> node --env-file=.env.t07-test --test tests/cloud/finance-corrections.test.mjs
+
+✔ real cloud corrections serialize with saves, preserve attribution, reject revoked access and recover a lost response exactly once (6832.346834ms)
+ℹ Same-revision race, atomic invalid patch, real lost response + later save + parallel retry, no-op, creator/editor and revoked/cross-household history/correction access passed.
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6918.3825

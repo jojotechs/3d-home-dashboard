@@ -1,0 +1,14 @@
+
+> family-city-dashboard@0.8.0 test:cloud:collaboration
+> node --env-file=.env.t02-test --test tests/cloud/finance-collaboration.test.mjs
+
+✔ real household collaboration preserves complete commits and safely recovers a lost HTTP response (5627.37025ms)
+ℹ Verified e48c920e-ba1c-421e-bab5-a8fc4d5ae3ac: different-row concurrency, same-row rejection, atomic rollback, lost response, later edits, duplicate retry, no-op and actor attribution.
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5772.49125
