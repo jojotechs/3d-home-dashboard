@@ -1,0 +1,29 @@
+{
+  "url": "https://3d-home-dashboard.vercel.app/",
+  "checkedAt": "2026-10-21T03:10:46.635Z",
+  "refreshed": true,
+  "seedClaimBefore": 1,
+  "seedClaimAfterAndReload": 2,
+  "farmAfterReload": {
+    "loaded": true,
+    "loading": false,
+    "habitId": "713130cb-17ce-437c-93be-718e39b8194b",
+    "planted": true,
+    "progress": 1,
+    "ready": 0,
+    "visibleStage": 1,
+    "readyBaskets": 0
+  },
+  "farmAfterLogout": {
+    "loaded": true,
+    "loading": false,
+    "habitId": null,
+    "planted": false,
+    "progress": 0,
+    "ready": 0,
+    "visibleStage": null,
+    "readyBaskets": 0
+  },
+  "warningAndErrorLogs": [],
+  "notes": "Actual in-app browser production login, read existing isolated household habits, claim one seed, reload, read inventory and scene, logout. Night preview preference already existed; preserved."
+}

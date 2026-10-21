@@ -1,6 +1,6 @@
 # H01 习惯农场使用与维护
 
-2026-10-21。本文说明 H01 的使用边界和复现方法，**数据库已部署，Web 生产部署验收待完成**。当前证据见 [H01 验收记录](verification/h01-results.md)，整票尚未标记完成。复用现有 Vercel、Supabase Auth/Postgres 和家庭身份；平台配置、邮件及既有财务维护继续参见[一期使用与维护](phase-one-runbook.md)，不改写其历史交付记录。
+2026-10-21。**H01 已上线并通过生产验收**。在[家庭小城](https://3d-home-dashboard.vercel.app/)登录后，点击底部「习惯」即可打开本人农场；证据见 [H01 验收记录](verification/h01-results.md)。复用现有 Vercel、Supabase Auth/Postgres 和家庭身份；平台配置、邮件及既有财务维护继续参见[一期使用与维护](phase-one-runbook.md)，不改写其历史交付记录。
 
 ## 当前可用范围
 
@@ -38,10 +38,10 @@ npm run model:habit-farm-studies
 
 H01 云端验收使用本机 `.env.h01-test`：该文件被 Git 忽略，权限为 **0600**，仅配置专用测试家庭和测试账号。本文不列凭据值；缺配置时应停止测试，不能改用真实家庭。不得上传该文件或把服务端秘密放进浏览器变量。
 
-需要浏览器验收时，由执行代理自行启动本地服务并打开 **in-app browser**，无需用户手工启动，也不操作用户 Chrome。沿用已允许的本地端口：
+需要浏览器验收时，由执行代理自行启动本地服务并打开 **in-app browser**，无需用户手工启动，也不操作用户 Chrome。本轮使用 5176；先检查端口是否空闲，不停止用户的其他服务：
 
 ```sh
-npm run dev -- --host 127.0.0.1 --port 5174 --strictPort
+npm run dev -- --host 127.0.0.1 --port 5176 --strictPort
 ```
 
 分别留存桌面/窄屏、真实保存与撤销、实际经过 30 秒后的成长、刷新、身份切换及 GLB 多视角证据。三日成熟、FIFO 和跨界时序的受控时间证据单独标注。

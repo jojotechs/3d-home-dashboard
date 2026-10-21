@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-10-21T03:05:54.218Z",
+  "commit": "7f4f82232e1abfbb1d0869d991b214709acbbdad",
+  "url": "https://3d-home-dashboard.vercel.app",
+  "status": "success",
+  "deploymentUrl": "https://vercel.com/jojotechs-projects/3d-home-dashboard/3SnHMRnHXUcKmwXekQhiwM1P4KZw",
+  "resources": [
+    {
+      "path": "/assets/index-BU4HcHmn.js",
+      "bytes": 1417900,
+      "sha256": "cf7932fbfc27d93289b7bfa58d16425e0b0dfe53df5968f71a475991e662c90d"
+    },
+    {
+      "path": "/assets/index-BaldOWIz.css",
+      "bytes": 57321,
+      "sha256": "eb5b4786519b14b7778852599ce9ceff141bc7fd7a11fef458f17860879f558d"
+    },
+    {
+      "path": "/models/habits/daisy.glb",
+      "bytes": 4155420,
+      "sha256": "95b993159fdbee40ae906c24ca10f6a63cae3ea69b02ad22359f3ed26ddbcab6"
+    }
+  ]
+}
