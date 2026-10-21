@@ -31,7 +31,7 @@ export function AccountControl({access, onReset, onHousehold}: {access: AccessGa
       {!access.profile && <button onClick={access.retry}>重新读取账号信息</button>}
       {access.profile?.is_admin && <button onClick={()=>{setOpen(false);onHousehold();}}>管理家庭成员</button>}
       <button onClick={() => {setOpen(false); access.logout();}}><SignOut size={18}/>退出登录</button>
-      <div className="account-demo"><small>生活区示例</small><p>生活区使用本机示例，财务记录保存在云端。</p>
+      <div className="account-demo"><small>生活区示例</small><p>财务和个人习惯保存在云端，其他街区及旅行仍为本机示例。</p>
         <button onClick={() => {setOpen(false); onReset();}}><ArrowCounterClockwise size={16}/>恢复生活区示例</button>
         <a href="/models/family-city.glb" download>下载城市模型<ArrowUpRight size={15}/></a>
       </div>

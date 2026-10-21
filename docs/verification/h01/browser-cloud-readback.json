@@ -1,0 +1,83 @@
+{
+  "checkedAt": "2026-10-21T02:58:41.788Z",
+  "household": "01bb469a-e87f-48bf-816b-35194e5cd74e",
+  "habit_day": "2026-10-21",
+  "inventory": {
+    "daisy_seeds": 1,
+    "daisy_bouquets": 0
+  },
+  "coins": 0,
+  "financeGrantRequired": false,
+  "existingUngrantedFixtureHousehold": "9c1e3d35-2121-4922-a4dc-027773e8cc39",
+  "permissionsChanged": false,
+  "privateSchemaDenied": true,
+  "publicClockOverrideAbsent": true,
+  "habits": [
+    {
+      "id": "713130cb-17ce-437c-93be-718e39b8194b",
+      "name": "H01 每天阅读",
+      "plot": {
+        "ready": 0,
+        "growth": 1,
+        "status": "growing",
+        "species_id": "daisy",
+        "waiting_since": null,
+        "unallocated_growth": 0
+      },
+      "today": {
+        "completed": true,
+        "can_record": false
+      },
+      "entries": [
+        {
+          "id": "3cde786b-3e1a-4431-b0a3-2aee9b3e8f29",
+          "habit_day": "2026-10-21",
+          "undone_at": null,
+          "undo_until": "2026-10-21T02:53:34.85422+00:00",
+          "recorded_at": "2026-10-21T02:53:04.85422+00:00",
+          "growth_granted": true
+        }
+      ],
+      "version": 1,
+      "schedule": "daily",
+      "start_day": "2026-10-21",
+      "created_at": "2026-10-21T02:51:27.80153+00:00",
+      "visibility": "private",
+      "created_order": 1,
+      "pending_growth": 0
+    },
+    {
+      "id": "b2885b08-31b3-4995-9f41-a2ce23a451f4",
+      "name": "H01 误触撤销",
+      "plot": {
+        "ready": 0,
+        "growth": 0,
+        "status": "unplanted",
+        "species_id": null,
+        "waiting_since": null,
+        "unallocated_growth": 0
+      },
+      "today": {
+        "completed": false,
+        "can_record": true
+      },
+      "entries": [
+        {
+          "id": "eb6fdf8f-550c-4af9-858f-29d5e98e9408",
+          "habit_day": "2026-10-21",
+          "undone_at": "2026-10-21T02:54:23.349138+00:00",
+          "undo_until": "2026-10-21T02:54:40.76575+00:00",
+          "recorded_at": "2026-10-21T02:54:10.76575+00:00",
+          "growth_granted": false
+        }
+      ],
+      "version": 1,
+      "schedule": "daily",
+      "start_day": "2026-10-21",
+      "created_at": "2026-10-21T02:53:55.830316+00:00",
+      "visibility": "private",
+      "created_order": 2,
+      "pending_growth": 0
+    }
+  ]
+}

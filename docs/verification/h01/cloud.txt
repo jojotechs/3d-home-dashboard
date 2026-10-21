@@ -1,0 +1,14 @@
+
+> family-city-dashboard@0.8.0 test:cloud:habits
+> node --env-file=.env.h01-test --test tests/cloud/habits.test.mjs
+
+✔ hosted personal farm: private ownership, real undo deadline, stable growth and duplicate HTTP requests (38184.63225ms)
+ℹ Verified isolated household 01bb469a-e87f-48bf-816b-35194e5cd74e: real current-day 30-second expiry and private farm boundary.
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 38273.706291

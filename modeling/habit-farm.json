@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "districtId": "habits",
+  "units": "metres",
+  "footprint": [60, 92],
+  "asset": "/models/habits/daisy.glb",
+  "root": "habit_farm_asset",
+  "neutral": "habit_neutral_signs",
+  "plot": "habit_selected_plot",
+  "plotCenterBlender": [-14, 12, 0],
+  "plotFootprint": [22, 16],
+  "stages": ["habit_daisy_stage_0", "habit_daisy_stage_1", "habit_daisy_stage_2"],
+  "ready": "habit_daisy_ready",
+  "legacyHiddenRoot": "dynamic_habits",
+  "preservedRoots": ["static_habits", "hit_habits", "anchor_label_habits", "anchor_focus_habits"]
+}

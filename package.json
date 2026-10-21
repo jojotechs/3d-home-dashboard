@@ -38,7 +38,12 @@
     "model:finance-future": "bash modeling/run-blender.sh modeling/build_finance_future.py",
     "model:finance-finale": "bash modeling/run-blender.sh modeling/build_finance_finale.py",
     "model:verify-finance-density": "bash modeling/run-blender.sh modeling/verify_finance_density.py",
-    "model:verify-finance-airspace": "bash modeling/run-blender.sh modeling/verify_finance_airspace.py"
+    "model:verify-finance-airspace": "bash modeling/run-blender.sh modeling/verify_finance_airspace.py",
+    "test:habits": "node --test tests/habits-database.test.mjs tests/habit-client.test.mjs tests/habit-city-projection.test.mjs tests/habit-farm-scene.test.mjs",
+    "test:cloud:habits": "node --env-file=.env.h01-test --test tests/cloud/habits.test.mjs",
+    "model:habit-farm": "bash modeling/run-blender.sh modeling/build_habit_farm.py",
+    "model:verify-habit-farm": "bash modeling/run-blender.sh modeling/verify_habit_farm.py",
+    "model:habit-farm-studies": "bash modeling/run-blender.sh modeling/render_habit_farm.py"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

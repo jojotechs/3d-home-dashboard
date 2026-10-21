@@ -1,0 +1,214 @@
+{
+  "verified_on": "2026-10-20",
+  "scope": "Specification and ticket publication only; no business implementation or acceptance run.",
+  "parent_url": "https://github.com/jojotechs/3d-home-dashboard/issues/19",
+  "parent_body_sha256": "16eb069a3945134f8e32e4a23e21a457ae1067fe6d5227592c34d6f814c146f3",
+  "status": "published-and-verified",
+  "tickets": {
+    "H01": {
+      "number": 20,
+      "issue_id": 5942089535,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/20",
+      "title": "从空账户记录每日习惯，并在真实雏菊地块看到成长",
+      "blocked_by": [],
+      "body_sha256": "d2f2a4ec69a1c932d220e02b5873b94ae8098ace87e54e0a0d88733c07ca2b9e",
+      "verified": true
+    },
+    "H02": {
+      "number": 21,
+      "issue_id": 5942090964,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/21",
+      "title": "分次记录阅读数量，并查看可解释的当日与历史明细",
+      "blocked_by": [
+        "H01"
+      ],
+      "body_sha256": "0967ee012afda70416d368d7171beb77ef7c206d3d452334d243c0af60788cfb",
+      "verified": true
+    },
+    "H03": {
+      "number": 22,
+      "issue_id": 5942092830,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/22",
+      "title": "按指定日期记录习惯，休息日看到下一次安排",
+      "blocked_by": [
+        "H02"
+      ],
+      "body_sha256": "704054cda32419f063c44d11b7d1da92fcec43bd8117b684281e758b2dfeb799",
+      "verified": true
+    },
+    "H04": {
+      "number": 23,
+      "issue_id": 5942094774,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/23",
+      "title": "每周任选 N 个达标日，准确区分“天数”和“次数”",
+      "blocked_by": [
+        "H02"
+      ],
+      "body_sha256": "1cd873ada9c15d7ddd6efbbb85ba3f32866bf33c7dfe7dea528f83d8b11abec3",
+      "verified": true
+    },
+    "H05": {
+      "number": 24,
+      "issue_id": 5942096618,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/24",
+      "title": "周/月累计目标当天达标，完成真实浏览器成熟收取闭环",
+      "blocked_by": [
+        "H02"
+      ],
+      "body_sha256": "5c4281c8f432b564ad380e33d7f26cea8b56376dfa8d55921f3fda393e76c617",
+      "verified": true
+    },
+    "H06": {
+      "number": 25,
+      "issue_id": 5942098603,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/25",
+      "title": "修改未来规则、归档并恢复，保留既有记录与成长",
+      "blocked_by": [
+        "H03",
+        "H04",
+        "H05"
+      ],
+      "body_sha256": "3b5b631411d9ad4befd381d409dc9c2c5363db3b51a772498ae7427a83e12eb0",
+      "verified": true
+    },
+    "H07": {
+      "number": 26,
+      "issue_id": 5942101699,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/26",
+      "title": "家人查看公开记录，个人农场与所有入口保持身份隔离",
+      "blocked_by": [
+        "H06"
+      ],
+      "body_sha256": "d959e7dfe896a93cac12e2604b9ab76cf575131fa41127f44d853760924f224e",
+      "verified": true
+    },
+    "H08": {
+      "number": 27,
+      "issue_id": 5942103544,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/27",
+      "title": "卖出雏菊购买向日葵，完成首条付费作物经营路径",
+      "blocked_by": [
+        "H01"
+      ],
+      "body_sha256": "e6036fae618b63cd813828fc5f5167d2b515ec8661df471cce4c2651514f68f6",
+      "verified": true
+    },
+    "H09": {
+      "number": 28,
+      "issue_id": 5942105368,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/28",
+      "title": "番茄换种与有限库存续种，存下的成长有明确去向",
+      "blocked_by": [
+        "H08",
+        "H06"
+      ],
+      "body_sha256": "067573e945d436fcb5bdd5269bfaf8420070d01e915caf4754833e05ae299e35",
+      "verified": true
+    },
+    "H10": {
+      "number": 29,
+      "issue_id": 5942107797,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/29",
+      "title": "南瓜经营路径与目录扩展证明",
+      "blocked_by": [
+        "H09"
+      ],
+      "body_sha256": "5af0916c2226f94f69d9e12e10b9ee5ba2e50494f4b9b0e1009d45d697465546",
+      "verified": true
+    },
+    "H11": {
+      "number": 30,
+      "issue_id": 5942109698,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/30",
+      "title": "买一只鸡长期产蛋，并安全移动与归档恢复",
+      "blocked_by": [
+        "H09"
+      ],
+      "body_sha256": "a61eaf936bc0c52d1342cbc9413683138398158eeb3e8d6f24de27d1ae730147",
+      "verified": true
+    },
+    "H12": {
+      "number": 31,
+      "issue_id": 5942111590,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/31",
+      "title": "羊毛经营与第二种永久动物扩展",
+      "blocked_by": [
+        "H11"
+      ],
+      "body_sha256": "a2fe5fd2b9ef95c69a969a144d96ade7652e38983fbba0b921ae6076c2c353ec",
+      "verified": true
+    },
+    "H13": {
+      "number": 32,
+      "issue_id": 5942113378,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/32",
+      "title": "六位分组、一键收取与窄屏日常使用",
+      "blocked_by": [
+        "H09"
+      ],
+      "body_sha256": "4dee52dd6bc4921d5e0523515ac82206dd3fdb13a61f67052abaf9973613d5f0",
+      "verified": true
+    },
+    "H14": {
+      "number": 33,
+      "issue_id": 5942115381,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/33",
+      "title": "购买三项小型装饰，固定位置永久改善个人农场",
+      "blocked_by": [
+        "H08"
+      ],
+      "body_sha256": "02436a621dc6f6a42ce9949cbd2888a954be28b8cca35ca1f23b99d037e8e895",
+      "verified": true
+    },
+    "H15": {
+      "number": 34,
+      "issue_id": 5942117309,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/34",
+      "title": "购买凉亭、温室和风车升级，形成完整固定设施场景",
+      "blocked_by": [
+        "H14"
+      ],
+      "body_sha256": "a47c788f96567d700562c574578dae79b1bc1a7125e73866e1f85543a069705f",
+      "verified": true
+    },
+    "H16": {
+      "number": 35,
+      "issue_id": 5942119384,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/35",
+      "title": "街上行人走进农场，与已购设施和种养地互动",
+      "blocked_by": [
+        "H10",
+        "H12",
+        "H13",
+        "H15"
+      ],
+      "body_sha256": "9613352d6e0549ebcddf5e18f409a6d8d32fae12e58356013b02ae8f4d6a89a5",
+      "verified": true
+    },
+    "H17": {
+      "number": 36,
+      "issue_id": 5942123132,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/36",
+      "title": "在完整农场连续操作，保持资源有界与身份切换可靠",
+      "blocked_by": [
+        "H16",
+        "H07"
+      ],
+      "body_sha256": "1f4d993e35e21f6f086fa18659cabdee185719dec3dcf88f9345aa93339a97d5",
+      "verified": true
+    },
+    "H18": {
+      "number": 37,
+      "issue_id": 5942125552,
+      "url": "https://github.com/jojotechs/3d-home-dashboard/issues/37",
+      "title": "正式部署与完整使用闭环交付",
+      "blocked_by": [
+        "H17"
+      ],
+      "body_sha256": "c97c84acaa764507d2c64d1270ac9f89b77c501e4046267c550de458253bc7e5",
+      "verified": true
+    }
+  },
+  "dependency_count": 24,
+  "parent_unchanged": true
+}

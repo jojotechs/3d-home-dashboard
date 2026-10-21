@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-10-21T02:51:47.805Z",
+  "household": "01bb469a-e87f-48bf-816b-35194e5cd74e",
+  "initialHabitCount": 0,
+  "memberHabitCount": 0,
+  "realDeadlineMs": 30000,
+  "recordedAt": "2026-10-21T02:51:14.504617+00:00",
+  "undoUntil": "2026-10-21T02:51:44.504617+00:00",
+  "readAt": "2026-10-21T02:51:46.521446+00:00",
+  "confirmedGrowth": 1,
+  "ready": 0,
+  "duplicateClaimOnce": true,
+  "concurrentRecordOnce": true,
+  "privateIsolation": true,
+  "undoWithinWindow": true,
+  "undoAfterDeadlineRejected": true,
+  "source": "Actual hosted Auth and public RPC; current day and real elapsed time."
+}
